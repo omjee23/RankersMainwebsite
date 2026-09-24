@@ -154,10 +154,23 @@ async function getSmsLogs(req, res, next) {
   }
 }
 
+/**
+ * Get all Online CBT Exam Submissions & Results for Admin
+ */
+async function getExamSubmissions(req, res, next) {
+  try {
+    const submissions = collections.examSubmissions.find();
+    return successResponse(res, 'Exam submissions retrieved', submissions.reverse());
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getDashboardStats,
   getAllStudents,
   saveCentre,
   scanQRAttendance,
-  getSmsLogs
+  getSmsLogs,
+  getExamSubmissions
 };

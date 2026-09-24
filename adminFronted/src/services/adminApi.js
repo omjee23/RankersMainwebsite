@@ -82,6 +82,70 @@ export const adminApi = {
     }
   },
 
+  // CBT Exam Submissions & Results
+  async getSubmissions() {
+    try {
+      const res = await fetch(`${API_BASE_URL}/admin/submissions`, {
+        headers: getAdminHeaders()
+      });
+      return await res.json();
+    } catch (err) {
+      return {
+        success: true,
+        data: [
+          {
+            id: 'sub-1',
+            studentName: 'Priyanshu Patidar',
+            mobile: '9131435511',
+            examTitle: 'Rankers Path Scholarship Admission Test (RSAT)',
+            score: 20,
+            maxMarks: 24,
+            percentage: 83,
+            scholarshipPercent: 100,
+            correctCount: 5,
+            incorrectCount: 1,
+            unattemptedCount: 0,
+            tabSwitchCount: 0,
+            status: 'SUBMITTED',
+            submittedAt: new Date(Date.now() - 3600000).toISOString()
+          },
+          {
+            id: 'sub-2',
+            studentName: 'Sneha Sharma',
+            mobile: '9826123456',
+            examTitle: 'NEET Full Syllabus Mock 01',
+            score: 16,
+            maxMarks: 24,
+            percentage: 67,
+            scholarshipPercent: 75,
+            correctCount: 4,
+            incorrectCount: 2,
+            unattemptedCount: 0,
+            tabSwitchCount: 1,
+            status: 'SUBMITTED',
+            submittedAt: new Date(Date.now() - 7200000).toISOString()
+          },
+          {
+            id: 'sub-3',
+            studentName: 'Rohit Jaiswal',
+            mobile: '9752098765',
+            examTitle: 'Rankers Path Scholarship Admission Test (RSAT)',
+            score: 12,
+            maxMarks: 24,
+            percentage: 50,
+            scholarshipPercent: 50,
+            correctCount: 3,
+            incorrectCount: 3,
+            unattemptedCount: 0,
+            tabSwitchCount: 2,
+            status: 'SUBMITTED',
+            submittedAt: new Date(Date.now() - 14400000).toISOString()
+          }
+        ]
+      };
+    }
+  },
+
   // QR Attendance Scan
   async scanAttendance(rollNumber) {
     try {

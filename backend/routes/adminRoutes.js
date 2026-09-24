@@ -5,7 +5,8 @@ const {
   getAllStudents,
   saveCentre,
   scanQRAttendance,
-  getSmsLogs
+  getSmsLogs,
+  getExamSubmissions
 } = require('../controllers/adminController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { roleMiddleware } = require('../middlewares/roleMiddleware');
@@ -16,6 +17,7 @@ router.use(roleMiddleware(['admin', 'superadmin', 'teacher']));
 
 router.get('/stats', getDashboardStats);
 router.get('/students', getAllStudents);
+router.get('/submissions', getExamSubmissions);
 router.post('/centres', saveCentre);
 router.post('/scan-attendance', scanQRAttendance);
 router.get('/sms-logs', getSmsLogs);

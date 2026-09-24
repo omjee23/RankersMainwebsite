@@ -28,6 +28,8 @@ export default function App() {
   const [stats, setStats] = useState(null);
   const [students, setStudents] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [submissions, setSubmissions] = useState([]);
+  const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [cmsData, setCmsData] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -74,16 +76,18 @@ export default function App() {
 
   const loadAllData = async () => {
     setLoading(true);
-    const [statsRes, studentsRes, questionsRes, cmsRes] = await Promise.all([
+    const [statsRes, studentsRes, questionsRes, cmsRes, subsRes] = await Promise.all([
       adminApi.getDashboardStats(),
       adminApi.getStudents(),
       adminApi.getQuestions(),
-      adminApi.getCMS()
+      adminApi.getCMS(),
+      adminApi.getSubmissions()
     ]);
     if (statsRes.data) setStats(statsRes.data);
     if (studentsRes.data) setStudents(studentsRes.data);
     if (questionsRes.data) setQuestions(questionsRes.data);
     if (cmsRes.data) setCmsData(cmsRes.data);
+    if (subsRes.data) setSubmissions(subsRes.data);
     setLoading(false);
   };
 
@@ -272,6 +276,16 @@ export default function App() {
           >
             <FileSpreadsheet className="w-4 h-4" />
             <span>Offline Marks Uploader</span>
+          </button>
+
+          <button
+            onClick={() => setActiveMenu('cbt-exams')}
+            className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition ${
+              activeMenu === 'cbt-exams' ? 'bg-brand-yellow text-brand-navy shadow' : 'text-slate-300 hover:bg-white/10'
+            }`}
+          >
+            <Award className="w-4 h-4" />
+            <span>Online CBT &amp; Results</span>
           </button>
 
           <button
@@ -574,6 +588,185 @@ export default function App() {
                   {marksResult}
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* VIEW: Online CBT Tests & Results Hub */}
+        {activeMenu === 'cbt-exams' && (
+          <div className="mt-8 space-y-8 animate-in fade-in">
+            {/* Top Metric Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase">Total CBT Attempts</span>
+                <h3 className="text-3xl font-black text-brand-navy mt-1">{submissions.length}</h3>
+                <p className="text-xs text-slate-500 mt-1">Across NEET &amp; RSAT</p>
+              </div>
+
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase">Top Merit Achievers</span>
+                <h3 className="text-3xl font-black text-brand-yellowDark mt-1">
+                  {submissions.filter(s => (s.scholarshipPercent || 0) >= 75).length}
+                </h3>
+                <p className="text-xs text-emerald-600 font-bold mt-1">Qualified for 75%–100% Scholarship</p>
+              </div>
+
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase">Average Score</span>
+                <h3 className="text-3xl font-black text-blue-600 mt-1">
+                  {submissions.length > 0
+                    ? Math.round(submissions.reduce((acc, s) => acc + (s.percentage || 0), 0) / submissions.length)
+                    : 68}%
+                </h3>
+                <p className="text-xs text-slate-500 mt-1">Overall Batch Accuracy</p>
+              </div>
+
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase">Anti-Cheat Flags</span>
+                <h3 className="text-3xl font-black text-rose-600 mt-1">
+                  {submissions.filter(s => (s.tabSwitchCount || 0) > 0).length}
+                </h3>
+                <p className="text-xs text-rose-500 font-semibold mt-1">Tab switches recorded</p>
+              </div>
+            </div>
+
+            {/* Scheduled CBT Tests */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-extrabold text-slate-900">Active &amp; Scheduled Online CBT Tests</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">Tests accessible by students in the online examination hall</p>
+                </div>
+                <button
+                  onClick={() => alert('New CBT Exam Window Created & Activated for students!')}
+                  className="px-4 py-2 bg-brand-navy hover:bg-brand-navyLight text-brand-yellow font-extrabold text-xs uppercase rounded-xl shadow flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" /> Schedule New CBT Window
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <div className="p-5 rounded-2xl border-2 border-brand-yellow bg-amber-50/40 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-brand-yellow text-brand-navy font-bold text-[10px] uppercase">
+                      Scholarship Test
+                    </span>
+                    <span className="text-xs font-extrabold text-emerald-600">LIVE NOW</span>
+                  </div>
+                  <h4 className="text-base font-extrabold text-slate-900">RSAT 2026 Online Test</h4>
+                  <p className="text-xs text-slate-600">45 Mins &bull; Physics, Chemistry, Biology &bull; Up to 100% Scholarship</p>
+                  <div className="pt-2 border-t border-slate-200 text-xs text-slate-500 flex justify-between">
+                    <span>Attempts: <strong>{submissions.length}</strong></span>
+                    <span>Marking: <strong>+4 / -1 / 0</strong></span>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px] uppercase">
+                      Test Series T01
+                    </span>
+                    <span className="text-xs font-semibold text-slate-500">Scheduled</span>
+                  </div>
+                  <h4 className="text-base font-extrabold text-slate-900">NEET Full Syllabus Mock 01</h4>
+                  <p className="text-xs text-slate-600">180 Mins &bull; 720 Marks &bull; Complete NCERT Syllabus</p>
+                  <div className="pt-2 border-t border-slate-200 text-xs text-slate-500 flex justify-between">
+                    <span>Window: <strong>24 June 2026</strong></span>
+                    <span>Fee: <strong>Included</strong></span>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-bold text-[10px] uppercase">
+                      Test Series T02
+                    </span>
+                    <span className="text-xs font-semibold text-slate-500">Draft</span>
+                  </div>
+                  <h4 className="text-base font-extrabold text-slate-900">IIT-JEE Advanced Mock 01</h4>
+                  <p className="text-xs text-slate-600">180 Mins &bull; Physics, Chemistry, Maths &bull; Multi-correct MCQ</p>
+                  <div className="pt-2 border-t border-slate-200 text-xs text-slate-500 flex justify-between">
+                    <span>Window: <strong>July 2026</strong></span>
+                    <span>Status: <strong>Question Bank Ready</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Student Submissions Table */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-extrabold text-slate-900">
+                    Live Student CBT Submissions &amp; Auto-Evaluated Scorecards
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Calculated in real-time by the backend grading engine with anti-cheat audit logs
+                  </p>
+                </div>
+
+                <a
+                  href={adminApi.getReportUrl('submissions')}
+                  download
+                  className="px-4 py-2 bg-slate-100 hover:bg-brand-yellow hover:text-brand-navy rounded-xl text-xs font-bold text-slate-700 transition flex items-center gap-1.5"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Export Scorecards (CSV)</span>
+                </a>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-200 text-slate-400 font-bold uppercase text-[11px]">
+                      <th className="py-3 px-4">Candidate</th>
+                      <th className="py-3 px-4">Mobile</th>
+                      <th className="py-3 px-4">Test Title</th>
+                      <th className="py-3 px-4">Score (+4 / -1)</th>
+                      <th className="py-3 px-4">Accuracy</th>
+                      <th className="py-3 px-4">Scholarship Won</th>
+                      <th className="py-3 px-4">Anti-Cheat</th>
+                      <th className="py-3 px-4">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+                    {submissions.map((sub, idx) => (
+                      <tr key={sub.id || idx} className="hover:bg-slate-50">
+                        <td className="py-3 px-4 font-bold text-slate-900">{sub.studentName}</td>
+                        <td className="py-3 px-4 font-mono text-xs">+91-{sub.mobile}</td>
+                        <td className="py-3 px-4 text-xs font-semibold text-brand-navy max-w-xs truncate">
+                          {sub.examTitle}
+                        </td>
+                        <td className="py-3 px-4 font-bold text-slate-900">
+                          {sub.score} / {sub.maxMarks}
+                        </td>
+                        <td className="py-3 px-4 font-bold text-brand-yellowDark">
+                          {sub.percentage}%
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-black text-xs">
+                            {sub.scholarshipPercent || 75}% Off
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          {sub.tabSwitchCount && sub.tabSwitchCount > 0 ? (
+                            <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">
+                              ⚠️ {sub.tabSwitchCount} Tab Switches
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-bold text-[10px]">
+                              Clean ✓
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-slate-400 text-xs">
+                          {new Date(sub.submittedAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

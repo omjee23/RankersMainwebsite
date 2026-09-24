@@ -13,6 +13,7 @@ export default function CbtExamModal({ isOpen, onClose, user }) {
   const [violations, setViolations] = useState(0);
   const [violationAlert, setViolationAlert] = useState(false);
   const [resultData, setResultData] = useState(null);
+  const [showSolutions, setShowSolutions] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Initialize Exam
@@ -263,6 +264,34 @@ export default function CbtExamModal({ isOpen, onClose, user }) {
             {/* Left Area: Question Paper Canvas */}
             <div className="flex-1 flex flex-col border-r border-slate-200 overflow-y-auto">
               
+              {/* Subject Tabs Switcher */}
+              <div className="px-4 py-2 border-b border-slate-200 bg-white flex items-center gap-2 overflow-x-auto">
+                <span className="text-[11px] font-extrabold uppercase text-slate-400 mr-2 flex-shrink-0">Sections:</span>
+                {['Physics', 'Chemistry', 'Biology'].map(subj => {
+                  const isActive = currentQ.subject?.toLowerCase() === subj.toLowerCase();
+                  const qCount = questions.filter(q => q.subject?.toLowerCase() === subj.toLowerCase()).length;
+                  return (
+                    <button
+                      key={subj}
+                      onClick={() => {
+                        const firstMatch = questions.findIndex(q => q.subject?.toLowerCase() === subj.toLowerCase());
+                        if (firstMatch !== -1) setCurrentIdx(firstMatch);
+                      }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 flex-shrink-0 ${
+                        isActive
+                          ? 'bg-brand-navy text-brand-yellow shadow-sm'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                      }`}
+                    >
+                      <span>{subj}</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-brand-yellow text-brand-navy' : 'bg-slate-200 text-slate-600'}`}>
+                        {qCount}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
               {/* Question Header */}
               <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
                 <div className="flex items-center gap-2">
@@ -458,6 +487,13 @@ export default function CbtExamModal({ isOpen, onClose, user }) {
 
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <button
+                type="button"
+                onClick={() => setShowSolutions(!showSolutions)}
+                className="w-full sm:w-auto px-6 py-3.5 bg-brand-navy hover:bg-brand-navyLight text-brand-yellow rounded-xl font-bold text-sm shadow transition"
+              >
+                {showSolutions ? 'Hide Question Solutions' : 'Review Full Question Solutions & Explanations'}
+              </button>
               <a
                 href="https://wa.me/919131435511?text=Hi%2C%20I%20completed%20the%20RSAT%20test%20and%20qualified%20for%20scholarship.%20Please%20guide%20admission%20process."
                 target="_blank"
@@ -473,6 +509,56 @@ export default function CbtExamModal({ isOpen, onClose, user }) {
                 Close &amp; Return to Home
               </button>
             </div>
+
+            {/* Detailed Solutions Accordion */}
+            {showSolutions && (
+              <div className="mt-8 text-left space-y-4 pt-6 border-t border-slate-200">
+                <h3 className="text-lg font-extrabold text-slate-900">
+                  Detailed Solutions &amp; Teacher Explanations
+                </h3>
+                <div className="space-y-4">
+                  {questions.map((q, idx) => {
+                    const ans = answers[q.id];
+                    const selected = ans?.selectedOption;
+                    return (
+                      <div key={q.id} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-bold text-brand-navy">Question {idx + 1} &bull; {q.subject}</span>
+                          <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">
+                            +4 / -1 Scheme
+                          </span>
+                        </div>
+                        <p className="text-sm font-semibold text-slate-800">{q.questionText}</p>
+                        <div className="space-y-1.5 pt-1">
+                          {q.options.map((opt, optIdx) => {
+                            const isSelected = selected === optIdx;
+                            return (
+                              <div
+                                key={optIdx}
+                                className={`p-2.5 rounded-xl text-xs font-medium border flex items-center justify-between ${
+                                  isSelected
+                                    ? 'border-brand-navy bg-brand-yellow/10 font-bold text-brand-navy'
+                                    : 'border-slate-200 bg-white text-slate-600'
+                                }`}
+                              >
+                                <span>{String.fromCharCode(65 + optIdx)}. {opt}</span>
+                                {isSelected && (
+                                  <span className="text-[10px] uppercase font-bold text-brand-navy">Your Choice</span>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+                          <strong className="text-emerald-700 block">Faculty Solution &amp; Explanation:</strong>
+                          <p>{q.explanation || 'Solution step-by-step logic verified by senior faculty.'}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
           </div>
         )}
