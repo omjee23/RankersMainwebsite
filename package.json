@@ -1,0 +1,12 @@
+{
+  "name": "rankers-path-project",
+  "version": "1.0.0",
+  "description": "Rankers Path Coaching Institute Complete Digital Platform",
+  "scripts": {
+    "start:backend": "cd backend && node server.js",
+    "dev:backend": "cd backend && node --watch server.js",
+    "dev:web": "cd mainWebsitefronted && npm run dev",
+    "dev:admin": "cd adminFronted && npm run dev",
+    "build:all": "cd mainWebsitefronted && npm run build && cd ../adminFronted && npm run build"
+  }
+}

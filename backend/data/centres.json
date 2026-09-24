@@ -1,0 +1,38 @@
+[
+  {
+    "id": "centre-vijay-nagar",
+    "createdAt": "2026-09-24T14:55:12.038Z",
+    "updatedAt": "2026-09-24T14:55:12.042Z",
+    "name": "Vijay Nagar Main Campus",
+    "address": "HQ City Walk, Block A, 129, Scheme No. 54, Near Satya Sai Square, Vijay Nagar, Indore",
+    "city": "Indore",
+    "state": "Madhya Pradesh",
+    "capacity": 600,
+    "registeredCount": 0,
+    "active": true
+  },
+  {
+    "id": "centre-palasia",
+    "createdAt": "2026-09-24T14:55:12.043Z",
+    "updatedAt": "2026-09-24T14:55:12.043Z",
+    "name": "Old Palasia Branch",
+    "address": "Near Geeta Bhawan Square, AB Road, Indore",
+    "city": "Indore",
+    "state": "Madhya Pradesh",
+    "capacity": 400,
+    "registeredCount": 0,
+    "active": true
+  },
+  {
+    "id": "centre-bhawarkua",
+    "createdAt": "2026-09-24T14:55:12.043Z",
+    "updatedAt": "2026-09-24T14:55:12.043Z",
+    "name": "Bhawarkua Education Hub",
+    "address": "Near Tower Chouraha, Bhawarkua, Indore",
+    "city": "Indore",
+    "state": "Madhya Pradesh",
+    "capacity": 500,
+    "registeredCount": 0,
+    "active": true
+  }
+]
