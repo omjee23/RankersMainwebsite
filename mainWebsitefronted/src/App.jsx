@@ -58,6 +58,10 @@ export default function App() {
             <Hero
               onOpenRankX={() => setIsRankXOpen(true)}
               onOpenRSAT={() => setIsRsatOpen(true)}
+              onOpenEnquiry={() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
             />
             <FacultySection />
             <CoursesSection

@@ -951,6 +951,50 @@ export default function App() {
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Institute Inspiring Quote (Hero)</label>
+                <input
+                  type="text"
+                  value={cmsData.instituteQuote || 'Student aur parents ka vishwas — Rankers Path banaye har baccha khaas'}
+                  onChange={(e) => setCmsData({ ...cmsData, instituteQuote: e.target.value })}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-medium italic"
+                />
+              </div>
+
+              {/* Course Fee Structure Controls */}
+              <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
+                <p className="text-xs font-black uppercase text-slate-900 tracking-wider">Courses / FEE Display Settings</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">JEE (Main+Adv) Fee</label>
+                    <input
+                      type="text"
+                      value={cmsData.jeeFee || '₹1,10,000 / Year'}
+                      onChange={(e) => setCmsData({ ...cmsData, jeeFee: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-brand-navy"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">NEET (Medical) Fee</label>
+                    <input
+                      type="text"
+                      value={cmsData.neetFee || '₹1,05,000 / Year'}
+                      onChange={(e) => setCmsData({ ...cmsData, neetFee: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-brand-navy"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">Foundation (9th-10th) Fee</label>
+                    <input
+                      type="text"
+                      value={cmsData.foundationFee || '₹55,000 / Year'}
+                      onChange={(e) => setCmsData({ ...cmsData, foundationFee: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-brand-navy"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Primary Helpline</label>
