@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const { DEFAULT_CENTRES } = require('./constants');
+const { DEFAULT_CENTRES, DEFAULT_FACULTY } = require('./constants');
 
 const DATA_DIR = path.join(__dirname, '../data');
 
@@ -108,7 +108,8 @@ const collections = {
   centres: new Collection('centres'),
   payments: new Collection('payments'),
   smsLogs: new Collection('sms_logs'),
-  cmsContent: new Collection('cms_content')
+  cmsContent: new Collection('cms_content'),
+  faculty: new Collection('faculty')
 };
 
 // Auto-seed initial defaults if empty
@@ -133,6 +134,12 @@ function initializeDatabase() {
       address: 'HQ City Walk, Block A, 129, Scheme No. 54, Near Satya Sai Square, Vijay Nagar, Indore - 452010'
     });
     console.log('✅ Initial CMS content seeded.');
+  }
+
+  // Seed default faculty members
+  if (collections.faculty.countDocuments() === 0) {
+    DEFAULT_FACULTY.forEach(fac => collections.faculty.create(fac));
+    console.log('✅ Initial Faculty members seeded.');
   }
 }
 

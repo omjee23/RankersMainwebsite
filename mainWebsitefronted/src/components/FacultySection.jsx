@@ -1,8 +1,9 @@
-import React from 'react';
-import { Award, BookOpen, Star, GraduationCap } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Award, BookOpen, Star, GraduationCap, ArrowRight, Sparkles } from 'lucide-react';
 
-const founders = [
+const DEFAULT_FOUNDERS = [
   {
+    id: 'fac-chauhan',
     name: 'Sanjay Chauhan',
     degree: 'M.Sc Biology (Zoo.), Gold Medalist',
     role: 'Biology Faculty',
@@ -11,6 +12,7 @@ const founders = [
     bio: 'Has taught 30,000+ students across premier national institutes. Produced Rank 1–2, Top 10, and Top 100 results in NEET, AIIMS, AFMC, and state PMTs.'
   },
   {
+    id: 'fac-jaivir',
     name: 'Jaivir Singh',
     degree: 'B.Tech',
     role: 'Physics Faculty',
@@ -19,6 +21,7 @@ const founders = [
     bio: 'Has taught 20,000+ students across top institutes in Indore and Bhopal. Mentored Top 10 and Top 100 ranks in IIT-JEE, NEET, and the Physics Olympiad.'
   },
   {
+    id: 'fac-ashlesha',
     name: 'Ashlesha Phadnis',
     degree: 'M.Sc Chemistry, B.Ed',
     role: 'Chemistry Faculty',
@@ -27,6 +30,7 @@ const founders = [
     bio: 'Veteran educator who has guided 30,000+ students over 3 decades, producing numerous Top 10 and Top 100 rank IITians and leading doctors across India.'
   },
   {
+    id: 'fac-chaurasia',
     name: 'Sanjay Chaurasia',
     degree: 'B.Sc, B.Ed, MPA',
     role: 'Mathematics Faculty',
@@ -36,59 +40,85 @@ const founders = [
   }
 ];
 
-export default function FacultySection() {
+export default function FacultySection({ onOpenTeam }) {
+  const [faculty, setFaculty] = useState(DEFAULT_FOUNDERS);
+
+  useEffect(() => {
+    fetchHomeFaculty();
+  }, []);
+
+  const fetchHomeFaculty = async () => {
+    try {
+      const res = await fetch('http://localhost:5001/api/faculty?home=true');
+      const json = await res.json();
+      if (json.success && json.data && json.data.length > 0) {
+        setFaculty(json.data);
+      }
+    } catch (err) {
+      console.warn('Using default founders on home:', err.message);
+    }
+  };
+
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="faculty" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Heading */}
+        {/* Section Heading matching screenshot */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow/15 text-brand-navy font-extrabold text-xs uppercase tracking-wider mb-3">
-            <GraduationCap className="w-4 h-4 text-brand-yellowDark" /> Central India's Best Faculty Team
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-brand-yellow/15 text-brand-navy font-extrabold text-xs uppercase tracking-wider mb-3">
+            <GraduationCap className="w-4 h-4 text-brand-yellowDark" />
+            <span>CENTRAL INDIA&apos;S BEST FACULTY TEAM</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
             Meet Our Founding Faculty Mentors
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-600">
+
+          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
             Unlike conventional coaching giants where classes are handed over to junior trainee teachers, 
-            at Rankers Path, <strong className="text-brand-navy font-bold">our 4 founding educators teach every single batch personally.</strong>
+            at Rankers Path, <strong className="text-brand-navy font-bold">our senior educators teach every single batch personally.</strong>
           </p>
         </div>
 
-        {/* 4 Founders Grid */}
+        {/* Founding Mentors Grid (Matching screenshot layout) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {founders.map((f, i) => (
+          {faculty.map((f, i) => (
             <div
-              key={i}
+              key={f.id || i}
               className="bg-[#F8FAFC] rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col group"
             >
               {/* Photo */}
               <div className="relative mx-auto mb-5">
-                <div className="w-36 h-36 rounded-2xl overflow-hidden border-4 border-white shadow-md group-hover:border-brand-yellow transition duration-300">
+                <div className="w-36 h-36 rounded-2xl overflow-hidden border-4 border-white shadow-md group-hover:border-brand-yellow transition duration-300 bg-slate-100">
                   <img
-                    src={f.photo}
+                    src={f.photo || '/assets/web/faculty-team-full.png'}
                     alt={f.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
                 </div>
-                <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-brand-navy text-brand-yellow text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow">
-                  {f.role.split(' ')[0]}
+                <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-brand-navy text-brand-yellow text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow border border-brand-yellow/30">
+                  {f.subject ? f.subject.toUpperCase() : f.role ? f.role.split(' ')[0].toUpperCase() : 'MENTOR'}
                 </span>
               </div>
 
               {/* Title & Degrees */}
               <div className="text-center flex-1 flex flex-col">
-                <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-brand-navyLight transition">
+                <h3 className="text-xl font-black text-slate-900 group-hover:text-brand-navyLight transition">
                   {f.name}
                 </h3>
-                <p className="text-xs text-brand-yellowDark font-bold mt-0.5">
-                  {f.degree}
-                </p>
+                
+                {f.degree && (
+                  <p className="text-xs text-brand-yellowDark font-bold mt-0.5">
+                    {f.degree}
+                  </p>
+                )}
+
                 <div className="inline-flex items-center justify-center gap-1 text-xs font-semibold text-slate-500 mt-1">
                   <Star className="w-3.5 h-3.5 text-brand-yellow fill-brand-yellow" />
                   <span>{f.exp}</span>
                 </div>
-                <p className="mt-4 text-xs sm:text-sm text-slate-600 leading-relaxed text-left flex-1 border-t border-slate-200/60 pt-3">
+
+                <p className="mt-4 text-xs sm:text-[13px] text-slate-600 leading-relaxed text-left flex-1 border-t border-slate-200/60 pt-3">
                   {f.bio}
                 </p>
               </div>
@@ -96,18 +126,35 @@ export default function FacultySection() {
           ))}
         </div>
 
+        {/* 'See More Faculty Members' Button as Requested by User */}
+        <div className="mt-12 text-center">
+          <button
+            onClick={onOpenTeam}
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-brand-navy hover:bg-brand-navyLight text-brand-yellow font-black text-sm uppercase tracking-wider shadow-xl shadow-brand-navy/15 hover:shadow-brand-navy/30 transition transform hover:-translate-y-0.5 group border-2 border-brand-yellow/30"
+          >
+            <GraduationCap className="w-5 h-5 text-brand-yellow" />
+            <span>See More Faculty Members &amp; Mentors</span>
+            <ArrowRight className="w-4 h-4 text-brand-yellow group-hover:translate-x-1.5 transition" />
+          </button>
+          <p className="text-xs text-slate-500 mt-2 font-medium">
+            Explore complete 8+ faculty team, subject specializations, and direct 1:1 mentorship
+          </p>
+        </div>
+
         {/* Full Faculty Team Banner */}
         <div className="mt-16 bg-gradient-to-r from-brand-navy to-brand-navyCard rounded-3xl p-8 sm:p-10 text-white shadow-xl border border-brand-yellow/30">
           <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-brand-yellow font-extrabold text-xs uppercase tracking-widest">Complete Academic Powerhouse</span>
-            <h3 className="text-2xl sm:text-3xl font-bold mt-1">Central India's Most Experienced Faculty Team</h3>
+            <span className="text-brand-yellow font-extrabold text-xs uppercase tracking-widest">
+              Complete Academic Powerhouse
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black mt-1">Central India&apos;s Most Experienced Faculty Team</h3>
             <p className="text-slate-300 text-sm mt-2">
               Sandeep Bamnia (Physics), Ramakant Deshmukh (Botany), Bhaskar Sharma (Chemistry), Sanjay Chauhan (Zoology), 
               Jaivir Singh (Physics), Ashlesha Phadnis (Chemistry), Sanjay Chaurasia (Maths), Abhishek Jaiswal (Maths).
             </p>
           </div>
           
-          <div className="rounded-2xl overflow-hidden shadow-inner border border-white/20 bg-white/5 p-2 sm:p-4">
+          <div className="rounded-2xl overflow-hidden shadow-inner border border-white/20 bg-white/5 p-2 sm:p-4 cursor-pointer hover:border-brand-yellow/50 transition" onClick={onOpenTeam}>
             <img
               src="/assets/web/faculty-team-full.png"
               alt="Rankers Path Full Faculty Team"

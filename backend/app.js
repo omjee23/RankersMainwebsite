@@ -15,6 +15,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const cmsRoutes = require('./routes/cmsRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const facultyRoutes = require('./routes/facultyRoutes');
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/cms', cmsRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/faculty', facultyRoutes);
 
 // Catch-all 404
 app.use('*', (req, res) => {

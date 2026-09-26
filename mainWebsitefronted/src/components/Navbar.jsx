@@ -8,6 +8,7 @@ export default function Navbar({
   onOpenRankX,
   onOpenRSAT,
   onOpenDashboard,
+  onOpenTeam,
   activeTab,
   setActiveTab
 }) {
@@ -47,9 +48,9 @@ export default function Navbar({
             </a>
             <span className="text-slate-600 hidden md:inline">|</span>
 
-            <a href="#faculty" onClick={() => setActiveTab('home')} className="hover:text-brand-yellow whitespace-nowrap hidden md:inline">
-              FACULTY
-            </a>
+            <button onClick={onOpenTeam} className="hover:text-brand-yellow whitespace-nowrap hidden md:inline font-bold">
+              TEAM
+            </button>
             <span className="text-slate-600">|</span>
 
             <button
@@ -192,13 +193,12 @@ export default function Navbar({
               ASAT / RANKX
             </button>
 
-            <a
-              href="#faculty"
-              onClick={() => setActiveTab('home')}
-              className="hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1"
+            <button
+              onClick={onOpenTeam}
+              className="hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1 font-black"
             >
-              FACULTY
-            </a>
+              FACULTY TEAM
+            </button>
 
             <a
               href="#contact"
@@ -255,13 +255,12 @@ export default function Navbar({
             >
               ASAT / RANKX SCHOLARSHIP
             </button>
-            <a
-              href="#faculty"
-              onClick={() => { setMobileMenuOpen(false); setActiveTab('home'); }}
-              className="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100 uppercase"
+            <button
+              onClick={() => { setMobileMenuOpen(false); onOpenTeam(); }}
+              className="block w-full text-left py-2 text-sm font-bold text-slate-800 border-b border-slate-100 uppercase"
             >
-              CORE FACULTY (25+ YRS)
-            </a>
+              FACULTY &amp; MENTORS (TEAM)
+            </button>
             <a
               href="#centres"
               onClick={() => { setMobileMenuOpen(false); setActiveTab('home'); }}

@@ -11,11 +11,12 @@ import RankXModal from './components/RankXModal';
 import CbtExamModal from './components/CbtExamModal';
 import AuthModal from './components/AuthModal';
 import StudentDashboardView from './components/StudentDashboardView';
+import TeamPageView from './components/TeamPageView';
 import { MessageCircle, Award, Zap } from 'lucide-react';
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('home'); // 'home' or 'dashboard'
+  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', or 'dashboard'
   const [isRankXOpen, setIsRankXOpen] = useState(false);
   const [isRsatOpen, setIsRsatOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -37,6 +38,11 @@ export default function App() {
     setActiveTab('home');
   };
 
+  const handleOpenTeam = () => {
+    setActiveTab('team');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
       {/* Top Navbar */}
@@ -47,13 +53,14 @@ export default function App() {
         onOpenRankX={() => setIsRankXOpen(true)}
         onOpenRSAT={() => setIsRsatOpen(true)}
         onOpenDashboard={() => setActiveTab('dashboard')}
+        onOpenTeam={handleOpenTeam}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
 
       {/* Main View Area */}
       <main className="flex-1">
-        {activeTab === 'home' ? (
+        {activeTab === 'home' && (
           <>
             <Hero
               onOpenRankX={() => setIsRankXOpen(true)}
@@ -63,7 +70,7 @@ export default function App() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
             />
-            <FacultySection />
+            <FacultySection onOpenTeam={handleOpenTeam} />
             <CoursesSection
               onOpenEnquiry={() => {
                 const el = document.getElementById('contact');
@@ -75,7 +82,25 @@ export default function App() {
             <GallerySection />
             <ContactAndEnquiry />
           </>
-        ) : (
+        )}
+
+        {activeTab === 'team' && (
+          <TeamPageView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenEnquiry={() => {
+              setActiveTab('home');
+              setTimeout(() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}
+          />
+        )}
+
+        {activeTab === 'dashboard' && (
           <StudentDashboardView
             user={user}
             onOpenRankX={() => setIsRankXOpen(true)}

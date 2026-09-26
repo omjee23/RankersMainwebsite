@@ -231,5 +231,54 @@ export const adminApi = {
   // Reports URL
   getReportUrl(type) {
     return `${API_BASE_URL}/reports/export/${type}`;
+  },
+
+  // Faculty & Mentors Management
+  async getFaculty(query = {}) {
+    try {
+      const qs = new URLSearchParams(query).toString();
+      const res = await fetch(`${API_BASE_URL}/faculty?${qs}`);
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  },
+
+  async createFaculty(data) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/faculty`, {
+        method: 'POST',
+        headers: getAdminHeaders(),
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  },
+
+  async updateFaculty(id, data) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/faculty/${id}`, {
+        method: 'PUT',
+        headers: getAdminHeaders(),
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  },
+
+  async deleteFaculty(id) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/faculty/${id}`, {
+        method: 'DELETE',
+        headers: getAdminHeaders()
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
   }
 };

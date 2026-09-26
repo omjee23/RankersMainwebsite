@@ -18,7 +18,12 @@ import {
   Lock,
   Sparkles,
   TrendingUp,
-  Award
+  Award,
+  GraduationCap,
+  Trash2,
+  Edit3,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { adminApi } from './services/adminApi';
 
@@ -32,6 +37,22 @@ export default function App() {
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [cmsData, setCmsData] = useState({});
   const [loading, setLoading] = useState(false);
+
+  // Faculty State
+  const [facultyList, setFacultyList] = useState([]);
+  const [facultyModalOpen, setFacultyModalOpen] = useState(false);
+  const [editingFaculty, setEditingFaculty] = useState(null);
+  const [facultyForm, setFacultyForm] = useState({
+    name: '',
+    degree: '',
+    role: '',
+    subject: 'Biology',
+    exp: '20+ Years Experience',
+    photo: '/assets/web/faculty-team-full.png',
+    bio: '',
+    showOnHome: false,
+    order: 10
+  });
 
   // Login Form State
   const [loginEmail, setLoginEmail] = useState('admin@rankerspath.in');
@@ -76,19 +97,101 @@ export default function App() {
 
   const loadAllData = async () => {
     setLoading(true);
-    const [statsRes, studentsRes, questionsRes, cmsRes, subsRes] = await Promise.all([
+    const [statsRes, studentsRes, questionsRes, cmsRes, subsRes, facRes] = await Promise.all([
       adminApi.getDashboardStats(),
       adminApi.getStudents(),
       adminApi.getQuestions(),
       adminApi.getCMS(),
-      adminApi.getSubmissions()
+      adminApi.getSubmissions(),
+      adminApi.getFaculty()
     ]);
     if (statsRes.data) setStats(statsRes.data);
     if (studentsRes.data) setStudents(studentsRes.data);
     if (questionsRes.data) setQuestions(questionsRes.data);
     if (cmsRes.data) setCmsData(cmsRes.data);
     if (subsRes.data) setSubmissions(subsRes.data);
+    if (facRes && facRes.data) setFacultyList(facRes.data);
     setLoading(false);
+  };
+
+  // Faculty Handlers
+  const handleOpenAddFaculty = () => {
+    setEditingFaculty(null);
+    setFacultyForm({
+      name: '',
+      degree: '',
+      role: '',
+      subject: 'Biology',
+      exp: '20+ Years Experience',
+      photo: '/assets/web/faculty-team-full.png',
+      bio: '',
+      showOnHome: false,
+      order: facultyList.length + 1
+    });
+    setFacultyModalOpen(true);
+  };
+
+  const handleOpenEditFaculty = (fac) => {
+    setEditingFaculty(fac);
+    setFacultyForm({
+      name: fac.name || '',
+      degree: fac.degree || '',
+      role: fac.role || '',
+      subject: fac.subject || 'Biology',
+      exp: fac.exp || '20+ Years Experience',
+      photo: fac.photo || '/assets/web/faculty-team-full.png',
+      bio: fac.bio || '',
+      showOnHome: fac.showOnHome === true,
+      order: fac.order || 1
+    });
+    setFacultyModalOpen(true);
+  };
+
+  const handleSaveFaculty = async (e) => {
+    e.preventDefault();
+    if (!facultyForm.name || !facultyForm.subject) {
+      alert('Please enter faculty name and subject');
+      return;
+    }
+    setLoading(true);
+    let res;
+    if (editingFaculty) {
+      res = await adminApi.updateFaculty(editingFaculty.id, facultyForm);
+    } else {
+      res = await adminApi.createFaculty(facultyForm);
+    }
+    setLoading(false);
+    if (res && res.success) {
+      const updatedList = await adminApi.getFaculty();
+      if (updatedList.data) setFacultyList(updatedList.data);
+      setFacultyModalOpen(false);
+      alert(editingFaculty ? 'Faculty details updated successfully!' : 'New faculty member added successfully!');
+    } else {
+      alert(res?.message || 'Failed to save faculty details');
+    }
+  };
+
+  const handleDeleteFaculty = async (id, name) => {
+    if (!window.confirm(`Are you sure you want to remove ${name} from the faculty team?`)) return;
+    setLoading(true);
+    const res = await adminApi.deleteFaculty(id);
+    setLoading(false);
+    if (res && res.success) {
+      const updatedList = await adminApi.getFaculty();
+      if (updatedList.data) setFacultyList(updatedList.data);
+      alert('Faculty member deleted.');
+    } else {
+      alert(res?.message || 'Failed to delete faculty');
+    }
+  };
+
+  const handleToggleHomeVisibility = async (fac) => {
+    const updated = !fac.showOnHome;
+    const res = await adminApi.updateFaculty(fac.id, { showOnHome: updated });
+    if (res && res.success) {
+      const updatedList = await adminApi.getFaculty();
+      if (updatedList.data) setFacultyList(updatedList.data);
+    }
   };
 
   const handleLogin = async (e) => {
@@ -306,6 +409,16 @@ export default function App() {
           >
             <Globe className="w-4 h-4" />
             <span>Website CMS Manager</span>
+          </button>
+
+          <button
+            onClick={() => setActiveMenu('faculty')}
+            className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition ${
+              activeMenu === 'faculty' ? 'bg-brand-yellow text-brand-navy shadow' : 'text-slate-300 hover:bg-white/10'
+            }`}
+          >
+            <GraduationCap className="w-4 h-4" />
+            <span>Faculty &amp; Mentors Team</span>
           </button>
 
           <button
@@ -1023,6 +1136,311 @@ export default function App() {
                 Save &amp; Update Live Website
               </button>
             </form>
+          </div>
+        )}
+
+        {/* VIEW: Faculty & Mentors Team Management */}
+        {activeMenu === 'faculty' && (
+          <div className="mt-8 space-y-6 animate-in fade-in">
+            {/* Header & Add Button */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+              <div>
+                <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                  <GraduationCap className="w-6 h-6 text-brand-yellowDark" />
+                  <span>Faculty &amp; Mentors Team Management</span>
+                </h3>
+                <p className="text-xs text-slate-500 mt-1">
+                  Add new educators, update credentials, change photos, and toggle who appears on the main homepage.
+                </p>
+              </div>
+
+              <button
+                onClick={handleOpenAddFaculty}
+                className="px-5 py-3 bg-brand-yellow hover:bg-[#e6a500] text-brand-navy font-black text-xs uppercase tracking-wider rounded-xl shadow transition flex items-center gap-2 whitespace-nowrap"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add New Faculty Member</span>
+              </button>
+            </div>
+
+            {/* Quick Metrics Bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Total Members</span>
+                <p className="text-2xl font-black text-slate-900 mt-1">{facultyList.length}</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Active Teaching Staff</p>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Featured on Home</span>
+                <p className="text-2xl font-black text-brand-yellowDark mt-1">
+                  {facultyList.filter(f => f.showOnHome).length}
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Founding Mentors Grid</p>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Medical Faculties</span>
+                <p className="text-2xl font-black text-emerald-600 mt-1">
+                  {facultyList.filter(f => f.subject === 'Biology' || f.subject === 'Chemistry').length}
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">NEET-UG Mentors</p>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Engineering Faculties</span>
+                <p className="text-2xl font-black text-blue-600 mt-1">
+                  {facultyList.filter(f => f.subject === 'Physics' || f.subject === 'Mathematics').length}
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">IIT-JEE Mentors</p>
+              </div>
+            </div>
+
+            {/* Faculty List Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {facultyList.map((fac) => (
+                <div
+                  key={fac.id}
+                  className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-lg transition flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Top Row: Photo & Status */}
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-slate-100 bg-slate-50 shadow-inner flex-shrink-0">
+                        <img
+                          src={fac.photo || '/assets/web/faculty-team-full.png'}
+                          alt={fac.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-extrabold text-[10px] uppercase">
+                            {fac.subject || 'Faculty'}
+                          </span>
+                          
+                          {/* Home visibility toggle */}
+                          <button
+                            onClick={() => handleToggleHomeVisibility(fac)}
+                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 transition ${
+                              fac.showOnHome
+                                ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                                : 'bg-slate-100 text-slate-400 hover:text-slate-600'
+                            }`}
+                            title={fac.showOnHome ? 'Shown on Homepage (Click to hide)' : 'Hidden from Homepage (Click to show)'}
+                          >
+                            {fac.showOnHome ? <Eye className="w-3 h-3 text-amber-600" /> : <EyeOff className="w-3 h-3" />}
+                            <span>{fac.showOnHome ? 'On Home' : 'Team Only'}</span>
+                          </button>
+                        </div>
+
+                        <h4 className="text-base font-extrabold text-slate-900 mt-1 truncate">{fac.name}</h4>
+                        <p className="text-xs text-brand-yellowDark font-bold truncate">{fac.degree}</p>
+                        <p className="text-[11px] text-slate-500 font-medium">{fac.exp}</p>
+                      </div>
+                    </div>
+
+                    {fac.role && (
+                      <p className="text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100 mb-3">
+                        {fac.role}
+                      </p>
+                    )}
+
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                      {fac.bio}
+                    </p>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="pt-4 border-t border-slate-100 mt-4 flex items-center justify-between gap-2">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase">
+                      Order: #{fac.order || 1}
+                    </span>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleOpenEditFaculty(fac)}
+                        className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1"
+                      >
+                        <Edit3 className="w-3.5 h-3.5 text-slate-600" />
+                        <span>Edit</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteFaculty(fac.id, fac.name)}
+                        className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs transition flex items-center gap-1"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Modal: Add / Edit Faculty Member */}
+            {facultyModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+                <div className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto">
+                  <h3 className="text-xl font-black text-slate-900">
+                    {editingFaculty ? 'Edit Faculty Member Details' : 'Add New Faculty Member'}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Fill in credentials and choose whether to display on the home founding mentors grid.
+                  </p>
+
+                  <form onSubmit={handleSaveFaculty} className="mt-5 space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
+                        <input
+                          type="text"
+                          required
+                          value={facultyForm.name}
+                          onChange={(e) => setFacultyForm({ ...facultyForm, name: e.target.value })}
+                          placeholder="e.g. Dr. R.K. Verma"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Subject / Stream *</label>
+                        <select
+                          value={facultyForm.subject}
+                          onChange={(e) => setFacultyForm({ ...facultyForm, subject: e.target.value })}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold bg-white"
+                        >
+                          <option value="Biology">Biology (Medical)</option>
+                          <option value="Physics">Physics (Engineering & Medical)</option>
+                          <option value="Chemistry">Chemistry (Organic/Inorganic)</option>
+                          <option value="Mathematics">Mathematics (IIT-JEE)</option>
+                          <option value="Foundation">Foundation (6th-10th)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Degree / Qualifications</label>
+                        <input
+                          type="text"
+                          value={facultyForm.degree}
+                          onChange={(e) => setFacultyForm({ ...facultyForm, degree: e.target.value })}
+                          placeholder="e.g. M.Sc Zoology, Gold Medalist"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Experience</label>
+                        <input
+                          type="text"
+                          value={facultyForm.exp}
+                          onChange={(e) => setFacultyForm({ ...facultyForm, exp: e.target.value })}
+                          placeholder="e.g. 25+ Years Experience"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Role / Designation</label>
+                        <input
+                          type="text"
+                          value={facultyForm.role}
+                          onChange={(e) => setFacultyForm({ ...facultyForm, role: e.target.value })}
+                          placeholder="e.g. Senior Faculty & HOD"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Display Order</label>
+                        <input
+                          type="number"
+                          value={facultyForm.order}
+                          onChange={(e) => setFacultyForm({ ...facultyForm, order: e.target.value })}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Photo URL / Preset</label>
+                      <input
+                        type="text"
+                        value={facultyForm.photo}
+                        onChange={(e) => setFacultyForm({ ...facultyForm, photo: e.target.value })}
+                        placeholder="/assets/web/founder-chauhan.jpg"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono"
+                      />
+                      {/* Presets */}
+                      <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                        <span className="text-[10px] font-bold text-slate-400">Presets:</span>
+                        {[
+                          { label: 'Chauhan Sir', url: '/assets/web/founder-chauhan.jpg' },
+                          { label: 'Jaivir Sir', url: '/assets/web/founder-jaivir.jpg' },
+                          { label: 'Ashlesha Ma’am', url: '/assets/web/founder-ashlesha.jpg' },
+                          { label: 'Chaurasia Sir', url: '/assets/web/founder-chaurasia.jpg' },
+                          { label: 'Team Group', url: '/assets/web/faculty-team-full.png' }
+                        ].map((pr, pIdx) => (
+                          <button
+                            key={pIdx}
+                            type="button"
+                            onClick={() => setFacultyForm({ ...facultyForm, photo: pr.url })}
+                            className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded text-[10px] font-semibold transition"
+                          >
+                            {pr.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Biography &amp; Achievements</label>
+                      <textarea
+                        rows={3}
+                        value={facultyForm.bio}
+                        onChange={(e) => setFacultyForm({ ...facultyForm, bio: e.target.value })}
+                        placeholder="Has guided 20,000+ students with top ranks in NEET/IIT-JEE..."
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium"
+                      />
+                    </div>
+
+                    <div className="p-3 bg-amber-50 border border-brand-yellow/30 rounded-xl flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="showOnHome"
+                        checked={facultyForm.showOnHome}
+                        onChange={(e) => setFacultyForm({ ...facultyForm, showOnHome: e.target.checked })}
+                        className="w-4 h-4 text-brand-navy rounded border-slate-300 focus:ring-brand-yellow"
+                      />
+                      <label htmlFor="showOnHome" className="text-xs font-bold text-slate-800 cursor-pointer">
+                        Feature on Homepage (Display in Founding Faculty Mentors Grid)
+                      </label>
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setFacultyModalOpen(false)}
+                        className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="px-6 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-brand-yellow font-black text-xs uppercase tracking-wider shadow transition"
+                      >
+                        {loading ? 'Saving...' : editingFaculty ? 'Update Faculty Details' : 'Add to Faculty Team'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+
           </div>
         )}
 
