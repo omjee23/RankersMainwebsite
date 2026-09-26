@@ -23,9 +23,13 @@ import {
   Trash2,
   Edit3,
   Eye,
-  EyeOff
+  EyeOff,
+  UploadCloud,
+  Camera
 } from 'lucide-react';
 import { adminApi } from './services/adminApi';
+import { compressImage, resolvePhotoUrl } from './utils/imageCompressor';
+
 
 export default function App() {
   const [adminUser, setAdminUser] = useState(null);
@@ -53,6 +57,10 @@ export default function App() {
     showOnHome: false,
     order: 10
   });
+  const [photoUploading, setPhotoUploading] = useState(false);
+  const [photoStats, setPhotoStats] = useState(null);
+  const [photoError, setPhotoError] = useState('');
+  const [showCustomUrl, setShowCustomUrl] = useState(false);
 
   // Login Form State
   const [loginEmail, setLoginEmail] = useState('admin@rankerspath.in');
@@ -117,6 +125,9 @@ export default function App() {
   // Faculty Handlers
   const handleOpenAddFaculty = () => {
     setEditingFaculty(null);
+    setPhotoStats(null);
+    setPhotoError('');
+    setShowCustomUrl(false);
     setFacultyForm({
       name: '',
       degree: '',
@@ -133,6 +144,9 @@ export default function App() {
 
   const handleOpenEditFaculty = (fac) => {
     setEditingFaculty(fac);
+    setPhotoStats(null);
+    setPhotoError('');
+    setShowCustomUrl(false);
     setFacultyForm({
       name: fac.name || '',
       degree: fac.degree || '',
@@ -145,6 +159,36 @@ export default function App() {
       order: fac.order || 1
     });
     setFacultyModalOpen(true);
+  };
+
+  const handlePhotoUpload = async (file) => {
+    if (!file) return;
+    try {
+      setPhotoUploading(true);
+      setPhotoError('');
+
+      // Auto-compress photo using HTML5 Canvas down to ~30-50 KB
+      const compressed = await compressImage(file, { maxWidth: 500, maxHeight: 500, quality: 0.8 });
+      setPhotoStats({
+        origKb: compressed.originalSizeKb,
+        compKb: compressed.compressedSizeKb,
+        savedPercent: compressed.savedPercent
+      });
+
+      // Upload compressed blob to backend
+      const uploadRes = await adminApi.uploadFacultyPhoto(compressed.blob, file.name || 'faculty.jpg');
+      if (uploadRes && uploadRes.success && uploadRes.data?.url) {
+        setFacultyForm((prev) => ({ ...prev, photo: uploadRes.data.url }));
+      } else {
+        // Fallback to compressed data URL (already reduced to KB!)
+        setFacultyForm((prev) => ({ ...prev, photo: compressed.dataUrl }));
+      }
+    } catch (err) {
+      console.error('Photo compression/upload error:', err);
+      setPhotoError(err.message || 'Failed to process photo');
+    } finally {
+      setPhotoUploading(false);
+    }
   };
 
   const handleSaveFaculty = async (e) => {
@@ -1205,7 +1249,7 @@ export default function App() {
                     <div className="flex items-start gap-4 mb-4">
                       <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-slate-100 bg-slate-50 shadow-inner flex-shrink-0">
                         <img
-                          src={fac.photo || '/assets/web/faculty-team-full.png'}
+                          src={resolvePhotoUrl(fac.photo)}
                           alt={fac.name}
                           className="w-full h-full object-cover"
                         />
@@ -1365,34 +1409,159 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Photo URL / Preset</label>
+                    {/* Direct Photo Upload & Auto-Reduction to KB */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                          Faculty Photo (Direct Upload from PC / Mobile)
+                        </label>
+                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                          Auto-reduces to ~40KB (Zero DB Load)
+                        </span>
+                      </div>
+
+                      {/* Hidden File Input */}
                       <input
-                        type="text"
-                        value={facultyForm.photo}
-                        onChange={(e) => setFacultyForm({ ...facultyForm, photo: e.target.value })}
-                        placeholder="/assets/web/founder-chauhan.jpg"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono"
+                        type="file"
+                        id="faculty-photo-input"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                        className="hidden"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            handlePhotoUpload(e.target.files[0]);
+                          }
+                        }}
                       />
-                      {/* Presets */}
-                      <div className="flex flex-wrap items-center gap-1.5 mt-2">
-                        <span className="text-[10px] font-bold text-slate-400">Presets:</span>
-                        {[
-                          { label: 'Chauhan Sir', url: '/assets/web/founder-chauhan.jpg' },
-                          { label: 'Jaivir Sir', url: '/assets/web/founder-jaivir.jpg' },
-                          { label: 'Ashlesha Ma’am', url: '/assets/web/founder-ashlesha.jpg' },
-                          { label: 'Chaurasia Sir', url: '/assets/web/founder-chaurasia.jpg' },
-                          { label: 'Team Group', url: '/assets/web/faculty-team-full.png' }
-                        ].map((pr, pIdx) => (
-                          <button
-                            key={pIdx}
-                            type="button"
-                            onClick={() => setFacultyForm({ ...facultyForm, photo: pr.url })}
-                            className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded text-[10px] font-semibold transition"
-                          >
-                            {pr.label}
-                          </button>
-                        ))}
+
+                      {/* Photo Preview Card or Upload Zone */}
+                      {facultyForm.photo && facultyForm.photo !== '/assets/web/faculty-team-full.png' ? (
+                        <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3.5 min-w-0">
+                            <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-brand-yellow shadow-sm flex-shrink-0 bg-white">
+                              <img
+                                src={resolvePhotoUrl(facultyForm.photo)}
+                                alt="Faculty preview"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                                <span>Photo Compressed &amp; Ready</span>
+                              </div>
+                              {photoStats ? (
+                                <p className="text-[11px] font-semibold text-emerald-600 mt-0.5">
+                                  {photoStats.origKb} KB ➔ <span className="font-extrabold">{photoStats.compKb} KB</span> ({photoStats.savedPercent}% saved!)
+                                </p>
+                              ) : (
+                                <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5 max-w-[220px]">
+                                  {facultyForm.photo}
+                                </p>
+                              )}
+                              <p className="text-[10px] text-slate-400 mt-0.5">Reduced to KB to keep database fast</p>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col gap-1.5 flex-shrink-0">
+                            <label
+                              htmlFor="faculty-photo-input"
+                              className="px-3.5 py-1.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-brand-yellow text-xs font-bold cursor-pointer text-center transition shadow-sm"
+                            >
+                              Change Photo
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFacultyForm({ ...facultyForm, photo: '/assets/web/faculty-team-full.png' });
+                                setPhotoStats(null);
+                              }}
+                              className="px-3 py-1 text-slate-400 hover:text-rose-600 text-[11px] font-semibold text-center transition"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label
+                          htmlFor="faculty-photo-input"
+                          className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer transition text-center ${
+                            photoUploading
+                              ? 'bg-amber-50/50 border-brand-yellow cursor-wait'
+                              : 'border-slate-300 hover:border-brand-yellow bg-slate-50/70 hover:bg-amber-50/30'
+                          }`}
+                        >
+                          {photoUploading ? (
+                            <div className="flex flex-col items-center py-2">
+                              <div className="w-8 h-8 border-3 border-brand-navy border-t-brand-yellow rounded-full animate-spin mb-2" />
+                              <p className="text-xs font-bold text-slate-800">Compressing &amp; Optimizing to KB...</p>
+                              <p className="text-[11px] text-slate-500">Shrinking image for fast database saving</p>
+                            </div>
+                          ) : (
+                            <>
+                              <div className="w-12 h-12 rounded-2xl bg-amber-100/80 text-brand-navy flex items-center justify-center mb-2.5 shadow-sm">
+                                <UploadCloud className="w-6 h-6 text-brand-yellowDark" />
+                              </div>
+                              <p className="text-xs font-bold text-slate-800">
+                                Click or Drag to Upload Photo from PC / Laptop / Mobile
+                              </p>
+                              <p className="text-[11px] text-slate-500 mt-0.5">
+                                Supports JPG, PNG, WebP • Auto-reduces camera photos to ~40KB
+                              </p>
+                              <div className="inline-flex items-center gap-1.5 mt-2.5 px-3 py-1 rounded-full bg-slate-200/60 text-slate-600 text-[10px] font-bold">
+                                <Camera className="w-3.5 h-3.5 text-brand-yellowDark" /> Mobile Camera / Gallery Supported
+                              </div>
+                            </>
+                          )}
+                        </label>
+                      )}
+
+                      {photoError && (
+                        <p className="text-xs text-rose-600 font-semibold">{photoError}</p>
+                      )}
+
+                      {/* Collapsible custom URL & presets */}
+                      <div className="pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setShowCustomUrl(!showCustomUrl)}
+                          className="text-[11px] font-semibold text-slate-500 hover:text-brand-navy underline transition flex items-center gap-1"
+                        >
+                          {showCustomUrl ? '▼ Hide URL & Presets' : '▶ Or enter custom URL / choose presets'}
+                        </button>
+
+                        {showCustomUrl && (
+                          <div className="mt-2 p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                            <input
+                              type="text"
+                              value={facultyForm.photo}
+                              onChange={(e) => setFacultyForm({ ...facultyForm, photo: e.target.value })}
+                              placeholder="https://... or /assets/web/founder-chauhan.jpg"
+                              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-mono"
+                            />
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <span className="text-[10px] font-bold text-slate-400">Presets:</span>
+                              {[
+                                { label: 'Chauhan Sir', url: '/assets/web/founder-chauhan.jpg' },
+                                { label: 'Jaivir Sir', url: '/assets/web/founder-jaivir.jpg' },
+                                { label: 'Ashlesha Ma’am', url: '/assets/web/founder-ashlesha.jpg' },
+                                { label: 'Chaurasia Sir', url: '/assets/web/founder-chaurasia.jpg' },
+                                { label: 'Team Group', url: '/assets/web/faculty-team-full.png' }
+                              ].map((pr, pIdx) => (
+                                <button
+                                  key={pIdx}
+                                  type="button"
+                                  onClick={() => {
+                                    setFacultyForm({ ...facultyForm, photo: pr.url });
+                                    setPhotoStats(null);
+                                  }}
+                                  className="px-2 py-0.5 bg-white hover:bg-slate-200 text-slate-600 rounded text-[10px] font-semibold border border-slate-200 transition"
+                                >
+                                  {pr.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Award, BookOpen, Star, GraduationCap, ArrowRight, Sparkles } from 'lucide-react';
+import { resolvePhotoUrl } from '../utils/imageUtils';
 
 const DEFAULT_FOUNDERS = [
   {
@@ -91,7 +92,7 @@ export default function FacultySection({ onOpenTeam }) {
               <div className="relative mx-auto mb-5">
                 <div className="w-36 h-36 rounded-2xl overflow-hidden border-4 border-white shadow-md group-hover:border-brand-yellow transition duration-300 bg-slate-100">
                   <img
-                    src={f.photo || '/assets/web/faculty-team-full.png'}
+                    src={resolvePhotoUrl(f.photo)}
                     alt={f.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />

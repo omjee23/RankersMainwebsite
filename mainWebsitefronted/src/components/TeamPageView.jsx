@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Calendar
 } from 'lucide-react';
+import { resolvePhotoUrl } from '../utils/imageUtils';
 
 const FALLBACK_FACULTY = [
   {
@@ -229,7 +230,7 @@ export default function TeamPageView({ onBack, onOpenEnquiry }) {
                 <div className="relative mx-auto mb-5">
                   <div className="w-40 h-40 rounded-2xl overflow-hidden border-4 border-slate-100 shadow-md group-hover:border-brand-yellow transition duration-300 bg-slate-50">
                     <img
-                      src={f.photo || '/assets/web/faculty-team-full.png'}
+                      src={resolvePhotoUrl(f.photo)}
                       alt={f.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     />

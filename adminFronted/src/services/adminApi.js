@@ -234,6 +234,20 @@ export const adminApi = {
   },
 
   // Faculty & Mentors Management
+  async uploadFacultyPhoto(fileOrBlob, filename = 'faculty.jpg') {
+    try {
+      const formData = new FormData();
+      formData.append('photo', fileOrBlob, filename);
+      const res = await fetch(`${API_BASE_URL}/faculty/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  },
+
   async getFaculty(query = {}) {
     try {
       const qs = new URLSearchParams(query).toString();
