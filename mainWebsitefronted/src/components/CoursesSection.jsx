@@ -298,69 +298,76 @@ const COURSE_CARDS = [
   }
 ];
 
-export default function CoursesSection({ onOpenEnquiry, onOpenRSAT }) {
+export default function CoursesSection({ onOpenEnquiry, onOpenRSAT, onOpenRankX }) {
   const [selectedCourse, setSelectedCourse] = useState(null);
 
   return (
-    <section id="courses" className="py-16 sm:py-20 bg-white">
+    <section id="courses" className="py-12 sm:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Heading matching screenshot */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
+        {/* Anchor alias for courses-fee */}
+        <div id="courses-fee" className="-mt-12 pt-12"></div>
+      
+      {/* Section Heading matching screenshot */}
+      <div className="mb-8 sm:mb-10 text-left">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Courses &amp; Fee
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-              Top-ranked classroom and digital learning programs for JEE, NEET, and Olympiads
-            </p>
+            <div className="w-20 h-1 bg-brand-yellow mt-2 rounded-full"></div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold text-brand-navy bg-brand-yellow/20 px-3.5 py-1 rounded-full border border-brand-yellow/40">
-              🎓 Up to 90% Fee Waiver via RSAT
-            </span>
-          </div>
+          <span className="text-[11px] font-bold text-brand-navy bg-brand-yellow/20 px-3.5 py-1 rounded-full border border-brand-yellow/40 w-fit">
+            🎓 Up to 90% Scholarship Waiver via RSAT
+          </span>
         </div>
+      </div>
 
-        {/* 5 Cards Row matching screenshot */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-          {COURSE_CARDS.map((course) => {
-            const Illustration = course.illustration;
-            return (
-              <div
-                key={course.id}
-                className="bg-[#EDF3FA] rounded-2xl p-5 border border-slate-200/60 shadow-sm hover:shadow-md hover:border-brand-yellow/60 transition-all duration-300 flex flex-col justify-between group"
-              >
-                <div>
-                  {/* Top Illustration */}
-                  <div className="flex items-center justify-center pt-2 pb-3">
-                    <Illustration />
-                  </div>
-
-                  {/* Title matching screenshot */}
-                  <h3 className="text-[15px] sm:text-base font-black text-slate-900 leading-snug mt-3 mb-2 group-hover:text-brand-navy transition">
-                    {course.title}
-                  </h3>
-
-                  {/* Description matching screenshot */}
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal mb-5">
-                    {course.desc}
-                  </p>
+      {/* 5 Cards Row matching screenshot */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+        {COURSE_CARDS.map((course) => {
+          const Illustration = course.illustration;
+          return (
+            <div
+              key={course.id}
+              className="bg-[#EDF3FA] rounded-2xl p-5 border border-slate-200/70 shadow-sm hover:shadow-lg hover:border-brand-yellow/80 transition-all duration-300 flex flex-col justify-between group"
+            >
+              <div>
+                {/* Top Illustration */}
+                <div className="flex items-center justify-center pt-2 pb-3">
+                  <Illustration />
                 </div>
 
-                {/* Bottom Yellow "Click Here" Button matching screenshot */}
-                <div className="pt-2">
-                  <button
-                    onClick={() => setSelectedCourse(course)}
-                    className="px-4 py-2 bg-[#FFB800] hover:bg-[#F59E0B] text-slate-900 font-extrabold text-xs rounded-md shadow-sm transition duration-200 inline-flex items-center gap-1.5"
-                  >
-                    <span>Click Here</span>
-                  </button>
+                {/* Title matching screenshot */}
+                <h3 className="text-[15px] sm:text-base font-black text-slate-900 leading-snug mt-3 mb-2 group-hover:text-brand-navy transition min-h-[44px]">
+                  {course.title}
+                </h3>
+
+                {/* Description matching screenshot */}
+                <p className="text-xs text-slate-600 leading-relaxed font-normal mb-4 min-h-[72px]">
+                  {course.desc}
+                </p>
+
+                {/* Quick Fee Row */}
+                <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-xs">
+                  <span className="font-black text-brand-navy text-[13px]">{course.tuitionFee}</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase">{course.badge}</span>
                 </div>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Bottom Yellow "Click Here" Button matching screenshot */}
+              <div className="pt-3">
+                <button
+                  onClick={() => setSelectedCourse(course)}
+                  className="px-4 py-2 bg-[#FFB800] hover:bg-[#F59E0B] text-slate-950 font-black text-xs uppercase tracking-wider rounded-md shadow-sm transition duration-200 inline-flex items-center gap-1.5"
+                >
+                  <span>Click Here</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
         {/* Upcoming Batch Alert Banner (Dynamic) */}
         <div className="mt-12 bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">

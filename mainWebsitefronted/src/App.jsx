@@ -70,14 +70,15 @@ export default function App() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
             />
-            <FacultySection onOpenTeam={handleOpenTeam} />
             <CoursesSection
               onOpenEnquiry={() => {
                 const el = document.getElementById('contact');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
               onOpenRSAT={() => setIsRsatOpen(true)}
+              onOpenRankX={() => setIsRankXOpen(true)}
             />
+            <FacultySection onOpenTeam={handleOpenTeam} />
             <WhyUsSection />
             <GallerySection />
             <ContactAndEnquiry />
