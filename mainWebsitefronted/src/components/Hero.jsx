@@ -18,39 +18,39 @@ import {
   BookOpen
 } from 'lucide-react';
 
-export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry }) {
+export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry, onOpenAdmission }) {
   // Slider state
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // 4 Panoramic Slides (Exact Allen Style Banner Carousel)
+  // 4 Panoramic Slides (Panoramic Banner Carousel)
   const slides = [
     {
       id: 1,
       bgGradient: 'from-[#FFB800] via-[#FBBF24] to-[#F59E0B]',
-      badge: 'SAFALTA KA SANKALP • INDORE CAMPUSES',
+      badge: 'SAFALTA KA SANKALP • INDORE CAMPUS',
       titleHighlight: 'RANKERS PATH',
-      titleSub: 'NOW IN',
+      titleSub: 'AT',
       cityName: 'Indore',
       subtitle: 'Excellence in JEE and NEET preparation is closer than ever.',
-      features: ['Vijay Nagar & Palasia Campuses', '25+ Yrs Exp. Core Founding Mentors', 'Strictly 30 Students per Batch'],
-      ctaText: 'Register for RankX 2026',
+      features: ['Vijay Nagar Main Campus, Indore', '25+ Yrs Exp. Core Founding Mentors', 'Strictly 30 Students per Batch'],
+      ctaText: 'Register for RANKEX 2027',
       ctaAction: onOpenRankX,
-      secondaryText: 'Explore Indore Campuses',
-      secondaryLink: '#centres'
+      secondaryText: 'Official Admission Form',
+      secondaryAction: onOpenAdmission
     },
     {
       id: 2,
       bgGradient: 'from-[#0B1B3D] via-[#102A5C] to-[#0B1B3D]',
       isDark: true,
-      badge: 'OFFLINE SCHOLARSHIP EXAM',
-      titleHighlight: 'RankX 2026',
+      badge: 'SCHOLARSHIP ENTRANCE EXAM',
+      titleHighlight: 'RANKEX 2027',
       titleSub: 'WIN UP TO',
       cityName: '100% Scholarship',
-      subtitle: 'Appear physically at Indore test centres. Win tuition fee waivers and merit cash awards.',
-      features: ['Vijay Nagar, Palasia & Bhawarkua Centres', 'Digital Admit Card with QR', 'Zero Registration Fee'],
-      ctaText: 'Download Admit Card',
+      subtitle: 'Appear Online or Offline at Indore campus. Win tuition fee waivers and merit cash awards.',
+      features: ['Vijay Nagar Main Campus & Online CBT', 'Digital Admit Card with QR', '100% Tuition Fee Scholarship'],
+      ctaText: 'Register for RANKEX',
       ctaAction: onOpenRankX,
-      secondaryText: 'Take Online RSAT Test',
+      secondaryText: 'Take RSAT Exam',
       secondaryAction: onOpenRSAT
     },
     {
@@ -106,7 +106,7 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry }) {
     <div className="w-full bg-[#FCFCFC]" id="hero">
 
       {/* ============================================================== */}
-      {/* 1. HERO PANORAMIC BANNER CAROUSEL (Exact Allen Screenshot Style) */}
+      {/* 1. HERO PANORAMIC BANNER CAROUSEL */}
       {/* ============================================================== */}
       <div className="relative w-full overflow-hidden bg-slate-900 select-none">
         
@@ -141,6 +141,7 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry }) {
                       slide.isDark ? 'text-white' : 'text-brand-navy'
                     }`}>
                       {slide.titleHighlight}
+                      <span className="sr-only"> — Best NEET &amp; IIT-JEE Coaching Institute in Indore | Vijay Nagar Main Campus</span>
                     </h1>
                     <div className="flex items-center justify-center lg:justify-start gap-3">
                       <span className={`text-xl sm:text-2xl font-black uppercase tracking-wider ${
@@ -148,7 +149,11 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry }) {
                       }`}>
                         {slide.titleSub}
                       </span>
-                      <span className="font-serif italic text-3xl sm:text-5xl font-black text-[#0B1B3D] underline decoration-brand-yellow decoration-4 underline-offset-4">
+                      <span className={`font-serif italic text-3xl sm:text-5xl font-black underline decoration-4 underline-offset-4 ${
+                        slide.isDark
+                          ? 'text-amber-300 decoration-amber-400 drop-shadow-[0_2px_14px_rgba(251,191,36,0.45)]'
+                          : 'text-[#0B1B3D] decoration-brand-yellow'
+                      }`}>
                         {slide.cityName}
                       </span>
                     </div>

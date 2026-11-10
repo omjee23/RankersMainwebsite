@@ -1,0 +1,19 @@
+[
+  {
+    "id": "fee-config-default",
+    "createdAt": "2026-10-19T15:46:37.768Z",
+    "updatedAt": "2026-10-22T16:24:04.453Z",
+    "rsatFee": 100,
+    "rankxFee": 100,
+    "classroomTokenFee": 5000,
+    "testSeriesFee": 1500,
+    "dropperBatchFee": 110000,
+    "foundationFee": 65000,
+    "twoYearJeeNeetFee": 125000,
+    "gstRate": 18,
+    "allowCustomTuitionFee": true,
+    "minCustomFee": 500,
+    "notes": "Updated by Administrator",
+    "updatedBy": "Director Admin"
+  }
+]

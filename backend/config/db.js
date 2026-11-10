@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const { DEFAULT_CENTRES, DEFAULT_FACULTY } = require('./constants');
+const { DEFAULT_CENTRES, DEFAULT_FACULTY, DEFAULT_TEST_STUDENTS, DEFAULT_COURSES, DEFAULT_ADMISSIONS, DEFAULT_STUDY_MATERIALS, DEFAULT_LIVE_CLASSES, DEFAULT_RECORDED_LECTURES } = require('./constants');
+const { generateAdmitCardQR } = require('../services/qrCodeService');
 
 const DATA_DIR = path.join(__dirname, '../data');
 
@@ -14,6 +15,7 @@ class Collection {
   constructor(name) {
     this.name = name;
     this.filePath = path.join(DATA_DIR, `${name}.json`);
+    this._saveTimer = null;
     this.data = this._load();
   }
 
@@ -29,11 +31,35 @@ class Collection {
     return [];
   }
 
-  _save() {
+  /**
+   * Atomic, debounced disk write to handle thousands of concurrent requests
+   * Updates in-memory immediately, flushes to NVMe SSD in 50ms batch
+   */
+  _save(immediate = false) {
+    if (immediate) {
+      if (this._saveTimer) {
+        clearTimeout(this._saveTimer);
+        this._saveTimer = null;
+      }
+      this._flush();
+      return;
+    }
+
+    if (!this._saveTimer) {
+      this._saveTimer = setTimeout(() => {
+        this._saveTimer = null;
+        this._flush();
+      }, 50); // 50ms write-coalescing window
+    }
+  }
+
+  _flush() {
     try {
-      fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2), 'utf-8');
+      const tempPath = `${this.filePath}.${process.pid}.${Date.now()}.${Math.floor(Math.random() * 1000)}.tmp`;
+      fs.writeFileSync(tempPath, JSON.stringify(this.data, null, 2), 'utf-8');
+      fs.renameSync(tempPath, this.filePath);
     } catch (err) {
-      console.error(`Error saving collection ${this.name}:`, err.message);
+      console.error(`Error flushing collection ${this.name}:`, err.message);
     }
   }
 
@@ -109,11 +135,44 @@ const collections = {
   payments: new Collection('payments'),
   smsLogs: new Collection('sms_logs'),
   cmsContent: new Collection('cms_content'),
-  faculty: new Collection('faculty')
+  faculty: new Collection('faculty'),
+  courses: new Collection('courses'),
+  admissions: new Collection('admissions'),
+  studyMaterials: new Collection('study_materials'),
+  liveClasses: new Collection('live_classes'),
+  recordedLectures: new Collection('recorded_lectures'),
+  gallery: new Collection('gallery'),
+  feeSettings: new Collection('fee_settings'),
+  attendance: new Collection('attendance'),
+  testimonials: new Collection('testimonials')
 };
 
 // Auto-seed initial defaults if empty
-function initializeDatabase() {
+async function initializeDatabase() {
+  // Seed study materials
+  if (collections.studyMaterials.countDocuments() === 0 && DEFAULT_STUDY_MATERIALS) {
+    DEFAULT_STUDY_MATERIALS.forEach(mat => collections.studyMaterials.create(mat));
+    console.log('✅ Initial Study Materials seeded.');
+  }
+
+  // Seed live classes
+  if (collections.liveClasses.countDocuments() === 0 && DEFAULT_LIVE_CLASSES) {
+    DEFAULT_LIVE_CLASSES.forEach(lc => collections.liveClasses.create(lc));
+    console.log('✅ Initial Live Classes & Timetable seeded.');
+  }
+
+  // Seed recorded lectures
+  if (collections.recordedLectures.countDocuments() === 0 && DEFAULT_RECORDED_LECTURES) {
+    DEFAULT_RECORDED_LECTURES.forEach(rec => collections.recordedLectures.create(rec));
+    console.log('✅ Initial Recorded Lectures seeded.');
+  }
+
+  // Seed admissions (disabled auto-seed for clean manual testing)
+  // if (collections.admissions.countDocuments() === 0 && DEFAULT_ADMISSIONS) {
+  //   DEFAULT_ADMISSIONS.forEach(adm => collections.admissions.create(adm));
+  //   console.log('✅ Initial Admission applications seeded.');
+  // }
+
   // Seed centres
   if (collections.centres.countDocuments() === 0) {
     DEFAULT_CENTRES.forEach(centre => collections.centres.create(centre));
@@ -124,7 +183,7 @@ function initializeDatabase() {
   if (collections.cmsContent.countDocuments() === 0) {
     collections.cmsContent.create({
       id: 'default-cms',
-      bannerNotice: 'Admissions Open for NEET & IIT-JEE 2026-27 | RankX Scholarship Test Registrations Open!',
+      bannerNotice: 'Admissions Open for NEET & IIT-JEE 2026-27 | RANKEX Scholarship Test Registrations Open!',
       nextBatchDate: '24 June 2026',
       dropperBatchAlert: 'NEET Dropper Batch starting 24 June 2026. Limited seats per batch (30 students only).',
       helplinePhone: '9131435511',
@@ -141,9 +200,58 @@ function initializeDatabase() {
     DEFAULT_FACULTY.forEach(fac => collections.faculty.create(fac));
     console.log('✅ Initial Faculty members seeded.');
   }
+
+  // Seed default courses
+  if (collections.courses.countDocuments() === 0) {
+    DEFAULT_COURSES.forEach(course => collections.courses.create(course));
+    console.log('✅ Initial Courses seeded.');
+  }
+
+  // Seed default fee configuration
+  if (collections.feeSettings.countDocuments() === 0) {
+    collections.feeSettings.create({
+      id: 'fee-config-default',
+      rsatFee: 100,
+      rankxFee: 100,
+      classroomTokenFee: 5000,
+      testSeriesFee: 1500,
+      dropperBatchFee: 110000,
+      foundationFee: 65000,
+      twoYearJeeNeetFee: 125000,
+      gstRate: 18,
+      allowCustomTuitionFee: true,
+      minCustomFee: 500,
+      notes: 'Rankers Path Official Fee Structure decided by Admin',
+      updatedAt: new Date().toISOString()
+    });
+    console.log('✅ Initial Fee Settings seeded.');
+  }
+
+  // Seed test student accounts and registrations (disabled for clean manual testing)
+  // if (DEFAULT_TEST_STUDENTS && DEFAULT_TEST_STUDENTS.length > 0) { ... }
 }
+
+function flushAllCollections() {
+  Object.values(collections).forEach(coll => {
+    if (coll && typeof coll._save === 'function') {
+      coll._save(true);
+    }
+  });
+}
+
+// Ensure in-memory changes are immediately flushed on process shutdown
+process.on('SIGINT', () => {
+  flushAllCollections();
+});
+process.on('SIGTERM', () => {
+  flushAllCollections();
+});
+process.on('beforeExit', () => {
+  flushAllCollections();
+});
 
 module.exports = {
   collections,
-  initializeDatabase
+  initializeDatabase,
+  flushAllCollections
 };

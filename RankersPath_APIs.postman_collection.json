@@ -1,0 +1,826 @@
+{
+  "info": {
+    "_postman_id": "rankerspath-suite-2026-v1",
+    "name": "RankersPath Complete API Suite",
+    "description": "Full API Collection for RankersPath: Authentication, RSAT, RANKEX, Cashfree Payment Gateway, Admin Dashboard, Exams, and Admissions.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Health & Diagnostics",
+      "item": [
+        {
+          "name": "Check Server Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Verify backend server status and response time"
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Admin / Staff Login (Auto-saves {{admin_token}})",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data && jsonData.data.token) {",
+                  "    pm.environment.set('admin_token', jsonData.data.token);",
+                  "    console.log('✅ Admin token saved automatically:', jsonData.data.token.slice(0, 15) + '...');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@rankerspath.in\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/staff-login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "staff-login"
+              ]
+            },
+            "description": "Logs in as Super Admin and stores JWT in {{admin_token}}"
+          }
+        },
+        {
+          "name": "RSAT Student Login (Auto-saves {{student_token}})",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data && jsonData.data.token) {",
+                  "    pm.environment.set('student_token', jsonData.data.token);",
+                  "    console.log('✅ Student token saved automatically:', jsonData.data.token.slice(0, 15) + '...');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rsat.student@test.com\",\n  \"password\": \"Student@123\",\n  \"originExam\": \"RSAT\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/student-email-login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "student-email-login"
+              ]
+            },
+            "description": "Logs in as RSAT Student and stores JWT in {{student_token}}"
+          }
+        },
+        {
+          "name": "Student Signup (New RSAT / RANKEX Aspirant)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Harsh Vardhan\",\n  \"email\": \"harsh.test.0844@gmail.com\",\n  \"mobile\": \"9826041631\",\n  \"password\": \"Student@123\",\n  \"targetStream\": \"IIT_JEE\",\n  \"targetClass\": \"Class 11\",\n  \"originExam\": \"RSAT\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/student-email-signup",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "student-email-signup"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Enrolled Student ID Login (Rankers@1001)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"Rankers@1001\",\n  \"password\": \"Rankers#1001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/student-id-login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "student-id-login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Current Profile (/me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. RSAT Scholarship Portal",
+      "item": [
+        {
+          "name": "Register Candidate for RSAT (₹100)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Rohan Agrawal\",\n  \"mobile\": \"9826011223\",\n  \"stream\": \"IIT_JEE\",\n  \"targetClass\": \"Class 11\",\n  \"schoolName\": \"DPS Indore\",\n  \"preferredCentre\": \"Vijay Nagar Main Campus\",\n  \"paymentMode\": \"UPI\",\n  \"transactionId\": \"TXN-RSAT-TEST-01\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/rsat/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rsat",
+                "register"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check RSAT Fee Status by Mobile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rsat/check-status/9826111111",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rsat",
+                "check-status",
+                "9826111111"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My RSAT Dashboard Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rsat/my-status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rsat",
+                "my-status"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Schedule RSAT Exam Slot (Immediate / Later)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobile\": \"9826111111\",\n  \"scheduledDate\": \"Today\",\n  \"scheduledTimeSlot\": \"Immediate (Now)\",\n  \"mode\": \"NOW\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/rsat/schedule-slot",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rsat",
+                "schedule-slot"
+              ]
+            }
+          }
+        },
+        {
+          "name": "RSAT Command Center (Admin View)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rsat/command-center",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rsat",
+                "command-center"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. RANKEX 2027 Exam Portal",
+      "item": [
+        {
+          "name": "Get Available Test Centres",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rankx/centres",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rankx",
+                "centres"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register Candidate for RANKEX",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Priya Sharma\",\n  \"fatherName\": \"Rajesh Sharma\",\n  \"mobile\": \"9826222333\",\n  \"email\": \"priya.sharma@example.com\",\n  \"targetClass\": \"Class 12\",\n  \"stream\": \"IIT_JEE\",\n  \"schoolName\": \"Shishukunj International School\",\n  \"centreId\": \"centre-vijay-nagar\",\n  \"examMode\": \"ONLINE\",\n  \"paymentMode\": \"UPI\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/rankx/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rankx",
+                "register"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check RANKEX Fee & Admit Card Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rankx/fee-status/9826222222",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rankx",
+                "fee-status",
+                "9826222222"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My RANKEX Registration & Admit Card",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rankx/my-registration",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rankx",
+                "my-registration"
+              ]
+            }
+          }
+        },
+        {
+          "name": "RANKEX Command Center (Admin View)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rankx/command-center",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rankx",
+                "command-center"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Cashfree Payment Gateway (PG v3)",
+      "item": [
+        {
+          "name": "1. Create Cashfree Order (Auto-saves {{order_id}})",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data) {",
+                  "    if (jsonData.data.order_id) {",
+                  "        pm.environment.set('order_id', jsonData.data.order_id);",
+                  "        console.log('✅ order_id saved:', jsonData.data.order_id);",
+                  "    }",
+                  "    if (jsonData.data.payment_session_id) {",
+                  "        pm.environment.set('payment_session_id', jsonData.data.payment_session_id);",
+                  "        console.log('✅ payment_session_id saved:', jsonData.data.payment_session_id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1,\n  \"currency\": \"INR\",\n  \"purpose\": \"REAL_GATEWAY_TEST\",\n  \"orderNote\": \"Postman Live Test\",\n  \"customerDetails\": {\n    \"name\": \"Aman Sharma\",\n    \"phone\": \"9876543210\",\n    \"email\": \"student@rankerspath.in\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments/cashfree/create-order",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments",
+                "cashfree",
+                "create-order"
+              ]
+            },
+            "description": "Creates Cashfree order on Sandbox/Production and returns payment_session_id"
+          }
+        },
+        {
+          "name": "2. Verify Cashfree Payment by order_id",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{order_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments/cashfree/verify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments",
+                "cashfree",
+                "verify"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3. Check Order / Fee Receipt Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments/cashfree/status/{{order_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments",
+                "cashfree",
+                "status",
+                "{{order_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Fee Configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fees/config",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fees",
+                "config"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Admin Dashboard & Reports",
+      "item": [
+        {
+          "name": "Get Admin Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "stats"
+              ]
+            },
+            "description": "Total students, revenue, admissions, test series stats"
+          }
+        },
+        {
+          "name": "List All Registered Students",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/students",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "students"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List All Payment Records",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "payments"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List All Exam Submissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/submissions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "submissions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List All Exam Test Papers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/tests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "tests"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get SMS Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/sms-logs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "sms-logs"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Online CBT Exam Engine",
+      "item": [
+        {
+          "name": "Get Available Exams",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/exam/tests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "exam",
+                "tests"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get RSAT Exam Questions Paper",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/exam/test-rsat-scholarship",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "exam",
+                "test-rsat-scholarship"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Submit CBT Exam Answers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{student_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"examId\": \"test-rsat-scholarship\",\n  \"studentId\": \"student-test-rsat-01\",\n  \"studentName\": \"Rahul Sharma\",\n  \"rollNumber\": \"RSAT-2026-0101\",\n  \"answers\": {\n    \"q1\": \"B\",\n    \"q2\": \"A\",\n    \"q3\": \"C\"\n  },\n  \"timeSpentSeconds\": 1200,\n  \"autoSubmitted\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/exam/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "exam",
+                "submit"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Admissions & Courses",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/courses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "courses"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Submit New Admission Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Ananya Rathore\",\n  \"fatherName\": \"Sanjay Rathore\",\n  \"mobile\": \"9826044556\",\n  \"email\": \"ananya.rathore@example.com\",\n  \"targetCourse\": \"JEE (Main + Advanced) 2-Year\",\n  \"targetClass\": \"Class 11\",\n  \"centre\": \"Vijay Nagar Main Campus\",\n  \"address\": \"Indore, MP\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admissions/apply",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admissions",
+                "apply"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Admissions (Admin View)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admissions/list",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admissions",
+                "list"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

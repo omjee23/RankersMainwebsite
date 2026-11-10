@@ -58,7 +58,7 @@ const FALLBACK_FACULTY = [
     subject: 'Mathematics',
     exp: '30+ Years Experience',
     photo: '/assets/web/founder-chaurasia.jpg',
-    bio: 'Former senior faculty at FIITJEE and Allen. Master of competitive problem solving, guiding students to qualify NTSE, IMO, JSO, IQMO, and Olympiads.',
+    bio: 'Former senior faculty at premier national institutes. Master of competitive problem solving, guiding students to qualify NTSE, IMO, JSO, IQMO, and Olympiads.',
     showOnHome: true,
     order: 4
   },
@@ -124,7 +124,7 @@ export default function TeamPageView({ onBack, onOpenEnquiry }) {
   const fetchFaculty = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5001/api/faculty');
+      const res = await fetch('http://localhost:5002/api/faculty');
       const json = await res.json();
       if (json.success && json.data && json.data.length > 0) {
         setFacultyList(json.data);

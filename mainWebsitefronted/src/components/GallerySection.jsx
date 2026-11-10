@@ -1,30 +1,51 @@
-import React, { useState } from 'react';
-import { Image, X, ZoomIn } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Image as ImageIcon, X, ZoomIn, RefreshCw } from 'lucide-react';
 
-const galleryImages = [
-  { src: '/assets/web/gallery-1.jpg', title: 'Classroom Session in Progress', tag: 'Classroom' },
-  { src: '/assets/web/gallery-2.jpg', title: 'Students at Rankers Path Study Hall', tag: 'Campus' },
-  { src: '/assets/web/gallery-3.jpg', title: 'Dedicated Doubt Solving Hour', tag: 'Mentorship' },
-  { src: '/assets/web/gallery-4.jpg', title: 'Student Felicitation & Result Celebration', tag: 'Celebration' },
-  { src: '/assets/web/gallery-5.jpg', title: 'Interactive Science Concept Demonstration', tag: 'Classroom' },
-  { src: '/assets/web/gallery-6.jpg', title: 'Focused Preparation & Test Session', tag: 'Tests' },
-  { src: '/assets/web/gallery-7.jpg', title: 'Annual Student Gathering & Motivation', tag: 'Celebration' },
-  { src: '/assets/web/gallery-8.jpg', title: 'Faculty Discussion with Parents & Students', tag: 'Mentorship' },
-  { src: '/assets/web/gallery-9.jpg', title: 'Rank Holders Recognition Ceremony', tag: 'Celebration' },
-  { src: '/assets/web/gallery-10.jpg', title: 'Small Batch Learning Environment', tag: 'Classroom' },
-  { src: '/assets/web/gallery-11.jpg', title: 'Biology Diagram & Concept Mastery', tag: 'Classroom' },
-  { src: '/assets/web/gallery-12.jpg', title: 'Celebration of Success with Teachers', tag: 'Celebration' }
+const DEFAULT_GALLERY_IMAGES = [
+  { id: 'def-1', src: '/assets/web/gallery-1.jpg', title: 'Classroom Session in Progress', tag: 'Classroom' },
+  { id: 'def-2', src: '/assets/web/gallery-2.jpg', title: 'Students at Rankers Path Study Hall', tag: 'Campus' },
+  { id: 'def-3', src: '/assets/web/gallery-3.jpg', title: 'Dedicated Doubt Solving Hour', tag: 'Mentorship' },
+  { id: 'def-4', src: '/assets/web/gallery-4.jpg', title: 'Student Felicitation & Result Celebration', tag: 'Celebration' },
+  { id: 'def-5', src: '/assets/web/gallery-5.jpg', title: 'Interactive Science Concept Demonstration', tag: 'Classroom' },
+  { id: 'def-6', src: '/assets/web/gallery-6.jpg', title: 'Focused Preparation & Test Session', tag: 'Classroom' },
+  { id: 'def-7', src: '/assets/web/gallery-7.jpg', title: 'Annual Student Gathering & Motivation', tag: 'Celebration' },
+  { id: 'def-8', src: '/assets/web/gallery-8.jpg', title: 'Faculty Discussion with Parents & Students', tag: 'Mentorship' },
+  { id: 'def-9', src: '/assets/web/gallery-9.jpg', title: 'Rank Holders Recognition Ceremony', tag: 'Celebration' },
+  { id: 'def-10', src: '/assets/web/gallery-10.jpg', title: 'Small Batch Learning Environment', tag: 'Classroom' },
+  { id: 'def-11', src: '/assets/web/gallery-11.jpg', title: 'Biology Diagram & Concept Mastery', tag: 'Classroom' },
+  { id: 'def-12', src: '/assets/web/gallery-12.jpg', title: 'Celebration of Success with Teachers', tag: 'Celebration' }
 ];
 
 export default function GallerySection() {
+  const [images, setImages] = useState(DEFAULT_GALLERY_IMAGES);
   const [selectedImg, setSelectedImg] = useState(null);
   const [activeFilter, setActiveFilter] = useState('All');
+  const [loading, setLoading] = useState(false);
 
-  const filters = ['All', 'Classroom', 'Celebration', 'Mentorship'];
+  const filters = ['All', 'Classroom', 'Celebration', 'Mentorship', 'Campus'];
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch('http://localhost:5002/api/gallery');
+        const data = await res.json();
+        if (data && data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setImages(data.data);
+        }
+      } catch (err) {
+        console.warn('Using default gallery photos:', err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGallery();
+  }, []);
 
   const filteredImages = activeFilter === 'All'
-    ? galleryImages
-    : galleryImages.filter(img => img.tag === activeFilter);
+    ? images
+    : images.filter(img => (img.tag || '').toLowerCase() === activeFilter.toLowerCase());
 
   return (
     <section id="gallery" className="py-20 bg-[#F8FAFC]">
@@ -33,7 +54,7 @@ export default function GallerySection() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow/15 text-brand-navy font-extrabold text-xs uppercase tracking-wider mb-3">
-            <Image className="w-4 h-4 text-brand-yellowDark" /> Campus Life &amp; Celebrations
+            <ImageIcon className="w-4 h-4 text-brand-yellowDark" /> Campus Life &amp; Celebrations
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Life at Rankers Path
@@ -64,14 +85,18 @@ export default function GallerySection() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {filteredImages.map((img, idx) => (
             <div
-              key={idx}
+              key={img.id || idx}
               onClick={() => setSelectedImg(img)}
               className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl bg-slate-100 aspect-video cursor-pointer border border-slate-200 transition-all duration-300 transform hover:-translate-y-1"
             >
               <img
                 src={img.src}
-                alt={img.title}
+                alt={img.title ? `${img.title} — Rankers Path Indore Campus Gallery` : 'Rankers Path Vijay Nagar Indore Campus Photo'}
                 loading="lazy"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/assets/web/gallery-1.jpg';
+                }}
                 className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
               />
               
@@ -112,7 +137,11 @@ export default function GallerySection() {
             </button>
             <img
               src={selectedImg.src}
-              alt={selectedImg.title}
+              alt={selectedImg.title ? `${selectedImg.title} — Rankers Path Indore` : 'Rankers Path Indore Campus Moment'}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/assets/web/gallery-1.jpg';
+              }}
               className="w-full max-h-[75vh] object-contain bg-black"
             />
             <div className="p-5 bg-slate-900 text-white flex items-center justify-between">

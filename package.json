@@ -1,12 +1,16 @@
 {
   "name": "rankers-path-project",
   "version": "1.0.0",
-  "description": "Rankers Path Coaching Institute Complete Digital Platform",
+  "description": "Rankers Path Coaching Institute Complete Digital 3-Tier Platform",
   "scripts": {
+    "start": "bash run_all.sh",
+    "dev": "bash run_all.sh",
     "start:backend": "cd backend && node server.js",
     "dev:backend": "cd backend && node --watch server.js",
     "dev:web": "cd mainWebsitefronted && npm run dev",
     "dev:admin": "cd adminFronted && npm run dev",
+    "build:web": "cd mainWebsitefronted && npm run build",
+    "build:admin": "cd adminFronted && npm run build",
     "build:all": "cd mainWebsitefronted && npm run build && cd ../adminFronted && npm run build"
   }
 }

@@ -1,0 +1,21 @@
+{
+  "short_name": "Rankers Path",
+  "name": "Rankers Path — Best NEET & IIT-JEE Coaching Institute in Indore",
+  "icons": [
+    {
+      "src": "/assets/web/favicon-32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/assets/web/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0A192F",
+  "theme_color": "#0A192F",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -8,21 +8,49 @@ const fs = require('fs');
  */
 async function createQuestion(req, res, next) {
   try {
-    const { subject, topic, questionText, options, correctOption, explanation, classLevel, stream } = req.body;
+    const {
+      testId,
+      examType,
+      subject,
+      section,
+      questionType,
+      topic,
+      questionText,
+      options,
+      correctOption,
+      correctAnswer,
+      correctOptions,
+      explanation,
+      classLevel,
+      stream,
+      rangeMin,
+      rangeMax,
+      tolerance,
+      targetCategory
+    } = req.body;
 
-    if (!subject || !questionText || !options || options.length < 2 || correctOption === undefined) {
-      return errorResponse(res, 'Please provide subject, questionText, at least 2 options, and correctOption index.', 400);
+    if (!subject || !questionText) {
+      return errorResponse(res, 'Please provide subject and questionText.', 400);
     }
 
     const question = collections.questions.create({
+      testId: testId || null,
+      examType: examType || (stream === 'JEE' ? 'JEE_MAIN' : stream === 'FOUNDATION' ? 'FOUNDATION' : 'NEET'),
       subject,
+      section: section || 'Section A',
+      questionType: questionType || (options && options.length > 0 ? 'MCQ' : (rangeMin !== undefined && rangeMax !== undefined ? 'NAT_RANGE' : 'NUMERICAL')),
       topic: topic || 'General',
       questionText,
-      options,
-      correctOption: Number(correctOption),
+      options: options || [],
+      correctOption: correctOption !== undefined ? Number(correctOption) : 0,
+      correctAnswer: correctAnswer !== undefined ? correctAnswer : (correctOptions || correctOption),
+      rangeMin: rangeMin !== undefined && rangeMin !== null && rangeMin !== '' ? Number(rangeMin) : null,
+      rangeMax: rangeMax !== undefined && rangeMax !== null && rangeMax !== '' ? Number(rangeMax) : null,
+      tolerance: tolerance !== undefined && tolerance !== null && tolerance !== '' ? Number(tolerance) : null,
+      targetCategory: targetCategory || 'ALL',
       explanation: explanation || '',
       classLevel: classLevel || 'Class 11',
-      stream: stream || 'NEET'
+      stream: stream || (examType === 'JEE_MAIN' || examType === 'JEE_ADVANCED' ? 'JEE' : examType === 'FOUNDATION' ? 'FOUNDATION' : 'NEET')
     });
 
     return successResponse(res, 'Question added successfully', question, 201);

@@ -8,6 +8,7 @@ const DEFAULT_FOUNDERS = [
     name: 'Sanjay Chauhan',
     degree: 'M.Sc Biology (Zoo.), Gold Medalist',
     role: 'Biology Faculty',
+    subject: 'Biology',
     exp: '28+ Years Experience',
     photo: '/assets/web/founder-chauhan.jpg',
     bio: 'Has taught 30,000+ students across premier national institutes. Produced Rank 1–2, Top 10, and Top 100 results in NEET, AIIMS, AFMC, and state PMTs.'
@@ -17,6 +18,7 @@ const DEFAULT_FOUNDERS = [
     name: 'Jaivir Singh',
     degree: 'B.Tech',
     role: 'Physics Faculty',
+    subject: 'Physics',
     exp: '23+ Years Experience',
     photo: '/assets/web/founder-jaivir.jpg',
     bio: 'Has taught 20,000+ students across top institutes in Indore and Bhopal. Mentored Top 10 and Top 100 ranks in IIT-JEE, NEET, and the Physics Olympiad.'
@@ -26,6 +28,7 @@ const DEFAULT_FOUNDERS = [
     name: 'Ashlesha Phadnis',
     degree: 'M.Sc Chemistry, B.Ed',
     role: 'Chemistry Faculty',
+    subject: 'Chemistry',
     exp: '30+ Years Experience',
     photo: '/assets/web/founder-ashlesha.jpg',
     bio: 'Veteran educator who has guided 30,000+ students over 3 decades, producing numerous Top 10 and Top 100 rank IITians and leading doctors across India.'
@@ -35,9 +38,30 @@ const DEFAULT_FOUNDERS = [
     name: 'Sanjay Chaurasia',
     degree: 'B.Sc, B.Ed, MPA',
     role: 'Mathematics Faculty',
+    subject: 'Mathematics',
     exp: '30+ Years Experience',
     photo: '/assets/web/founder-chaurasia.jpg',
-    bio: 'Former senior faculty at FIITJEE and Allen. Master of competitive problem solving, guiding students to qualify NTSE, IMO, JSO, IQMO, and Olympiads.'
+    bio: 'Former senior faculty at premier national institutes. Master of competitive problem solving, guiding students to qualify NTSE, IMO, JSO, IQMO, and Olympiads.'
+  },
+  {
+    id: 'fac-sandeep',
+    name: 'Sandeep Bamnia',
+    degree: 'B.Tech (Physics Specialist)',
+    role: 'Senior Physics Mentor',
+    subject: 'Physics',
+    exp: '12+ Years Experience',
+    photo: '/assets/web/founder-sandeep.jpg',
+    bio: 'Specialist in Mechanics and Modern Physics with a track record of top IIT-JEE Advanced qualifiers in Central India.'
+  },
+  {
+    id: 'fac-ramakant',
+    name: 'Ramakant Deshmukh',
+    degree: 'M.Sc Botany',
+    role: 'Senior Botany Faculty',
+    subject: 'Biology',
+    exp: '32+ Years Experience',
+    photo: '/assets/web/founder-ramakant.jpg',
+    bio: 'Renowned expert in Plant Physiology and Genetics, simplifying complex NCERT concepts for maximum NEET scoring.'
   }
 ];
 
@@ -50,7 +74,7 @@ export default function FacultySection({ onOpenTeam }) {
 
   const fetchHomeFaculty = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/faculty?home=true');
+      const res = await fetch('http://localhost:5002/api/faculty?home=true');
       const json = await res.json();
       if (json.success && json.data && json.data.length > 0) {
         setFaculty(json.data);
@@ -81,8 +105,8 @@ export default function FacultySection({ onOpenTeam }) {
           </p>
         </div>
 
-        {/* Founding Mentors Grid (Matching screenshot layout) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Founding Mentors Grid (3, 3 ka pair: 3 on top, 3 on bottom) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {faculty.map((f, i) => (
             <div
               key={f.id || i}
@@ -93,7 +117,8 @@ export default function FacultySection({ onOpenTeam }) {
                 <div className="w-36 h-36 rounded-2xl overflow-hidden border-4 border-white shadow-md group-hover:border-brand-yellow transition duration-300 bg-slate-100">
                   <img
                     src={resolvePhotoUrl(f.photo)}
-                    alt={f.name}
+                    alt={`${f.name} — ${f.role || f.subject} Faculty Mentor at Rankers Path Indore`}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
                 </div>

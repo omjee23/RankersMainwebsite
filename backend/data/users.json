@@ -1,12 +1,39 @@
 [
   {
     "id": "b457373e-18ad-47c5-b12b-b90b3b058f09",
-    "createdAt": "2026-09-24T15:36:17.962Z",
-    "updatedAt": "2026-09-24T15:36:17.962Z",
+    "createdAt": "2026-11-04T16:17:24.566Z",
+    "updatedAt": "2026-11-04T16:17:24.567Z",
     "email": "admin@rankerspath.in",
     "fullName": "Super Administrator",
     "role": "admin",
     "mobile": "9131435511",
     "password": "$2b$10$dNMdcrMl3o8bGfn7d/ZYguxIu36ljRFUJF26PnE.97nhKes8G2gjm"
+  },
+  {
+    "id": "96137a73-ba5a-42e4-b858-c3f9340e58d5",
+    "createdAt": "2026-11-04T16:42:27.579Z",
+    "updatedAt": "2026-11-04T16:42:27.579Z",
+    "fullName": "OM JEE PAL",
+    "email": "om22@navgurukul.org",
+    "mobile": "8707258045",
+    "password": "$2b$10$ag4WV3Ffd4RHfgVcR1F7xeUhdKQXNUVxVBf7HWMNbvVbphIUXfugC",
+    "role": "student",
+    "targetStream": "NEET",
+    "targetClass": "11th",
+    "originExam": "RSAT",
+    "signupAt": "2026-11-04T16:42:27.579Z",
+    "lastLoginAt": "2026-11-04T16:42:27.579Z"
+  },
+  {
+    "id": "c973ee1d-b6b9-47a0-954a-7ee5f458fabf",
+    "createdAt": "2026-11-05T14:51:45.701Z",
+    "updatedAt": "2026-11-05T14:51:45.701Z",
+    "fullName": "rankex.student",
+    "email": "rankex.student@rankerspath.in",
+    "mobile": "9826222222",
+    "role": "student",
+    "originExam": "RANKEX",
+    "targetStream": "IIT-JEE",
+    "targetClass": "Class 11"
   }
 ]

@@ -12,23 +12,115 @@ import CbtExamModal from './components/CbtExamModal';
 import AuthModal from './components/AuthModal';
 import StudentDashboardView from './components/StudentDashboardView';
 import TeamPageView from './components/TeamPageView';
+import AboutRankersPathView from './components/AboutRankersPathView';
+import RefundPolicyView from './components/RefundPolicyView';
+import AdmissionFormView from './components/AdmissionFormView';
+import JeeAdvancedCourseView from './components/JeeAdvancedCourseView';
+import NeetUgCourseView from './components/NeetUgCourseView';
+import JeeMainCourseView from './components/JeeMainCourseView';
+import FoundationCourseView from './components/FoundationCourseView';
+import RSATPaymentModal from './components/RSATPaymentModal';
+import CashfreePaymentPortalModal from './components/CashfreePaymentPortalModal';
+import DigitalBoardHostModal from './components/DigitalBoardHostModal';
+import DualPromoPopup from './components/DualPromoPopup';
+import RsatDashboardView from './components/RsatDashboardView';
+import RankXDashboardView from './components/RankXDashboardView';
+import TestimonialsSection from './components/TestimonialsSection';
+import SEOHead from './components/SEOHead';
 import { MessageCircle, Award, Zap } from 'lucide-react';
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', or 'dashboard'
+  const [user, setUser] = useState(null); // Enrolled Classroom LMS Student
+  const [rsatUser, setRsatUser] = useState(null); // RSAT Scholarship Student Session
+  const [rankxUser, setRankxUser] = useState(null); // RANKEX Talent Exam Student Session
+  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'refund-policy', 'admission', 'dashboard', 'rsat-dashboard', 'rankx-dashboard', etc.
+  const [selectedCourseSlug, setSelectedCourseSlug] = useState('jee-adv');
   const [isRankXOpen, setIsRankXOpen] = useState(false);
-  const [isRsatOpen, setIsRsatOpen] = useState(false);
+  const [isRsatPaymentOpen, setIsRsatPaymentOpen] = useState(false);
+  const [isCbtExamOpen, setIsCbtExamOpen] = useState(false);
+  const [activeTestId, setActiveTestId] = useState(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRsatFunnelIntent, setIsRsatFunnelIntent] = useState(false);
+  const [isCashfreePortalOpen, setIsCashfreePortalOpen] = useState(false);
+  const [cashfreePurpose, setCashfreePurpose] = useState('RSAT_EXAM_FEE');
+  const [isDigitalBoardStudioOpen, setIsDigitalBoardStudioOpen] = useState(false);
+  const [boardInitialPin, setBoardInitialPin] = useState(null);
 
-  // Check persisted student login
+  const handleOpenCashfreePortal = (purpose = 'RSAT_EXAM_FEE') => {
+    setCashfreePurpose(purpose);
+    setIsCashfreePortalOpen(true);
+  };
+
+  const handleOpenRSAT = (testId = null) => {
+    if (testId && testId !== 'test-rsat-scholarship') {
+      setActiveTestId(testId);
+      setIsCbtExamOpen(true);
+    } else if (rsatUser) {
+      setActiveTab('rsat-dashboard');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      setActiveTestId('test-rsat-scholarship');
+      setIsRsatPaymentOpen(true);
+    }
+  };
+
+  const handleOpenRankX = () => {
+    if (rankxUser) {
+      setActiveTab('rankx-dashboard');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      setIsRankXOpen(true);
+    }
+  };
+
+  const handleRsatFunnelTrigger = () => {
+    if (!rsatUser && !user) {
+      setIsRsatPaymentOpen(true);
+    } else {
+      setIsRsatPaymentOpen(true);
+    }
+  };
+
+  const handleRSATExamUnlocked = (examId) => {
+    setActiveTestId(examId || 'test-rsat-scholarship');
+    setIsRsatPaymentOpen(false);
+    setIsCbtExamOpen(true);
+  };
+
+  // Check persisted student logins independently
   useEffect(() => {
+    // 1. Enrolled Classroom Student
     const cached = localStorage.getItem('rp_student_user');
     if (cached) {
-      try {
-        setUser(JSON.parse(cached));
-      } catch (e) {}
+      try { setUser(JSON.parse(cached)); } catch (e) {}
     }
+
+    // 2. RSAT Scholarship Student
+    const cachedRsat = localStorage.getItem('rp_rsat_user');
+    if (cachedRsat) {
+      try { setRsatUser(JSON.parse(cachedRsat)); } catch (e) {}
+    }
+
+    // 3. RANKEX Candidate Student
+    const cachedRankx = localStorage.getItem('rp_rankx_user');
+    if (cachedRankx) {
+      try { setRankxUser(JSON.parse(cachedRankx)); } catch (e) {}
+    }
+
+    // Auto-detect Digital Board Studio launch via ?studio=true or ?board=true
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('studio') === 'true' || params.get('board') === 'true') {
+        setIsDigitalBoardStudioOpen(true);
+        if (params.get('pin')) {
+          setBoardInitialPin(params.get('pin'));
+        }
+      }
+      const cfOrderId = params.get('cf_order_id') || params.get('order_id');
+      if (cfOrderId) {
+        setIsCashfreePortalOpen(true);
+      }
+    } catch (e) {}
   }, []);
 
   const handleLogout = () => {
@@ -38,22 +130,111 @@ export default function App() {
     setActiveTab('home');
   };
 
+  const handleRsatLogout = () => {
+    localStorage.removeItem('rp_rsat_token');
+    localStorage.removeItem('rp_rsat_user');
+    setRsatUser(null);
+    if (activeTab === 'rsat-dashboard') {
+      setActiveTab('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleRankXLogout = () => {
+    localStorage.removeItem('rp_rankx_token');
+    localStorage.removeItem('rp_rankx_user');
+    setRankxUser(null);
+    if (activeTab === 'rankx-dashboard') {
+      setActiveTab('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleLoginSuccess = (loggedUser) => {
+    setUser(loggedUser);
+    if (loggedUser) {
+      localStorage.setItem('rp_student_user', JSON.stringify(loggedUser));
+    }
+  };
+
+  const handleRsatLoginSuccess = (loggedUser) => {
+    setRsatUser(loggedUser);
+    if (loggedUser) {
+      localStorage.setItem('rp_rsat_user', JSON.stringify(loggedUser));
+    } else {
+      localStorage.removeItem('rp_rsat_user');
+      localStorage.removeItem('rp_rsat_token');
+    }
+  };
+
+  const handleRankXLoginSuccess = (loggedUser) => {
+    setRankxUser(loggedUser);
+    if (loggedUser) {
+      localStorage.setItem('rp_rankx_user', JSON.stringify(loggedUser));
+    } else {
+      localStorage.removeItem('rp_rankx_user');
+      localStorage.removeItem('rp_rankx_token');
+    }
+  };
+
+  const handleOpenAbout = () => {
+    setActiveTab('about');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleOpenTeam = () => {
     setActiveTab('team');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenRefundPolicy = () => {
+    setActiveTab('refund-policy');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenAdmission = () => {
+    setActiveTab('admission');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenCoursePage = (slug) => {
+    if (slug === 'pncf' || slug === 'foundation') {
+      setActiveTab('course-foundation');
+    } else if (slug === 'neet-ug') {
+      setActiveTab('course-neet-ug');
+    } else if (slug === 'jee-main') {
+      setActiveTab('course-jee-main');
+    } else {
+      setActiveTab('course-jee-adv');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
+      {/* Reactive Dynamic On-Page SEO Engine */}
+      <SEOHead activeTab={activeTab} />
+
       {/* Top Navbar */}
       <Navbar
         user={user}
+        rsatUser={rsatUser}
+        rankxUser={rankxUser}
         onOpenLogin={() => setIsLoginOpen(true)}
         onLogout={handleLogout}
-        onOpenRankX={() => setIsRankXOpen(true)}
-        onOpenRSAT={() => setIsRsatOpen(true)}
+        onLogoutRsat={handleRsatLogout}
+        onLogoutRankX={handleRankXLogout}
+        onOpenRankX={handleOpenRankX}
+        onOpenRSAT={() => handleOpenRSAT()}
         onOpenDashboard={() => setActiveTab('dashboard')}
+        onOpenRsatDashboard={() => setActiveTab('rsat-dashboard')}
+        onOpenRankXDashboard={() => setActiveTab('rankx-dashboard')}
+        onOpenAbout={handleOpenAbout}
         onOpenTeam={handleOpenTeam}
+        onOpenRefundPolicy={handleOpenRefundPolicy}
+        onOpenAdmission={handleOpenAdmission}
+        onOpenCoursePage={handleOpenCoursePage}
+        onOpenCashfreePortal={handleOpenCashfreePortal}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
@@ -63,8 +244,9 @@ export default function App() {
         {activeTab === 'home' && (
           <>
             <Hero
-              onOpenRankX={() => setIsRankXOpen(true)}
-              onOpenRSAT={() => setIsRsatOpen(true)}
+              onOpenRankX={handleOpenRankX}
+              onOpenRSAT={() => handleOpenRSAT()}
+              onOpenAdmission={handleOpenAdmission}
               onOpenEnquiry={() => {
                 const el = document.getElementById('contact');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -75,14 +257,43 @@ export default function App() {
                 const el = document.getElementById('contact');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              onOpenRSAT={() => setIsRsatOpen(true)}
-              onOpenRankX={() => setIsRankXOpen(true)}
+              onOpenRSAT={() => handleOpenRSAT()}
+              onOpenRankX={handleOpenRankX}
+              onOpenCoursePage={handleOpenCoursePage}
             />
-            <FacultySection onOpenTeam={handleOpenTeam} />
             <WhyUsSection />
+            <FacultySection onOpenTeam={handleOpenTeam} />
             <GallerySection />
+            <TestimonialsSection
+              onOpenRSAT={() => handleOpenRSAT()}
+              onOpenRankX={handleOpenRankX}
+              onOpenEnquiry={() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            />
             <ContactAndEnquiry />
           </>
+        )}
+
+        {activeTab === 'about' && (
+          <AboutRankersPathView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenTeam={handleOpenTeam}
+            onOpenRSAT={() => handleOpenRSAT()}
+            onOpenRankX={handleOpenRankX}
+            onOpenAdmission={handleOpenAdmission}
+            onOpenEnquiry={() => {
+              setActiveTab('home');
+              setTimeout(() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}
+          />
         )}
 
         {activeTab === 'team' && (
@@ -104,8 +315,146 @@ export default function App() {
         {activeTab === 'dashboard' && (
           <StudentDashboardView
             user={user}
+            onOpenRankX={handleOpenRankX}
+            onOpenRSAT={(testId) => handleOpenRSAT(testId)}
+            onOpenRsatPortal={() => {
+              setActiveTab('rsat-dashboard');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onBackToHome={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onLogout={handleLogout}
+          />
+        )}
+
+        {activeTab === 'rsat-dashboard' && (
+          <RsatDashboardView
+            user={rsatUser}
+            onLaunchExam={(examId) => {
+              setActiveTestId(examId || 'test-rsat-scholarship');
+              setIsCbtExamOpen(true);
+            }}
+            onOpenPayment={() => setIsRsatPaymentOpen(true)}
+            onSwitchToEnrolledPortal={() => {
+              setActiveTab('dashboard');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenReschedule={() => setIsRsatPaymentOpen(true)}
+            onBackToHome={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onLogout={handleRsatLogout}
+          />
+        )}
+
+        {activeTab === 'rankx-dashboard' && (
+          <RankXDashboardView
+            user={rankxUser}
+            onLaunchExam={(examId) => {
+              setActiveTestId(examId || 'test-rankex-2027-class11');
+              setIsCbtExamOpen(true);
+            }}
+            onOpenPayment={() => setIsRankXOpen(true)}
+            onSwitchToRsatPortal={() => {
+              setActiveTab('rsat-dashboard');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onSwitchToEnrolledPortal={() => {
+              setActiveTab('dashboard');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onBackToHome={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onLogout={handleRankXLogout}
+          />
+        )}
+
+        {activeTab === 'refund-policy' && (
+          <RefundPolicyView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenEnquiry={() => {
+              setActiveTab('home');
+              setTimeout(() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}
+          />
+        )}
+
+        {activeTab === 'admission' && (
+          <AdmissionFormView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenEnquiry={() => {
+              setActiveTab('home');
+              setTimeout(() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}
+          />
+        )}
+
+        {activeTab === 'course-jee-adv' && (
+          <JeeAdvancedCourseView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenAdmission={handleOpenAdmission}
+            onOpenRSAT={() => handleOpenRSAT()}
             onOpenRankX={() => setIsRankXOpen(true)}
-            onOpenRSAT={() => setIsRsatOpen(true)}
+            onOpenRefundPolicy={handleOpenRefundPolicy}
+          />
+        )}
+
+        {activeTab === 'course-neet-ug' && (
+          <NeetUgCourseView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenAdmission={handleOpenAdmission}
+            onOpenRSAT={() => handleOpenRSAT()}
+            onOpenRankX={() => setIsRankXOpen(true)}
+            onOpenRefundPolicy={handleOpenRefundPolicy}
+          />
+        )}
+
+        {activeTab === 'course-jee-main' && (
+          <JeeMainCourseView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenAdmission={handleOpenAdmission}
+            onOpenRSAT={() => handleOpenRSAT()}
+            onOpenRankX={() => setIsRankXOpen(true)}
+            onOpenRefundPolicy={handleOpenRefundPolicy}
+          />
+        )}
+
+        {activeTab === 'course-foundation' && (
+          <FoundationCourseView
+            onBack={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenAdmission={handleOpenAdmission}
+            onOpenRSAT={() => handleOpenRSAT()}
+            onOpenRankX={() => setIsRankXOpen(true)}
+            onOpenRefundPolicy={handleOpenRefundPolicy}
           />
         )}
       </main>
@@ -113,33 +462,107 @@ export default function App() {
       {/* Footer */}
       <Footer
         onOpenRankX={() => setIsRankXOpen(true)}
-        onOpenRSAT={() => setIsRsatOpen(true)}
+        onOpenRSAT={() => handleOpenRSAT()}
+        onOpenRefundPolicy={handleOpenRefundPolicy}
+        onOpenAdmission={handleOpenAdmission}
+        onOpenCoursePage={handleOpenCoursePage}
+        onOpenCashfreePortal={handleOpenCashfreePortal}
+        onOpenAbout={handleOpenAbout}
+        onOpenTeam={handleOpenTeam}
       />
+
+      {/* Dual Alternating Promo Popups: RSAT & RANKEX with 10-Second Auto-Dismiss (Home only) */}
+      {activeTab === 'home' && (
+        <DualPromoPopup
+          user={user}
+          onOpenRSAT={() => handleOpenRSAT()}
+          onOpenRankX={() => setIsRankXOpen(true)}
+        />
+      )}
 
       {/* Interactive Modals */}
       <RankXModal
         isOpen={isRankXOpen}
         onClose={() => setIsRankXOpen(false)}
-        user={user}
+        user={rankxUser}
+        onLoginSuccess={handleRankXLoginSuccess}
+        onLogout={handleRankXLogout}
         onRequireLogin={() => {
           setIsRankXOpen(false);
           setIsLoginOpen(true);
         }}
+        onLaunchOnlineExam={(testId) => {
+          setIsRankXOpen(false);
+          setActiveTestId(testId || 'test-rankex-2027-class11');
+          setIsCbtExamOpen(true);
+        }}
+        onOpenRankXDashboard={() => {
+          setIsRankXOpen(false);
+          setActiveTab('rankx-dashboard');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
 
+      {/* RSAT Registration & ₹100 Payment Modal */}
+      <RSATPaymentModal
+        isOpen={isRsatPaymentOpen}
+        onClose={() => setIsRsatPaymentOpen(false)}
+        user={rsatUser}
+        onLoginSuccess={handleRsatLoginSuccess}
+        onLogout={handleRsatLogout}
+        onExamUnlocked={handleRSATExamUnlocked}
+        onOpenRsatDashboard={(slotInfo) => {
+          setIsRsatPaymentOpen(false);
+          setActiveTab('rsat-dashboard');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
+
+      {/* CBT Exam Modal */}
       <CbtExamModal
-        isOpen={isRsatOpen}
-        onClose={() => setIsRsatOpen(false)}
-        user={user}
+        isOpen={isCbtExamOpen}
+        onClose={() => {
+          setIsCbtExamOpen(false);
+          setActiveTestId(null);
+        }}
+        user={user || rsatUser || rankxUser}
+        initialTestId={activeTestId}
       />
 
       <AuthModal
         isOpen={isLoginOpen}
-        onClose={() => setIsLoginOpen(false)}
-        onLoginSuccess={(loggedUser) => {
-          setUser(loggedUser);
-          setActiveTab('dashboard');
+        onClose={() => {
+          setIsLoginOpen(false);
+          setIsRsatFunnelIntent(false);
         }}
+        onLoginSuccess={(loggedUser) => {
+          handleLoginSuccess(loggedUser);
+          setIsLoginOpen(false);
+          if (isRsatFunnelIntent) {
+            setIsRsatFunnelIntent(false);
+            // Open RSAT payment/timing modal for the user
+            setTimeout(() => {
+              setIsRsatPaymentOpen(true);
+            }, 200);
+          } else {
+            setActiveTab('dashboard');
+          }
+        }}
+      />
+
+      {/* Cashfree Online Fee & Admission Payment Portal Modal */}
+      <CashfreePaymentPortalModal
+        isOpen={isCashfreePortalOpen}
+        onClose={() => setIsCashfreePortalOpen(false)}
+        initialPurpose={cashfreePurpose}
+        user={user}
+      />
+
+      {/* Epson 75" 4K Smart Board Touch Studio Host Modal */}
+      <DigitalBoardHostModal
+        isOpen={isDigitalBoardStudioOpen}
+        onClose={() => setIsDigitalBoardStudioOpen(false)}
+        initialPin={boardInitialPin}
       />
 
       {/* Sticky Bottom Actions on Mobile */}

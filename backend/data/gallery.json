@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gal-1",
+    "src": "/assets/web/gallery-1.jpg",
+    "title": "Classroom Session in Progress",
+    "tag": "Classroom",
+    "description": "Senior mentors conducting intensive problem-solving session.",
+    "order": 1,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.378Z"
+  },
+  {
+    "id": "gal-2",
+    "src": "/assets/web/gallery-2.jpg",
+    "title": "Students at Rankers Path Study Hall",
+    "tag": "Campus",
+    "description": "Quiet, air-conditioned self-study hall at Vijay Nagar Main Campus.",
+    "order": 2,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-3",
+    "src": "/assets/web/gallery-3.jpg",
+    "title": "Dedicated Doubt Solving Hour",
+    "tag": "Mentorship",
+    "description": "1-on-1 personalized doubt resolution with founding faculty.",
+    "order": 3,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-4",
+    "src": "/assets/web/gallery-4.jpg",
+    "title": "Student Felicitation & Result Celebration",
+    "tag": "Celebration",
+    "description": "Honoring top rankers in NEET & IIT-JEE with parents and mentors.",
+    "order": 4,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-5",
+    "src": "/assets/web/gallery-5.jpg",
+    "title": "Interactive Science Concept Demonstration",
+    "tag": "Classroom",
+    "description": "Visual experimental mechanics demonstration in physics class.",
+    "order": 5,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-6",
+    "src": "/assets/web/gallery-6.jpg",
+    "title": "Focused CBT Mock Test Session",
+    "tag": "Classroom",
+    "description": "All-India CBT simulation test conducted under strict examination protocol.",
+    "order": 6,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-7",
+    "src": "/assets/web/gallery-7.jpg",
+    "title": "Annual Student Gathering & Motivation",
+    "tag": "Celebration",
+    "description": "Grand motivational assembly led by Chauhan Sir & Jaivir Sir.",
+    "order": 7,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-8",
+    "src": "/assets/web/gallery-8.jpg",
+    "title": "Faculty Discussion with Parents & Students",
+    "tag": "Mentorship",
+    "description": "Monthly student progress report review with parents.",
+    "order": 8,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-9",
+    "src": "/assets/web/gallery-9.jpg",
+    "title": "Rank Holders Recognition Ceremony",
+    "tag": "Celebration",
+    "description": "Gold medal awards and cash scholarship felicitation.",
+    "order": 9,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-10",
+    "src": "/assets/web/gallery-10.jpg",
+    "title": "Small Batch Learning Environment",
+    "tag": "Classroom",
+    "description": "Strict 30 students per batch ensuring individual focus.",
+    "order": 10,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-11",
+    "src": "/assets/web/gallery-11.jpg",
+    "title": "Biology Diagram & Concept Mastery",
+    "tag": "Classroom",
+    "description": "Detailed anatomy and genetics board illustration.",
+    "order": 11,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  },
+  {
+    "id": "gal-12",
+    "src": "/assets/web/gallery-12.jpg",
+    "title": "Celebration of Success with Teachers",
+    "tag": "Celebration",
+    "description": "Festive cake cutting and joyful moments after exam triumph.",
+    "order": 12,
+    "active": true,
+    "createdAt": "2026-10-14T15:28:18.383Z"
+  }
+]

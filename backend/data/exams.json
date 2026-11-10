@@ -1,0 +1,703 @@
+[
+  {
+    "id": "test-rsat-scholarship",
+    "category": "RSAT",
+    "title": "RSAT Fast-Track Online Scholarship Test",
+    "examType": "RSAT",
+    "stream": "ALL",
+    "subject": "FULL_MOCK",
+    "batchTier": "ALL",
+    "targetBatch": "ALL",
+    "durationMinutes": 45,
+    "totalMarks": 120,
+    "totalQuestions": 30,
+    "maxAttemptsAllowed": 30,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Mathematics",
+      "Biology"
+    ],
+    "sectionsConfig": {
+      "General": {
+        "mandatory": true,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      }
+    },
+    "description": "Quick 45-minute conceptual diagnostic test for immediate tuition fee scholarship up to 100%.",
+    "active": false,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Live 24x7",
+    "banner": "Rankers Path Scholarship Admission Test",
+    "patternType": "SCHOLARSHIP_RSAT",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-rsat-scholarship-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true,
+    "updatedAt": "2026-10-29T04:44:03.062Z"
+  },
+  {
+    "id": "test-rankex-2027-class11",
+    "category": "RANKEX",
+    "title": "RANKEX 2027: Talent & Excellence ka Mahasangram (Class 11th)",
+    "examType": "RANKEX",
+    "stream": "ALL",
+    "subject": "FULL_MOCK",
+    "batchTier": "ALL",
+    "targetBatch": "ALL",
+    "classLevel": "Class 11",
+    "durationMinutes": 60,
+    "totalMarks": 160,
+    "totalQuestions": 40,
+    "maxAttemptsAllowed": 40,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Mathematics",
+      "Mental Ability"
+    ],
+    "sectionsConfig": {
+      "Section A - Physics": {
+        "mandatory": true,
+        "maxAttempts": 10,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section B - Chemistry": {
+        "mandatory": true,
+        "maxAttempts": 10,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section C - Mathematics": {
+        "mandatory": true,
+        "maxAttempts": 10,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section D - Mental Ability": {
+        "mandatory": true,
+        "maxAttempts": 10,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      }
+    },
+    "description": "Official RANKEX 2027 question paper (40 Questions, 160 Marks, 1 Hr). Negative Marking: -1 for wrong answers. Sections: Physics (10 Qs), Chemistry (10 Qs), Mathematics (10 Qs), Mental Ability (10 Qs).",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Available Now",
+    "banner": "RANKEX 2027 Official Scholarship Exam • 160 Marks • 1 Hr",
+    "patternType": "SCHOLARSHIP_RANKEX",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-rankex-2027-class11-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-neet-mock-01",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "NEET UG Full Syllabus All-India Mock 01",
+    "examType": "NEET",
+    "stream": "NEET",
+    "subject": "FULL_MOCK",
+    "batchTier": "ALL",
+    "targetBatch": "NEET_ALL",
+    "durationMinutes": 200,
+    "totalMarks": 720,
+    "totalQuestions": 200,
+    "maxAttemptsAllowed": 180,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Botany",
+      "Zoology"
+    ],
+    "sectionsConfig": {
+      "Section A": {
+        "mandatory": true,
+        "maxAttempts": 35,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section B": {
+        "mandatory": false,
+        "maxAttempts": 10,
+        "totalInSec": 15,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      }
+    },
+    "description": "Authentic NTA NEET UG pattern mock exam featuring Physics, Chemistry, Botany, and Zoology with Section B optional questions selection.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Available Now",
+    "banner": "NTA Real NEET UG Simulation • 720 Marks",
+    "patternType": "NEET_UG",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-neet-mock-01-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-neet-biology-tier-diamond",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "💎 Diamond Batch: NEET High-Yield Biology (Genetics & Biotechnology) Challenge",
+    "examType": "NEET",
+    "stream": "NEET",
+    "subject": "BIOLOGY",
+    "batchTier": "DIAMOND",
+    "targetBatch": "Super 30 Diamond Medico",
+    "durationMinutes": 60,
+    "totalMarks": 180,
+    "totalQuestions": 45,
+    "maxAttemptsAllowed": 45,
+    "subjects": [
+      "Botany",
+      "Zoology"
+    ],
+    "description": "Elite Super 30 Diamond Batch subject test covering NCERT Exemplar & Advanced Assertion-Reason questions in Molecular Basis of Inheritance and Biotech.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Live Weekly Test",
+    "banner": "Diamond Batch Elite Biology • 180 Marks",
+    "patternType": "NEET_UG",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-neet-biology-tier-diamond-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-neet-physics-tier-platinum",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "🌟 Platinum Batch: NEET Mechanics & Optics Speed Test",
+    "examType": "NEET",
+    "stream": "NEET",
+    "subject": "PHYSICS",
+    "batchTier": "PLATINUM",
+    "targetBatch": "Platinum Achiever Medico",
+    "durationMinutes": 60,
+    "totalMarks": 180,
+    "totalQuestions": 45,
+    "maxAttemptsAllowed": 45,
+    "subjects": [
+      "Physics"
+    ],
+    "description": "Targeted speed and accuracy test for Platinum Achievers focusing on Rotational Motion, Gravitation, and Wave Optics.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Weekly Unit Test",
+    "banner": "Platinum Achiever Physics • 180 Marks",
+    "patternType": "NEET_UG",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-neet-physics-tier-platinum-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-jee-main-mock-01",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "JEE Main All India Open CBT Test 01",
+    "examType": "JEE_MAIN",
+    "stream": "JEE",
+    "subject": "FULL_MOCK",
+    "batchTier": "PLATINUM",
+    "targetBatch": "JEE_ALL",
+    "durationMinutes": 180,
+    "totalMarks": 300,
+    "totalQuestions": 90,
+    "maxAttemptsAllowed": 75,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Mathematics"
+    ],
+    "sectionsConfig": {
+      "Section A": {
+        "mandatory": true,
+        "maxAttempts": 20,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section B": {
+        "mandatory": false,
+        "maxAttempts": 5,
+        "totalInSec": 10,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "NUMERICAL"
+      }
+    },
+    "description": "Authentic NTA JEE Main pattern with Section A (20 MCQs) and Section B (10 Numerical Value questions with Virtual Numeric Keypad, attempt any 5).",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Available Now",
+    "banner": "NTA Real JEE Main Simulation • 300 Marks",
+    "patternType": "JEE_MAIN",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-jee-main-mock-01-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-jee-adv-paper1",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "💎 Diamond Batch: JEE Advanced 2026 Mock Paper 1",
+    "examType": "JEE_ADVANCED",
+    "stream": "JEE",
+    "subject": "FULL_MOCK",
+    "batchTier": "DIAMOND",
+    "targetBatch": "Super 30 Diamond IIT",
+    "durationMinutes": 180,
+    "totalMarks": 180,
+    "totalQuestions": 54,
+    "maxAttemptsAllowed": 54,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Mathematics"
+    ],
+    "sectionsConfig": {
+      "Section 1": {
+        "name": "Single Correct",
+        "marksPerCorrect": 3,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section 2": {
+        "name": "One or More Than One Correct",
+        "marksPerCorrect": 4,
+        "partial": true,
+        "negativeMarks": -2,
+        "type": "MULTI_CORRECT"
+      },
+      "Section 3": {
+        "name": "Numerical Value",
+        "marksPerCorrect": 3,
+        "negativeMarks": 0,
+        "type": "NUMERICAL"
+      }
+    },
+    "description": "TCS iON CBT format for JEE Advanced with Multi-Correct checkboxes, partial scoring engine, and numerical decimal inputs.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Available Now",
+    "banner": "TCS iON Authentic JEE Advanced Interface • Paper 1",
+    "patternType": "JEE_ADVANCED",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-jee-adv-paper1-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-jee-maths-tier-silver",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "🥈 Silver Batch: JEE Mathematics Calculus & Vectors Mastery Test",
+    "examType": "JEE_MAIN",
+    "stream": "JEE",
+    "subject": "MATHEMATICS",
+    "batchTier": "SILVER",
+    "targetBatch": "Silver Leader JEE",
+    "durationMinutes": 60,
+    "totalMarks": 100,
+    "totalQuestions": 25,
+    "maxAttemptsAllowed": 25,
+    "subjects": [
+      "Mathematics"
+    ],
+    "description": "Calculus mastery test for Silver Batch covering Definite Integrals, Differential Equations, and Vector 3D.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Weekly Part Test",
+    "banner": "Silver Leader Mathematics • 100 Marks",
+    "patternType": "JEE_MAIN",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-jee-maths-tier-silver-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-jee-chemistry-tier-green",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "🟢 Green Batch: Chemistry Foundation & Organic Reaction Mechanisms",
+    "examType": "JEE_MAIN",
+    "stream": "JEE",
+    "subject": "CHEMISTRY",
+    "batchTier": "GREEN",
+    "targetBatch": "Green Foundation Starters",
+    "durationMinutes": 45,
+    "totalMarks": 80,
+    "totalQuestions": 20,
+    "maxAttemptsAllowed": 20,
+    "subjects": [
+      "Chemistry"
+    ],
+    "description": "Concept builder test for Green Batch covering Chemical Bonding, Periodic Table, and Basic Principles of Organic Chemistry.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Foundation Unit Test",
+    "banner": "Green Batch Chemistry Foundation • 80 Marks",
+    "patternType": "JEE_MAIN",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-jee-chemistry-tier-green-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-foundation-class9-mock",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "🌱 Foundation 9th PNCF: Science, Maths & MAT Olympiad Benchmark Test",
+    "examType": "FOUNDATION",
+    "stream": "FOUNDATION",
+    "subject": "FULL_MOCK",
+    "batchTier": "ALL",
+    "targetBatch": "Foundation Class 9",
+    "classLevel": "Class 9",
+    "durationMinutes": 90,
+    "totalMarks": 160,
+    "totalQuestions": 40,
+    "maxAttemptsAllowed": 40,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Biology",
+      "Mathematics",
+      "Mental Ability"
+    ],
+    "sectionsConfig": {
+      "Section A": {
+        "mandatory": true,
+        "maxAttempts": 30,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section B": {
+        "mandatory": true,
+        "maxAttempts": 10,
+        "marksPerCorrect": 4,
+        "negativeMarks": 0,
+        "type": "NUMERICAL"
+      }
+    },
+    "description": "Pre-Nurture & Career Foundation (PNCF) Class 9th benchmark test covering NCERT concepts, Olympiad level Mathematics, and Mental Ability with MCQs and Numerical/Range questions.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Available Now",
+    "banner": "Foundation 9th PNCF • Science, Maths & MAT • 160 Marks",
+    "patternType": "FOUNDATION_PNCF",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-foundation-class9-mock-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-foundation-class10-mock",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "🎯 Foundation 10th PNCF: Board Mastery & Pre-JEE/NEET Diagnostic Test",
+    "examType": "FOUNDATION",
+    "stream": "FOUNDATION",
+    "subject": "FULL_MOCK",
+    "batchTier": "ALL",
+    "targetBatch": "Foundation Class 10",
+    "classLevel": "Class 10",
+    "durationMinutes": 120,
+    "totalMarks": 200,
+    "totalQuestions": 50,
+    "maxAttemptsAllowed": 50,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Biology",
+      "Mathematics",
+      "Mental Ability"
+    ],
+    "sectionsConfig": {
+      "Section A": {
+        "mandatory": true,
+        "maxAttempts": 40,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      },
+      "Section B": {
+        "mandatory": true,
+        "maxAttempts": 10,
+        "marksPerCorrect": 4,
+        "negativeMarks": 0,
+        "type": "NUMERICAL"
+      }
+    },
+    "description": "Class 10th PNCF Diagnostic Test preparing students for 100% Board score and building strong problem-solving fundamentals for JEE and NEET.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Available Now",
+    "banner": "Foundation 10th PNCF • Board & Pre-JEE/NEET • 200 Marks",
+    "patternType": "FOUNDATION_PNCF",
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T12:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Live Student Portal CBT Exam Session",
+      "shareToken": "dir-tok-test-foundation-class10-mock-mvfj3jjv"
+    },
+    "resultPublishedToStudents": true
+  },
+  {
+    "id": "test-jee-adv-2025-p1",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "JEE (Advanced) 2025 Official Pattern Mock Paper 1",
+    "examType": "JEE_ADVANCED",
+    "patternType": "JEE_ADVANCED",
+    "stream": "JEE",
+    "subject": "FULL_MOCK",
+    "batchTier": "DIAMOND",
+    "targetBatch": "Super 30 Diamond IIT",
+    "classLevel": "Class 12 / Dropper",
+    "durationMinutes": 180,
+    "totalMarks": 180,
+    "totalQuestions": 48,
+    "maxAttemptsAllowed": 48,
+    "subjects": [
+      "Mathematics",
+      "Physics",
+      "Chemistry"
+    ],
+    "sectionsConfig": {
+      "Section 1": {
+        "name": "Single Correct MCQ",
+        "type": "MCQ",
+        "questionsPerSub": 4,
+        "marksPerCorrect": 3,
+        "negativeMarks": -1
+      },
+      "Section 2": {
+        "name": "One or More Than One Correct",
+        "type": "MULTI_CORRECT",
+        "questionsPerSub": 3,
+        "marksPerCorrect": 4,
+        "partial": true,
+        "partialScheme": "+3, +2, +1",
+        "negativeMarks": -2
+      },
+      "Section 3": {
+        "name": "Numerical Value / Range",
+        "type": "NUMERICAL",
+        "questionsPerSub": 6,
+        "marksPerCorrect": 4,
+        "negativeMarks": 0,
+        "supportsRange": true
+      },
+      "Section 4": {
+        "name": "Matching List Sets (Matrix Match)",
+        "type": "MATCHING_LIST",
+        "questionsPerSub": 3,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1
+      }
+    },
+    "description": "Official JEE (Advanced) 2025 Paper 1 structure: Mathematics, Physics, Chemistry with 4 Sections per subject: Single Option (+3/-1), Multi-Correct Partial Marking (+4, +3, +2, +1, -2), Numerical/Range (+4/0), and Matching List Sets (+4/-1).",
+    "active": true,
+    "isPublishedToStudents": true,
+    "resultPublishedToStudents": true,
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T18:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for Class 12 & Droppers Super-30 Batch",
+      "shareToken": "share-adv-2025-p1"
+    },
+    "scheduledDate": "Available Now",
+    "banner": "JEE (Advanced) 2025 Paper 1 • 180 Marks • 4 Distinct Question Sections"
+  },
+  {
+    "id": "test-neet-ug-2025-f5",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "NEET-UG 2025 All India Full Mock (Booklet Code F5 - AKANH)",
+    "examType": "NEET",
+    "patternType": "NEET_UG",
+    "stream": "NEET",
+    "subject": "FULL_MOCK",
+    "batchTier": "ALL",
+    "targetBatch": "NEET_ALL",
+    "classLevel": "Class 12 / Dropper",
+    "durationMinutes": 200,
+    "totalMarks": 720,
+    "totalQuestions": 200,
+    "maxAttemptsAllowed": 180,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Botany",
+      "Zoology"
+    ],
+    "sectionsConfig": {
+      "Section A": {
+        "name": "Mandatory MCQs",
+        "type": "MCQ",
+        "questionsPerSub": 35,
+        "mandatory": true,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1
+      },
+      "Section B": {
+        "name": "Optional MCQs (Attempt Any 10 of 15)",
+        "type": "MCQ",
+        "questionsPerSub": 15,
+        "maxAttempts": 10,
+        "mandatory": false,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1
+      }
+    },
+    "description": "Official NTA NEET-UG Booklet F5 pattern: 200 questions across Physics, Chemistry, Botany, and Zoology. Section A contains 35 mandatory questions (+4/-1). Section B contains 15 optional questions where students attempt any 10 (+4/-1). Total 720 Marks.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "resultPublishedToStudents": true,
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T18:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved for All-India NEET Medico Batches",
+      "shareToken": "share-neet-2025-f5"
+    },
+    "scheduledDate": "Available Now",
+    "banner": "NEET-UG Booklet F5 Simulation • 720 Marks • 200 Minutes"
+  },
+  {
+    "id": "test-jee-main-2026-shift1",
+    "category": "STUDENT_TEST_SERIES",
+    "title": "JEE Main 2026 Shift 1 NTA All-India CBT Mock",
+    "examType": "JEE_MAIN",
+    "patternType": "JEE_MAIN",
+    "stream": "JEE",
+    "subject": "FULL_MOCK",
+    "batchTier": "PLATINUM",
+    "targetBatch": "JEE_ALL",
+    "classLevel": "Class 12 / Dropper",
+    "durationMinutes": 180,
+    "totalMarks": 300,
+    "totalQuestions": 90,
+    "maxAttemptsAllowed": 75,
+    "subjects": [
+      "Mathematics",
+      "Physics",
+      "Chemistry"
+    ],
+    "sectionsConfig": {
+      "Section A": {
+        "name": "MCQ Single Correct",
+        "type": "MCQ",
+        "questionsPerSub": 20,
+        "mandatory": true,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1
+      },
+      "Section B": {
+        "name": "Numerical Answer Type (Attempt Any 5 of 10)",
+        "type": "NUMERICAL",
+        "questionsPerSub": 10,
+        "maxAttempts": 5,
+        "mandatory": false,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "supportsRange": true
+      }
+    },
+    "description": "Authentic NTA JEE Main B.Tech Shift 1 Paper: Mathematics, Physics, and Chemistry. Section A has 20 MCQs (+4/-1). Section B has 10 Numerical / Range NAT questions with virtual on-screen keypad (attempt any 5, +4/-1). Total 300 Marks.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "resultPublishedToStudents": true,
+    "directorApproval": {
+      "status": "APPROVED",
+      "approvedAt": "2026-10-19T18:00:00.000Z",
+      "approvedBy": "Academic Director (Prof. Verma)",
+      "feedback": "Approved by Academic Director for All JEE Batches",
+      "shareToken": "share-jee-2026-s1"
+    },
+    "scheduledDate": "Available Now",
+    "banner": "NTA JEE Main Shift 1 Paper • 300 Marks • Virtual Numerical Keypad"
+  },
+  {
+    "id": "test-rsat-1793249043062",
+    "createdAt": "2026-10-29T04:44:03.063Z",
+    "updatedAt": "2026-10-29T04:44:03.063Z",
+    "category": "RSAT",
+    "title": "RSAT 2026-27 Grand Scholarship Test",
+    "examType": "RSAT",
+    "stream": "IIT_JEE",
+    "subject": "FULL_MOCK",
+    "targetBatch": "Class 11",
+    "durationMinutes": 45,
+    "totalMarks": 120,
+    "totalQuestions": 30,
+    "maxAttemptsAllowed": 30,
+    "subjects": [
+      "Physics",
+      "Chemistry",
+      "Mathematics",
+      "Biology"
+    ],
+    "sectionsConfig": {
+      "General": {
+        "mandatory": true,
+        "marksPerCorrect": 4,
+        "negativeMarks": -1,
+        "type": "MCQ"
+      }
+    },
+    "description": "Official RSAT scholarship aptitude test for Class 11 students.",
+    "active": true,
+    "isPublishedToStudents": true,
+    "scheduledDate": "Live 24x7",
+    "patternType": "SCHOLARSHIP_RSAT"
+  }
+]

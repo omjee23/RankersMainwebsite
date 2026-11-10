@@ -1,0 +1,12 @@
+# ===================================================
+# RANKERS PATH INDORE - ROBOTS.TXT
+# ===================================================
+User-agent: *
+Allow: /
+Allow: /assets/
+Disallow: /admin/
+Disallow: /api/
+
+# Host & XML Sitemap
+Host: https://rankerspath.in
+Sitemap: https://rankerspath.in/sitemap.xml

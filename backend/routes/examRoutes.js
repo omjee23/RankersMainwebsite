@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const {
+  getAvailableExams,
+  getMySubmissions,
   startExam,
   saveAnswer,
   reportViolation,
   submitExam,
   getSubmissionResult
 } = require('../controllers/examEngineController');
-const { authMiddleware } = require('../middlewares/authMiddleware');
+const { authMiddleware, optionalAuthMiddleware } = require('../middlewares/authMiddleware');
 
+router.get('/tests', optionalAuthMiddleware, getAvailableExams);
+router.get('/my-submissions', authMiddleware, getMySubmissions);
 router.post('/start', authMiddleware, startExam);
 router.post('/save-answer', authMiddleware, saveAnswer);
 router.post('/report-violation', authMiddleware, reportViolation);

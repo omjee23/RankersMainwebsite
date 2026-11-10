@@ -9,7 +9,16 @@ const InstagramIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-export default function Footer({ onOpenRankX, onOpenRSAT }) {
+export default function Footer({
+  onOpenRankX,
+  onOpenRSAT,
+  onOpenRefundPolicy,
+  onOpenAdmission,
+  onOpenCoursePage,
+  onOpenCashfreePortal,
+  onOpenAbout,
+  onOpenTeam
+}) {
   return (
     <footer className="bg-[#071126] text-white pt-16 pb-12 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,13 +67,75 @@ export default function Footer({ onOpenRankX, onOpenRSAT }) {
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h4 className="text-xs uppercase font-extrabold tracking-wider text-brand-yellow">Explore</h4>
+            <h4 className="text-xs uppercase font-extrabold tracking-wider text-brand-yellow">Explore Courses</h4>
             <ul className="space-y-2 text-sm text-slate-400">
-              <li><a href="#about" className="hover:text-white transition">About Institute</a></li>
-              <li><a href="#courses" className="hover:text-white transition">Courses Offered</a></li>
+              <li>
+                <button
+                  onClick={() => onOpenCoursePage && onOpenCoursePage('jee-adv')}
+                  className="hover:text-white transition text-left"
+                >
+                  JEE (Main + Advanced)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onOpenCoursePage && onOpenCoursePage('neet-ug')}
+                  className="hover:text-white transition text-left"
+                >
+                  Pre-Medical (NEET-UG)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onOpenCoursePage && onOpenCoursePage('jee-main')}
+                  className="hover:text-white transition text-left"
+                >
+                  JEE (Main) Focused
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onOpenCoursePage && onOpenCoursePage('pncf')}
+                  className="hover:text-white transition text-left"
+                >
+                  Foundation (9th &amp; 10th)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenAbout}
+                  className="hover:text-brand-yellow text-brand-yellow font-extrabold transition text-left"
+                >
+                  About Rankers Path
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenTeam}
+                  className="hover:text-white transition text-left"
+                >
+                  Faculty &amp; Mentors Team
+                </button>
+              </li>
               <li><a href="#why-us" className="hover:text-white transition">Why Rankers Path</a></li>
               <li><a href="#gallery" className="hover:text-white transition">Photo Gallery</a></li>
               <li><a href="#contact" className="hover:text-white transition">Contact &amp; Location</a></li>
+              <li>
+                <button
+                  onClick={onOpenAdmission}
+                  className="hover:text-brand-yellow text-brand-yellow font-bold transition text-left"
+                >
+                  Offline / Online Admission Form
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenRefundPolicy}
+                  className="hover:text-brand-yellow text-amber-300 font-semibold transition text-left"
+                >
+                  Refund &amp; Transfer Policy
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -74,7 +145,7 @@ export default function Footer({ onOpenRankX, onOpenRSAT }) {
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
                 <button onClick={onOpenRankX} className="hover:text-white transition text-left">
-                  RankX Offline Exam 2026
+                  RANKEX 2027 Scholarship Exam
                 </button>
               </li>
               <li>
@@ -92,6 +163,14 @@ export default function Footer({ onOpenRankX, onOpenRSAT }) {
                   IIT-JEE Advanced CBT
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => onOpenCashfreePortal && onOpenCashfreePortal()}
+                  className="hover:text-amber-300 text-emerald-400 font-bold transition text-left flex items-center gap-1.5"
+                >
+                  <span>💳 Online Fee Portal (Cashfree)</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -105,7 +184,7 @@ export default function Footer({ onOpenRankX, onOpenRSAT }) {
               Helpline: 9131435511 / 7974546310
             </p>
             <p className="text-xs text-slate-400">
-              Email: info@rankerspath.in
+              Email: rankerspathofficial.edu@gmail.com
             </p>
           </div>
 
@@ -113,9 +192,34 @@ export default function Footer({ onOpenRankX, onOpenRSAT }) {
 
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} Rankers Path Coaching Institute. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <span className="text-slate-400">Designed for Rankers Path</span>
+          <p>© {new Date().getFullYear()} Rankerspath Educational Pvt. Ltd. All rights reserved.</p>
+          <div className="flex items-center gap-4 flex-wrap">
+            <button
+              onClick={onOpenRefundPolicy}
+              className="text-slate-400 hover:text-brand-yellow underline transition"
+            >
+              Official Refund &amp; Transfer Policy
+            </button>
+            <span className="text-slate-700">•</span>
+            <button
+              onClick={() => onOpenCashfreePortal && onOpenCashfreePortal()}
+              className="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1 transition"
+              title="Official Cashfree Online Fee & Admission Payment Portal"
+            >
+              <span>💳 Cashfree Fee Portal</span>
+            </button>
+            <span className="text-slate-700">•</span>
+            <a
+              href={import.meta.env.VITE_ADMIN_PORTAL_URL || 'http://localhost:5174'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-brand-yellow flex items-center gap-1 transition font-semibold"
+              title="Access Admin & Faculty Portal"
+            >
+              <span>🔐 Staff &amp; Faculty Portal</span>
+            </a>
+            <span className="text-slate-700">•</span>
+            <span className="text-slate-400">Safalta Ka Sankalp</span>
           </div>
         </div>
 

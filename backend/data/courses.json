@@ -1,0 +1,122 @@
+[
+  {
+    "id": "course-jee-adv",
+    "createdAt": "2026-09-30T13:17:24.744Z",
+    "updatedAt": "2026-10-02T15:11:45.257Z",
+    "domainKey": "jee-adv",
+    "title": "JEE (Main+Advanced)/IIT-JEE",
+    "desc": "JEE (Main+Advanced) Courses builds strong subject knowledge and problem-solving skills to help aspirants ace the exams to get enrolled into IITs.",
+    "tuitionFee": "₹85,000 – ₹90,000 / Year",
+    "badge": "Class",
+    "category": "ENGINEERING",
+    "target": "IIT-JEE 2026 / 2027 Aspirants",
+    "eligibility": "Class 10th to 11th moving, 12th appearing & 12th Pass (Dropper)",
+    "duration": "1 Year / 2 Years Comprehensive Classroom Programme",
+    "scholarshipWaiver": "Flat 30% Early Bird (Save ₹25,500+) | Up to 100% via RSAT",
+    "startingFee": "₹59,500",
+    "keyFeatures": [
+      "Personal teaching by Senior Kota/Indore Faculty Directors",
+      "Daily 4.5 hours core classroom lectures + Daily Practice Problems (DPP)",
+      "Computer Based Test (CBT) mock exam series matching exact IIT pattern",
+      "Dedicated 1-on-1 Doubt Clinic open 8:00 AM to 8:00 PM daily"
+    ],
+    "order": 1,
+    "active": true
+  },
+  {
+    "id": "course-neet-ug",
+    "createdAt": "2026-09-30T13:17:24.745Z",
+    "updatedAt": "2026-09-30T13:17:24.745Z",
+    "domainKey": "neet-ug",
+    "title": "Pre-Medical/NEET UG",
+    "desc": "NEET-UG Courses sharpen skills essential for medical entrance exams, ensuring students are well-prepared for success in the competitive medical field.",
+    "tuitionFee": "₹80,000 – ₹90,000 / Year",
+    "badge": "Class",
+    "category": "MEDICAL",
+    "target": "NEET-UG 2026 / 2027 Aspirants",
+    "eligibility": "Class 10th to 11th moving, 12th appearing & 12th Pass (Dropper)",
+    "duration": "1 Year / 2 Years Medical Classroom Programme",
+    "scholarshipWaiver": "Flat 30% Early Bird (Save ₹24,000+) | Up to 100% via RSAT",
+    "startingFee": "₹56,000",
+    "keyFeatures": [
+      "Line-by-line NCERT Biology & Chemistry mastery with conceptual maps",
+      "Weekly OMR Speed Tests designed to hit 680+ marks for AIIMS & GMC",
+      "Senior faculty mentor support led by Dr. Sanjay Chauhan (Gold Medalist)",
+      "Proven track record of producing Top 10 and Top 100 AIRs"
+    ],
+    "order": 2,
+    "active": true
+  },
+  {
+    "id": "course-jee-main",
+    "createdAt": "2026-09-30T13:17:24.745Z",
+    "updatedAt": "2026-09-30T13:17:24.745Z",
+    "domainKey": "jee-main",
+    "title": "JEE (Main)",
+    "desc": "JEE (Main) courses are designed to provide students with a significant competitive edge for achieving success for their path to NITs, IIITs and equivalent colleges.",
+    "tuitionFee": "₹75,000 – ₹80,000 / Year",
+    "badge": "Target",
+    "category": "ENGINEERING",
+    "target": "JEE Main (NTA) 2026 / 2027",
+    "eligibility": "Class 11th, 12th & 12th Pass (Targeting Top NITs/IIITs)",
+    "duration": "1 Year / 2 Years Fast-Track Prep",
+    "scholarshipWaiver": "Flat 30% Early Bird (Save ₹22,500+) | Up to 100% via RSAT",
+    "startingFee": "₹52,500",
+    "keyFeatures": [
+      "Laser focus on NTA speed, accuracy & 99+ percentile boost",
+      "Rigorous coverage of Physics, Chemistry & Higher Mathematics",
+      "Curated 10,000+ question bank with detailed video explanations",
+      "Live online computer lab simulation for error-free CBT testing"
+    ],
+    "order": 3,
+    "active": true
+  },
+  {
+    "id": "course-pncf",
+    "createdAt": "2026-09-30T13:17:24.745Z",
+    "updatedAt": "2026-09-30T13:17:24.745Z",
+    "domainKey": "pncf",
+    "title": "Pre-Nurture & Career Foundation",
+    "desc": "PNCF Courses for class 6th to 10th nurtures students, establishing a robust groundwork for excelling in competitive exams and Olympiads.",
+    "tuitionFee": "₹40,000 – ₹47,000 / Year",
+    "badge": "Classes",
+    "category": "FOUNDATION",
+    "target": "Class 6th, 7th, 8th, 9th & 10th Students",
+    "eligibility": "School Students targeting NTSE, Olympiads & Early IIT/NEET Foundation",
+    "duration": "1 Academic Year (Parallel with School)",
+    "scholarshipWaiver": "Flat 30% Early Bird (Save ₹12,000+) | Up to 100% via RSAT",
+    "startingFee": "₹28,000",
+    "keyFeatures": [
+      "Strong conceptual foundation in Science & Mathematics without stress",
+      "Mental Ability, Logic & IQ building modules",
+      "Preparation for IOQM, NSTSE, SOF Olympiads & NTSE",
+      "School board examination excellence with 95%+ board scores"
+    ],
+    "order": 4,
+    "active": true
+  },
+  {
+    "id": "course-online",
+    "createdAt": "2026-09-30T13:17:24.745Z",
+    "updatedAt": "2026-09-30T13:17:24.745Z",
+    "domainKey": "online",
+    "title": "RankersPath Online Programs",
+    "desc": "New LIVE courses for classes 6-10 and Online Test Series for classes 11, 12 & 12+ to level up JEE & NEET preparation.",
+    "tuitionFee": "₹4,999 onwards",
+    "badge": "Online",
+    "category": "DIGITAL & HYBRID",
+    "target": "All-India Distance & Hybrid Learners",
+    "eligibility": "Students anywhere in India from Class 6th to 12th Pass",
+    "duration": "Flexible Full Academic Year Access",
+    "scholarshipWaiver": "Up to 90% (Save via RSAT)",
+    "startingFee": "₹999",
+    "keyFeatures": [
+      "Live two-way interactive classes by Kota/Indore senior faculty",
+      "All-India Test Series (AIOTS) with predictive AIR percentile rank",
+      "Complete printed modules delivered to your home + digital eBooks",
+      "Recorded lecture repository for unlimited revision anytime, anywhere"
+    ],
+    "order": 5,
+    "active": true
+  }
+]

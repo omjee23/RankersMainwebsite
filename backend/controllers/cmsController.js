@@ -9,7 +9,7 @@ async function getCMSContent(req, res, next) {
     let cms = collections.cmsContent.findOne({ id: 'default-cms' });
     if (!cms) {
       cms = {
-        bannerNotice: 'Admissions Open for NEET & IIT-JEE 2026-27 | RankX Offline Scholarship Test Registrations Open!',
+        bannerNotice: 'Admissions Open for NEET & IIT-JEE 2026-27 | RANKEX Scholarship Test Registrations Open!',
         nextBatchDate: '24 June 2026',
         dropperBatchAlert: 'NEET Dropper Batch starting 24 June 2026. Limited seats per batch (30 students only).',
         helplinePhone: '9131435511',
