@@ -87,7 +87,7 @@ export const resolvePhotoUrl = (photo) => {
     return photo;
   }
   if (photo.startsWith('/uploads/')) {
-    return `http://localhost:5002${photo}`;
+    return photo;
   }
   return photo;
 };

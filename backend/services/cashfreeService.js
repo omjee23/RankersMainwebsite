@@ -95,8 +95,8 @@ async function createCashfreeOrder({
           customer_phone: customerPhone
         },
         order_meta: {
-          return_url: orderMeta.return_url || `http://localhost:5175/?cf_order_id=${orderId}`,
-          notify_url: orderMeta.notify_url || `http://localhost:5002/api/payments/cashfree/webhook`
+          return_url: orderMeta.return_url || (process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/?cf_order_id=${orderId}` : `http://localhost:5175/?cf_order_id=${orderId}`),
+          notify_url: orderMeta.notify_url || (process.env.BACKEND_URL ? `${process.env.BACKEND_URL}/api/payments/cashfree/webhook` : `http://localhost:5002/api/payments/cashfree/webhook`)
         },
         order_note: orderNote
       })

@@ -12,6 +12,7 @@ import {
   Calendar
 } from 'lucide-react';
 import { resolvePhotoUrl } from '../utils/imageUtils';
+import { API_BASE_URL } from '../services/api';
 
 const FALLBACK_FACULTY = [
   {
@@ -124,7 +125,7 @@ export default function TeamPageView({ onBack, onOpenEnquiry }) {
   const fetchFaculty = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5002/api/faculty');
+      const res = await fetch(`${API_BASE_URL}/faculty`);
       const json = await res.json();
       if (json.success && json.data && json.data.length > 0) {
         setFacultyList(json.data);

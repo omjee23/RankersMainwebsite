@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Award, BookOpen, Star, GraduationCap, ArrowRight, Sparkles } from 'lucide-react';
 import { resolvePhotoUrl } from '../utils/imageUtils';
+import { API_BASE_URL } from '../services/api';
 
 const DEFAULT_FOUNDERS = [
   {
@@ -74,7 +75,7 @@ export default function FacultySection({ onOpenTeam }) {
 
   const fetchHomeFaculty = async () => {
     try {
-      const res = await fetch('http://localhost:5002/api/faculty?home=true');
+      const res = await fetch(`${API_BASE_URL}/faculty?home=true`);
       const json = await res.json();
       if (json.success && json.data && json.data.length > 0) {
         setFaculty(json.data);

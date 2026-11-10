@@ -18,7 +18,7 @@ import {
   Phone,
   Calendar
 } from 'lucide-react';
-import { adminApi } from '../services/adminApi';
+import { adminApi, API_BASE_URL } from '../services/adminApi';
 
 export default function BiometricAttendanceDesk() {
   const [todayData, setTodayData] = useState(null);
@@ -95,7 +95,7 @@ export default function BiometricAttendanceDesk() {
   });
 
   const exportCsv = () => {
-    window.open('http://localhost:5002/api/attendance/export-csv', '_blank');
+    window.open(`${API_BASE_URL}/attendance/export-csv`, '_blank');
   };
 
   return (

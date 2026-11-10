@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image as ImageIcon, X, ZoomIn, RefreshCw } from 'lucide-react';
+import { API_BASE_URL } from '../services/api';
 
 const DEFAULT_GALLERY_IMAGES = [
   { id: 'def-1', src: '/assets/web/gallery-1.jpg', title: 'Classroom Session in Progress', tag: 'Classroom' },
@@ -28,7 +29,7 @@ export default function GallerySection() {
     const fetchGallery = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5002/api/gallery');
+        const res = await fetch(`${API_BASE_URL}/gallery`);
         const data = await res.json();
         if (data && data.success && Array.isArray(data.data) && data.data.length > 0) {
           setImages(data.data);
