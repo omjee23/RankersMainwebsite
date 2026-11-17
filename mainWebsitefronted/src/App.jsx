@@ -29,11 +29,79 @@ import TestimonialsSection from './components/TestimonialsSection';
 import SEOHead from './components/SEOHead';
 import { MessageCircle, Award, Zap } from 'lucide-react';
 
+export const ROUTE_PATH_MAP = {
+  '/': 'home',
+  '/home': 'home',
+  '/about': 'about',
+  '/about-us': 'about',
+  '/team': 'team',
+  '/faculty': 'team',
+  '/mentors': 'team',
+  '/admission': 'admission',
+  '/admissions': 'admission',
+  '/apply': 'admission',
+  '/refund-policy': 'refund-policy',
+  '/courses/jee-advanced': 'course-jee-adv',
+  '/courses/jee-adv': 'course-jee-adv',
+  '/courses/neet-ug': 'course-neet-ug',
+  '/courses/neet': 'course-neet-ug',
+  '/courses/jee-main': 'course-jee-main',
+  '/courses/foundation': 'course-foundation',
+  '/student-dashboard': 'dashboard',
+  '/dashboard': 'dashboard',
+  '/rsat': 'rsat-dashboard',
+  '/rsat-portal': 'rsat-dashboard',
+  '/rsat-dashboard': 'rsat-dashboard',
+  '/rankx': 'rankx-dashboard',
+  '/rankex': 'rankx-dashboard',
+  '/rankex-portal': 'rankx-dashboard'
+};
+
+export const TAB_ROUTE_MAP = {
+  'home': '/',
+  'about': '/about',
+  'team': '/faculty',
+  'admission': '/admissions',
+  'refund-policy': '/refund-policy',
+  'course-jee-adv': '/courses/jee-advanced',
+  'course-neet-ug': '/courses/neet-ug',
+  'course-jee-main': '/courses/jee-main',
+  'course-foundation': '/courses/foundation',
+  'dashboard': '/student-dashboard',
+  'rsat-dashboard': '/rsat-portal',
+  'rankx-dashboard': '/rankex-portal'
+};
+
+function getInitialTabFromUrl() {
+  if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+  return ROUTE_PATH_MAP[path] || 'home';
+}
+
 export default function App() {
   const [user, setUser] = useState(null); // Enrolled Classroom LMS Student
   const [rsatUser, setRsatUser] = useState(null); // RSAT Scholarship Student Session
   const [rankxUser, setRankxUser] = useState(null); // RANKEX Talent Exam Student Session
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'team', 'refund-policy', 'admission', 'dashboard', 'rsat-dashboard', 'rankx-dashboard', etc.
+  const [activeTab, setActiveTabState] = useState(getInitialTabFromUrl);
+
+  const navigateTab = (tab, options = {}) => {
+    setActiveTabState(tab);
+    const targetPath = TAB_ROUTE_MAP[tab] || '/';
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname !== targetPath) {
+        if (options.replace) {
+          window.history.replaceState({ tab }, '', targetPath);
+        } else {
+          window.history.pushState({ tab }, '', targetPath);
+        }
+      }
+      if (!options.preventScroll) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
+  const setActiveTab = navigateTab;
   const [selectedCourseSlug, setSelectedCourseSlug] = useState('jee-adv');
   const [isRankXOpen, setIsRankXOpen] = useState(false);
   const [isRsatPaymentOpen, setIsRsatPaymentOpen] = useState(false);
@@ -86,6 +154,38 @@ export default function App() {
     setIsRsatPaymentOpen(false);
     setIsCbtExamOpen(true);
   };
+
+  // Synchronize browser history (Back/Forward) and direct URL section scroll
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleInitialSectionScroll = () => {
+      const currentPath = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+      if (currentPath === '/courses' || currentPath === '/contact' || currentPath === '/why-us' || currentPath === '/gallery') {
+        setActiveTabState('home');
+        window.history.replaceState({ tab: 'home' }, '', '/');
+        setTimeout(() => {
+          const id = currentPath.replace('/', '');
+          const targetId = id === 'courses' ? 'courses-fee' : id;
+          const el = document.getElementById(targetId) || document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+      } else if (ROUTE_PATH_MAP[currentPath]) {
+        setActiveTabState(ROUTE_PATH_MAP[currentPath]);
+      }
+    };
+
+    handleInitialSectionScroll();
+
+    const handlePopState = (e) => {
+      const currentPath = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+      const targetTab = (e.state && e.state.tab) || ROUTE_PATH_MAP[currentPath] || 'home';
+      setActiveTabState(targetTab);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Check persisted student logins independently
   useEffect(() => {

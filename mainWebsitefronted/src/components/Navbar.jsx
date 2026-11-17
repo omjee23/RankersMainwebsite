@@ -64,7 +64,7 @@ export default function Navbar({
           
           {/* Brand Logo & Tagline */}
           <a
-            href="#top"
+            href="/"
             onClick={handleGoHome}
             className="flex items-center gap-3 group flex-shrink-0 cursor-pointer"
             title="RankersPath Indore — Safalta Ka Sankalp (Home)"
@@ -75,9 +75,10 @@ export default function Navbar({
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-2 xl:gap-3 2xl:gap-3.5 text-xs font-black text-slate-800 uppercase tracking-wide">
             {/* Primary HOME Navigation Button */}
-            <button
+            <a
+              href="/"
               onClick={handleGoHome}
-              className={`transition hover:border-b-2 hover:border-brand-yellow pb-1 font-black whitespace-nowrap flex items-center gap-1.5 ${
+              className={`transition hover:border-b-2 hover:border-brand-yellow pb-1 font-black whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'home'
                   ? 'text-brand-navy border-b-2 border-brand-yellow font-extrabold'
                   : 'text-slate-800 hover:text-brand-yellowDark'
@@ -86,7 +87,7 @@ export default function Navbar({
             >
               <Home className="w-4 h-4 text-brand-yellow" />
               <span>HOME</span>
-            </button>
+            </a>
 
             {/* Dropdown for COURSES & FEE */}
             <div
@@ -94,159 +95,177 @@ export default function Navbar({
               onMouseEnter={() => setCoursesDropdownOpen(true)}
               onMouseLeave={() => setCoursesDropdownOpen(false)}
             >
-              <button
+              <a
+                href="/courses"
                 onClick={(e) => handleNavigateHomeSection('courses-fee', e)}
-                className={`hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1 whitespace-nowrap font-black flex items-center gap-1 ${
+                className={`hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1 whitespace-nowrap font-black flex items-center gap-1 cursor-pointer ${
                   activeTab.startsWith('course-') ? 'text-brand-navy border-b-2 border-brand-yellow' : ''
                 }`}
               >
                 <span>COURSES &amp; FEE</span>
                 <ChevronDown className="w-3.5 h-3.5" />
-              </button>
+              </a>
 
               {coursesDropdownOpen && (
                 <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <button
-                    onClick={() => {
+                  <a
+                    href="/courses/jee-advanced"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setCoursesDropdownOpen(false);
                       if (onOpenCoursePage) onOpenCoursePage('jee-adv');
                     }}
-                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition"
+                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition cursor-pointer"
                   >
                     <div>
                       <span className="block text-slate-900 font-extrabold">JEE (Main + Advanced)</span>
                       <span className="text-[10px] text-slate-500 font-normal">IIT-JEE 11th, 12th &amp; Droppers</span>
                     </div>
                     <span className="text-[10px] bg-brand-yellow/30 text-brand-navy px-1.5 py-0.5 rounded font-black">IIT</span>
-                  </button>
+                  </a>
 
-                  <button
-                    onClick={() => {
+                  <a
+                    href="/courses/neet-ug"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setCoursesDropdownOpen(false);
                       if (onOpenCoursePage) onOpenCoursePage('neet-ug');
                     }}
-                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition"
+                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition cursor-pointer"
                   >
                     <div>
                       <span className="block text-slate-900 font-extrabold">Pre-Medical (NEET-UG)</span>
                       <span className="text-[10px] text-slate-500 font-normal">Medical 11th, 12th &amp; Repeaters</span>
                     </div>
                     <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-black">NEET</span>
-                  </button>
+                  </a>
 
-                  <button
-                    onClick={() => {
+                  <a
+                    href="/courses/jee-main"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setCoursesDropdownOpen(false);
                       if (onOpenCoursePage) onOpenCoursePage('jee-main');
                     }}
-                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition"
+                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition cursor-pointer"
                   >
                     <div>
                       <span className="block text-slate-900 font-extrabold">JEE (Main) Focused</span>
                       <span className="text-[10px] text-slate-500 font-normal">Speed &amp; Accuracy for NITs/IIITs</span>
                     </div>
                     <span className="text-[10px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-black">NTA</span>
-                  </button>
+                  </a>
 
-                  <button
-                    onClick={() => {
+                  <a
+                    href="/courses/foundation"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setCoursesDropdownOpen(false);
                       if (onOpenCoursePage) onOpenCoursePage('pncf');
                     }}
-                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition"
+                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition cursor-pointer"
                   >
                     <div>
                       <span className="block text-slate-900 font-extrabold">Foundation (9th &amp; 10th)</span>
                       <span className="text-[10px] text-slate-500 font-normal">Olympiads, NTSE &amp; Boards</span>
                     </div>
                     <span className="text-[10px] bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded font-black">PNCF</span>
-                  </button>
+                  </a>
 
                   <div className="border-t border-slate-100 my-1" />
 
-                  <button
+                  <a
+                    href="/courses"
                     onClick={(e) => {
                       setCoursesDropdownOpen(false);
                       handleNavigateHomeSection('courses-fee', e);
                     }}
-                    className="w-full text-left px-4 py-2 text-[11px] font-bold text-slate-600 hover:text-brand-navy hover:bg-slate-50 transition flex items-center justify-between"
+                    className="w-full text-left px-4 py-2 text-[11px] font-bold text-slate-600 hover:text-brand-navy hover:bg-slate-50 transition flex items-center justify-between cursor-pointer"
                   >
                     <span>View All 5 Courses Overview</span>
                     <span>&rarr;</span>
-                  </button>
+                  </a>
                 </div>
               )}
             </div>
 
-            <button
-              onClick={onOpenAdmission}
-              className={`transition hover:border-b-2 hover:border-brand-yellow pb-1 font-black whitespace-nowrap ${
+            <a
+              href="/admissions"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onOpenAdmission) onOpenAdmission();
+              }}
+              className={`transition hover:border-b-2 hover:border-brand-yellow pb-1 font-black whitespace-nowrap cursor-pointer ${
                 activeTab === 'admission'
                   ? 'text-brand-yellowDark border-b-2 border-brand-yellow'
                   : 'hover:text-brand-yellowDark'
               }`}
             >
               ADMISSION FORM
-            </button>
+            </a>
 
             {/* SEPARATE RSAT BUTTON WITH LOGOUT */}
             {rsatUser ? (
               <div className="flex items-center shadow-sm rounded-lg overflow-hidden border border-emerald-500/40">
-                <button
-                  onClick={onOpenRSAT}
-                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider transition whitespace-nowrap flex items-center gap-1.5"
+                <a
+                  href="/rsat-portal"
+                  onClick={(e) => { e.preventDefault(); onOpenRSAT(); }}
+                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider transition whitespace-nowrap flex items-center gap-1.5 cursor-pointer"
                   title="Open RSAT Dashboard"
                 >
                   <Award className="w-3.5 h-3.5 text-brand-yellow" />
                   <span>RSAT: {typeof rsatUser?.fullName === 'string' ? rsatUser.fullName.split(' ')[0] : 'PORTAL'}</span>
-                </button>
+                </a>
                 <button
                   onClick={onLogoutRsat}
-                  className="px-2 py-1.5 bg-emerald-800 hover:bg-red-600 text-emerald-100 hover:text-white border-l border-emerald-700/60 font-bold text-xs transition flex items-center justify-center"
+                  className="px-2 py-1.5 bg-emerald-800 hover:bg-red-600 text-emerald-100 hover:text-white border-l border-emerald-700/60 font-bold text-xs transition flex items-center justify-center cursor-pointer"
                   title="Logout from RSAT"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
               </div>
             ) : (
-              <button
-                onClick={onOpenRSAT}
-                className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider transition shadow-sm whitespace-nowrap transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
+              <a
+                href="/rsat-portal"
+                onClick={(e) => { e.preventDefault(); onOpenRSAT(); }}
+                className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider transition shadow-sm whitespace-nowrap transform hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer"
                 title="RSAT — Scholarship Exam (Online CBT & Offline)"
               >
                 <Award className="w-3.5 h-3.5 text-brand-yellow" />
                 <span>RSAT</span>
-              </button>
+              </a>
             )}
 
             {/* SEPARATE RANKEX BUTTON WITH LOGOUT */}
             {rankxUser ? (
               <div className="flex items-center shadow-sm rounded-lg overflow-hidden border border-amber-500/50">
-                <button
-                  onClick={onOpenRankX}
-                  className="px-3 py-1.5 bg-brand-yellow hover:bg-[#e6a500] text-brand-navy font-black text-xs uppercase tracking-wider transition whitespace-nowrap flex items-center gap-1.5"
+                <a
+                  href="/rankex-portal"
+                  onClick={(e) => { e.preventDefault(); onOpenRankX(); }}
+                  className="px-3 py-1.5 bg-brand-yellow hover:bg-[#e6a500] text-brand-navy font-black text-xs uppercase tracking-wider transition whitespace-nowrap flex items-center gap-1.5 cursor-pointer"
                   title="Open RANKEX Dashboard"
                 >
                   <Award className="w-3.5 h-3.5 text-brand-navy" />
                   <span>RANKEX: {typeof rankxUser?.fullName === 'string' ? rankxUser.fullName.split(' ')[0] : 'PORTAL'}</span>
-                </button>
+                </a>
                 <button
                   onClick={onLogoutRankX}
-                  className="px-2 py-1.5 bg-amber-600 hover:bg-red-600 text-white border-l border-amber-600/70 font-bold text-xs transition flex items-center justify-center"
+                  className="px-2 py-1.5 bg-amber-600 hover:bg-red-600 text-white border-l border-amber-600/70 font-bold text-xs transition flex items-center justify-center cursor-pointer"
                   title="Logout from RANKEX"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
               </div>
             ) : (
-              <button
-                onClick={onOpenRankX}
-                className="px-3.5 py-1.5 rounded-lg bg-brand-yellow text-brand-navy hover:bg-[#e6a500] font-black text-xs uppercase tracking-wider transition shadow-sm whitespace-nowrap transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
+              <a
+                href="/rankex-portal"
+                onClick={(e) => { e.preventDefault(); onOpenRankX(); }}
+                className="px-3.5 py-1.5 rounded-lg bg-brand-yellow text-brand-navy hover:bg-[#e6a500] font-black text-xs uppercase tracking-wider transition shadow-sm whitespace-nowrap transform hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer"
                 title="RANKEX — Talent & Excellence Scholarship Exam (Online & Offline)"
               >
                 <Award className="w-3.5 h-3.5 text-brand-navy" />
                 <span>RANKEX</span>
-              </button>
+              </a>
             )}
 
             {/* Dropdown for ABOUT US (About RankersPath, Faculty Team, Rankers & Reviews) */}
@@ -257,7 +276,7 @@ export default function Navbar({
             >
               <button
                 onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
-                className={`hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1 whitespace-nowrap font-black flex items-center gap-1 ${
+                className={`hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1 whitespace-nowrap font-black flex items-center gap-1 cursor-pointer ${
                   activeTab === 'about' || activeTab === 'team'
                     ? 'text-brand-navy border-b-2 border-brand-yellow'
                     : 'text-slate-800'
@@ -270,12 +289,14 @@ export default function Navbar({
               {aboutDropdownOpen && (
                 <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                   {/* 1. About RankersPath */}
-                  <button
-                    onClick={() => {
+                  <a
+                    href="/about"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setAboutDropdownOpen(false);
                       if (onOpenAbout) onOpenAbout();
                     }}
-                    className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-slate-50 transition flex items-center justify-between ${
+                    className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-slate-50 transition flex items-center justify-between cursor-pointer ${
                       activeTab === 'about' ? 'text-brand-navy bg-amber-50/60 font-black' : 'text-slate-800 hover:text-brand-navy'
                     }`}
                   >
@@ -284,15 +305,17 @@ export default function Navbar({
                       <span className="text-[10px] text-slate-500 font-normal">Our Legacy, Mission &amp; Methodology</span>
                     </div>
                     <span className="text-[10px] bg-brand-yellow/30 text-brand-navy px-1.5 py-0.5 rounded font-black">STORY</span>
-                  </button>
+                  </a>
 
                   {/* 2. Faculty Team */}
-                  <button
-                    onClick={() => {
+                  <a
+                    href="/faculty"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setAboutDropdownOpen(false);
                       if (onOpenTeam) onOpenTeam();
                     }}
-                    className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-slate-50 transition flex items-center justify-between ${
+                    className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-slate-50 transition flex items-center justify-between cursor-pointer ${
                       activeTab === 'team' ? 'text-brand-navy bg-amber-50/60 font-black' : 'text-slate-800 hover:text-brand-navy'
                     }`}
                   >
@@ -301,22 +324,23 @@ export default function Navbar({
                       <span className="text-[10px] text-slate-500 font-normal">Kota Star Mentors (25+ Yrs Exp)</span>
                     </div>
                     <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-black">TEAM</span>
-                  </button>
+                  </a>
 
                   {/* 3. Rankers & Reviews */}
-                  <button
+                  <a
+                    href="/testimonials"
                     onClick={(e) => {
                       setAboutDropdownOpen(false);
                       handleNavigateHomeSection('testimonials', e);
                     }}
-                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition"
+                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-slate-50 hover:text-brand-navy flex items-center justify-between transition cursor-pointer"
                   >
                     <div>
                       <span className="block text-slate-900 font-extrabold">Rankers &amp; Reviews</span>
                       <span className="text-[10px] text-slate-500 font-normal">Student Testimonials &amp; Hall of Fame</span>
                     </div>
                     <span className="text-[10px] bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded font-black">REVIEWS</span>
-                  </button>
+                  </a>
 
                   <div className="border-t border-slate-100 my-1" />
 
@@ -341,12 +365,13 @@ export default function Navbar({
               )}
             </div>
 
-            <button
+            <a
+              href="/contact"
               onClick={(e) => handleNavigateHomeSection('contact', e)}
-              className="hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1 whitespace-nowrap font-black"
+              className="hover:text-brand-yellowDark transition hover:border-b-2 hover:border-brand-yellow pb-1 whitespace-nowrap font-black cursor-pointer"
             >
               CONTACT
-            </button>
+            </a>
 
             {/* LOGIN / SIGN IN / STUDENT ACCOUNT BUTTON (SMART SESSION AWARE) */}
             {user ? (

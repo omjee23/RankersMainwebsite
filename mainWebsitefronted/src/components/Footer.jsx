@@ -70,71 +70,79 @@ export default function Footer({
             <h4 className="text-xs uppercase font-extrabold tracking-wider text-brand-yellow">Explore Courses</h4>
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
-                <button
-                  onClick={() => onOpenCoursePage && onOpenCoursePage('jee-adv')}
-                  className="hover:text-white transition text-left"
+                <a
+                  href="/courses/jee-advanced"
+                  onClick={(e) => { e.preventDefault(); onOpenCoursePage && onOpenCoursePage('jee-adv'); }}
+                  className="hover:text-white transition text-left block"
                 >
                   JEE (Main + Advanced)
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onOpenCoursePage && onOpenCoursePage('neet-ug')}
-                  className="hover:text-white transition text-left"
+                <a
+                  href="/courses/neet-ug"
+                  onClick={(e) => { e.preventDefault(); onOpenCoursePage && onOpenCoursePage('neet-ug'); }}
+                  className="hover:text-white transition text-left block"
                 >
                   Pre-Medical (NEET-UG)
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onOpenCoursePage && onOpenCoursePage('jee-main')}
-                  className="hover:text-white transition text-left"
+                <a
+                  href="/courses/jee-main"
+                  onClick={(e) => { e.preventDefault(); onOpenCoursePage && onOpenCoursePage('jee-main'); }}
+                  className="hover:text-white transition text-left block"
                 >
                   JEE (Main) Focused
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onOpenCoursePage && onOpenCoursePage('pncf')}
-                  className="hover:text-white transition text-left"
+                <a
+                  href="/courses/foundation"
+                  onClick={(e) => { e.preventDefault(); onOpenCoursePage && onOpenCoursePage('pncf'); }}
+                  className="hover:text-white transition text-left block"
                 >
                   Foundation (9th &amp; 10th)
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={onOpenAbout}
-                  className="hover:text-brand-yellow text-brand-yellow font-extrabold transition text-left"
+                <a
+                  href="/about"
+                  onClick={(e) => { e.preventDefault(); onOpenAbout && onOpenAbout(); }}
+                  className="hover:text-brand-yellow text-brand-yellow font-extrabold transition text-left block"
                 >
                   About Rankers Path
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={onOpenTeam}
-                  className="hover:text-white transition text-left"
+                <a
+                  href="/faculty"
+                  onClick={(e) => { e.preventDefault(); onOpenTeam && onOpenTeam(); }}
+                  className="hover:text-white transition text-left block"
                 >
                   Faculty &amp; Mentors Team
-                </button>
+                </a>
               </li>
-              <li><a href="#why-us" className="hover:text-white transition">Why Rankers Path</a></li>
-              <li><a href="#gallery" className="hover:text-white transition">Photo Gallery</a></li>
-              <li><a href="#contact" className="hover:text-white transition">Contact &amp; Location</a></li>
+              <li><a href="/why-us" className="hover:text-white transition block">Why Rankers Path</a></li>
+              <li><a href="/gallery" className="hover:text-white transition block">Photo Gallery</a></li>
+              <li><a href="/contact" className="hover:text-white transition block">Contact &amp; Location</a></li>
               <li>
-                <button
-                  onClick={onOpenAdmission}
-                  className="hover:text-brand-yellow text-brand-yellow font-bold transition text-left"
+                <a
+                  href="/admissions"
+                  onClick={(e) => { e.preventDefault(); onOpenAdmission && onOpenAdmission(); }}
+                  className="hover:text-brand-yellow text-brand-yellow font-bold transition text-left block"
                 >
                   Offline / Online Admission Form
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={onOpenRefundPolicy}
-                  className="hover:text-brand-yellow text-amber-300 font-semibold transition text-left"
+                <a
+                  href="/refund-policy"
+                  onClick={(e) => { e.preventDefault(); onOpenRefundPolicy && onOpenRefundPolicy(); }}
+                  className="hover:text-brand-yellow text-amber-300 font-semibold transition text-left block"
                 >
                   Refund &amp; Transfer Policy
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -144,24 +152,40 @@ export default function Footer({
             <h4 className="text-xs uppercase font-extrabold tracking-wider text-brand-yellow">Exams &amp; Tests</h4>
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
-                <button onClick={onOpenRankX} className="hover:text-white transition text-left">
+                <a
+                  href="/rankex-portal"
+                  onClick={(e) => { e.preventDefault(); onOpenRankX && onOpenRankX(); }}
+                  className="hover:text-white transition text-left block"
+                >
                   RANKEX 2027 Scholarship Exam
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onOpenRSAT} className="hover:text-white transition text-left">
+                <a
+                  href="/rsat-portal"
+                  onClick={(e) => { e.preventDefault(); onOpenRSAT && onOpenRSAT(); }}
+                  className="hover:text-white transition text-left block"
+                >
                   RSAT Online Scholarship
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onOpenRSAT} className="hover:text-white transition text-left">
+                <a
+                  href="/rsat-portal"
+                  onClick={(e) => { e.preventDefault(); onOpenRSAT && onOpenRSAT(); }}
+                  className="hover:text-white transition text-left block"
+                >
                   NEET 20-Test Mock Series
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onOpenRSAT} className="hover:text-white transition text-left">
+                <a
+                  href="/rsat-portal"
+                  onClick={(e) => { e.preventDefault(); onOpenRSAT && onOpenRSAT(); }}
+                  className="hover:text-white transition text-left block"
+                >
                   IIT-JEE Advanced CBT
-                </button>
+                </a>
               </li>
               <li>
                 <button
