@@ -7,7 +7,9 @@ const {
   staffLogin,
   getCurrentUser,
   studentEmailSignup,
-  studentEmailLogin
+  studentEmailLogin,
+  requestAdminPasswordResetOtp,
+  resetAdminPassword
 } = require('../controllers/authController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 
@@ -17,6 +19,8 @@ router.post('/student-id-login', studentIdLogin);
 router.post('/staff-login', staffLogin);
 router.post('/student-email-signup', studentEmailSignup);
 router.post('/student-email-login', studentEmailLogin);
+router.post('/admin-forgot-password/request-otp', requestAdminPasswordResetOtp);
+router.post('/admin-forgot-password/reset-password', resetAdminPassword);
 router.get('/me', authMiddleware, getCurrentUser);
 
 module.exports = router;

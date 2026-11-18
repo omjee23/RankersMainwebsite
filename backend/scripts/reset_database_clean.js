@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcryptjs');
+
 const dataDir = path.join(__dirname, '../data');
 
-// Clean collections
+// Clean demo transaction collections
 const cleanTargets = [
   'rsat_registrations.json',
   'rankx_registrations.json',
@@ -10,27 +12,40 @@ const cleanTargets = [
   'admissions.json',
   'exam_submissions.json',
   'sms_logs.json',
-  'attendance.json'
+  'attendance.json',
+  'student_profiles.json'
 ];
 
 cleanTargets.forEach(f => {
-  fs.writeFileSync(path.join(dataDir, f), JSON.stringify([], null, 2), 'utf8');
-  console.log('Cleaned:', f);
+  const filePath = path.join(dataDir, f);
+  fs.writeFileSync(filePath, JSON.stringify([], null, 2), 'utf8');
+  console.log('Cleaned demo records from:', f);
 });
 
-// Reset users to Admin only
-const adminUser = [
+// Configure 2 Production Super-Admin accounts
+const adminUsers = [
   {
-    id: 'b457373e-18ad-47c5-b12b-b90b3b058f09',
+    id: 'admin-rankerspath-edu',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    email: 'admin@rankerspath.in',
-    fullName: 'Super Administrator',
+    email: 'rankerspath.edu@gmail.com',
+    fullName: 'Rankers Path Admin',
     role: 'admin',
     mobile: '9131435511',
-    password: '$2b$10$dNMdcrMl3o8bGfn7d/ZYguxIu36ljRFUJF26PnE.97nhKes8G2gjm'
+    password: bcrypt.hashSync('Rankerspath@321', 10)
+  },
+  {
+    id: 'admin-omjee-pal',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    email: 'omjeejob@gmail.com',
+    fullName: 'Om Jee Pal (Super Admin)',
+    role: 'admin',
+    mobile: '8707258045',
+    password: bcrypt.hashSync('Rankerspath@Om321', 10)
   }
 ];
-fs.writeFileSync(path.join(dataDir, 'users.json'), JSON.stringify(adminUser, null, 2), 'utf8');
-console.log('Cleaned users.json (Kept Super Administrator only)');
-console.log('Database successfully reset for fresh testing!');
+
+fs.writeFileSync(path.join(dataDir, 'users.json'), JSON.stringify(adminUsers, null, 2), 'utf8');
+console.log('✅ Updated users.json with 2 Production Super-Admin accounts.');
+console.log('✅ All demo student & previous admin accounts purged successfully!');

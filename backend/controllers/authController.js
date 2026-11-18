@@ -3,6 +3,11 @@ const bcrypt = require('bcryptjs');
 const { collections } = require('../config/db');
 const { ROLES } = require('../config/constants');
 const { sendOtp, verifyOtp } = require('../services/smsService');
+const {
+  sendAdminPasswordOtp,
+  verifyAdminEmailOtp,
+  clearAdminEmailOtp
+} = require('../services/emailService');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
 const { JWT_SECRET } = require('../middlewares/authMiddleware');
 
@@ -94,26 +99,47 @@ async function staffLogin(req, res, next) {
       return errorResponse(res, 'Email and password are required', 400);
     }
 
-    let staff = collections.users.findOne({ email: email.toLowerCase() });
+    const cleanEmail = email.toLowerCase().trim();
 
-    // Seed default admin if missing
-    if (!staff && email.toLowerCase() === 'admin@rankerspath.in') {
-      const hashedPassword = await bcrypt.hash('Admin@123', 10);
-      staff = collections.users.create({
-        email: 'admin@rankerspath.in',
-        fullName: 'Super Administrator',
-        role: ROLES.ADMIN,
+    // Default Super-Admin definitions
+    const DEFAULT_ADMINS = [
+      {
+        email: 'rankerspath.edu@gmail.com',
+        fullName: 'Rankers Path Admin',
         mobile: '9131435511',
-        password: hashedPassword
-      });
+        defaultPass: 'Rankerspath@321'
+      },
+      {
+        email: 'omjeejob@gmail.com',
+        fullName: 'Om Jee Pal (Super Admin)',
+        mobile: '8707258045',
+        defaultPass: 'Rankerspath@Om321'
+      }
+    ];
+
+    let staff = collections.users.findOne({ email: cleanEmail });
+
+    // Seed designated production admin if missing
+    if (!staff) {
+      const adminDef = DEFAULT_ADMINS.find(a => a.email === cleanEmail);
+      if (adminDef) {
+        const hashedPassword = await bcrypt.hash(adminDef.defaultPass, 10);
+        staff = collections.users.create({
+          email: adminDef.email,
+          fullName: adminDef.fullName,
+          role: ROLES.ADMIN,
+          mobile: adminDef.mobile,
+          password: hashedPassword
+        });
+      }
     }
 
-    if (!staff) {
-      return errorResponse(res, 'Invalid credentials', 401);
+    if (!staff || (staff.role !== ROLES.ADMIN && staff.role !== ROLES.FACULTY && staff.role !== 'staff')) {
+      return errorResponse(res, 'Invalid email or password', 401);
     }
 
     const isMatch = await bcrypt.compare(password, staff.password);
-    if (!isMatch && password !== 'Admin@123') { // Fallback dev check
+    if (!isMatch) {
       return errorResponse(res, 'Invalid email or password', 401);
     }
 
@@ -528,6 +554,125 @@ async function studentEmailLogin(req, res, next) {
   }
 }
 
+/**
+ * Request 5-digit OTP for Admin Password Reset
+ * Endpoint: POST /api/auth/admin-forgot-password/request-otp
+ */
+async function requestAdminPasswordResetOtp(req, res, next) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return errorResponse(res, 'Administrator email address is required', 400);
+    }
+
+    const cleanEmail = String(email).trim().toLowerCase();
+
+    const DEFAULT_ADMINS = [
+      {
+        email: 'rankerspath.edu@gmail.com',
+        fullName: 'Rankers Path Admin',
+        mobile: '9131435511',
+        defaultPass: 'Rankerspath@321'
+      },
+      {
+        email: 'omjeejob@gmail.com',
+        fullName: 'Om Jee Pal (Super Admin)',
+        mobile: '8707258045',
+        defaultPass: 'Rankerspath@Om321'
+      }
+    ];
+
+    let staff = collections.users.findOne({ email: cleanEmail });
+
+    if (!staff) {
+      const adminDef = DEFAULT_ADMINS.find(a => a.email === cleanEmail);
+      if (adminDef) {
+        const hashedPassword = await bcrypt.hash(adminDef.defaultPass, 10);
+        staff = collections.users.create({
+          email: adminDef.email,
+          fullName: adminDef.fullName,
+          role: ROLES.ADMIN,
+          mobile: adminDef.mobile,
+          password: hashedPassword
+        });
+      }
+    }
+
+    if (!staff || staff.role !== ROLES.ADMIN) {
+      return errorResponse(res, 'No administrator account found with this email address.', 404);
+    }
+
+    const result = await sendAdminPasswordOtp(staff.email, staff.fullName || 'Administrator');
+    return successResponse(res, result.message, {
+      email: staff.email,
+      devOtp: result.devOtp
+    });
+  } catch (err) {
+    return errorResponse(res, err.message, 400);
+  }
+}
+
+/**
+ * Verify 5-digit OTP & Reset Admin Password
+ * Endpoint: POST /api/auth/admin-forgot-password/reset-password
+ */
+async function resetAdminPassword(req, res, next) {
+  try {
+    const { email, otp, newPassword, confirmPassword } = req.body;
+
+    if (!email || !otp || !newPassword || !confirmPassword) {
+      return errorResponse(res, 'All fields (email, 5-digit OTP, new password, confirm password) are required', 400);
+    }
+
+    const cleanEmail = String(email).trim().toLowerCase();
+    const cleanOtp = String(otp).trim();
+
+    if (cleanOtp.length !== 5) {
+      return errorResponse(res, 'Please enter a valid 5-digit OTP', 400);
+    }
+
+    if (newPassword !== confirmPassword) {
+      return errorResponse(res, 'New password and confirm password do not match', 400);
+    }
+
+    if (newPassword.length < 6) {
+      return errorResponse(res, 'Password must be at least 6 characters long', 400);
+    }
+
+    // Verify 5-digit OTP
+    const verification = verifyAdminEmailOtp(cleanEmail, cleanOtp);
+    if (!verification.verified) {
+      return errorResponse(res, verification.message, 400);
+    }
+
+    // Find staff
+    let staff = collections.users.findOne({ email: cleanEmail });
+    if (!staff) {
+      return errorResponse(res, 'Administrator account not found', 404);
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user record in database
+    collections.users.findByIdAndUpdate(staff.id, {
+      password: hashedPassword,
+      updatedAt: new Date().toISOString()
+    });
+
+    // Invalidate OTP so it cannot be reused
+    clearAdminEmailOtp(cleanEmail);
+
+    console.log(`🔐 Admin password successfully updated for: ${cleanEmail}`);
+
+    return successResponse(res, 'Password has been updated successfully! Please log in with your updated password.', {
+      email: cleanEmail
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   requestOtp,
   verifyOtpAndLogin,
@@ -535,5 +680,7 @@ module.exports = {
   staffLogin,
   getCurrentUser,
   studentEmailSignup,
-  studentEmailLogin
+  studentEmailLogin,
+  requestAdminPasswordResetOtp,
+  resetAdminPassword
 };

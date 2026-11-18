@@ -16,6 +16,9 @@ import {
   Phone,
   Calendar,
   Lock,
+  Mail,
+  Key,
+  ArrowLeft,
   Sparkles,
   TrendingUp,
   Award,
@@ -146,6 +149,20 @@ export default function App() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  // Admin Forgot Password State (5-digit Email OTP Flow)
+  const [forgotModalOpen, setForgotModalOpen] = useState(false);
+  const [forgotStep, setForgotStep] = useState(1); // 1: Request OTP, 2: 5-digit OTP + New Password, 3: Success
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotOtp, setForgotOtp] = useState('');
+  const [forgotNewPassword, setForgotNewPassword] = useState('');
+  const [forgotConfirmPassword, setForgotConfirmPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
+  const [forgotError, setForgotError] = useState('');
+  const [forgotSuccess, setForgotSuccess] = useState('');
+  const [forgotCountdown, setForgotCountdown] = useState(0);
 
   // QR Attendance Input
   const [scanRollNumber, setScanRollNumber] = useState('');
@@ -764,6 +781,93 @@ export default function App() {
     setAdminUser(null);
   };
 
+  // Forgot Password Resend OTP Countdown
+  useEffect(() => {
+    if (forgotCountdown <= 0) return;
+    const timer = setInterval(() => {
+      setForgotCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [forgotCountdown]);
+
+  const handleOpenForgotModal = () => {
+    setForgotEmail(loginEmail || '');
+    setForgotOtp('');
+    setForgotNewPassword('');
+    setForgotConfirmPassword('');
+    setShowNewPassword(false);
+    setShowConfirmPassword(false);
+    setForgotError('');
+    setForgotSuccess('');
+    setForgotStep(1);
+    setForgotModalOpen(true);
+  };
+
+  const handleRequestForgotOtp = async (e) => {
+    if (e) e.preventDefault();
+    const clean = String(forgotEmail).trim().toLowerCase();
+    if (!clean || !clean.includes('@')) {
+      setForgotError('Please enter a valid administrator email address.');
+      return;
+    }
+    setForgotError('');
+    setForgotLoading(true);
+    const res = await adminApi.requestAdminPasswordResetOtp(clean);
+    setForgotLoading(false);
+
+    if (res.success) {
+      setForgotStep(2);
+      setForgotCountdown(60);
+      setForgotSuccess(res.message || '5-digit OTP sent to your registered email.');
+    } else {
+      setForgotError(res.message || 'Failed to send OTP. Please verify your email.');
+    }
+  };
+
+  const handleResetAdminPassword = async (e) => {
+    e.preventDefault();
+    setForgotError('');
+
+    const cleanOtp = String(forgotOtp).trim();
+    if (!cleanOtp || cleanOtp.length !== 5) {
+      setForgotError('Please enter the 5-digit verification code.');
+      return;
+    }
+
+    if (!forgotNewPassword || forgotNewPassword.length < 6) {
+      setForgotError('New password must be at least 6 characters long.');
+      return;
+    }
+
+    if (forgotNewPassword !== forgotConfirmPassword) {
+      setForgotError('New password and confirm password do not match.');
+      return;
+    }
+
+    setForgotLoading(true);
+    const res = await adminApi.resetAdminPassword({
+      email: forgotEmail.trim().toLowerCase(),
+      otp: cleanOtp,
+      newPassword: forgotNewPassword,
+      confirmPassword: forgotConfirmPassword
+    });
+    setForgotLoading(false);
+
+    if (res.success) {
+      setForgotStep(3);
+      setForgotSuccess(res.message || 'Password successfully updated!');
+    } else {
+      setForgotError(res.message || 'Password reset failed. Please check the OTP.');
+    }
+  };
+
+  const handleCompleteResetAndLogin = () => {
+    setForgotModalOpen(false);
+    setLoginEmail(forgotEmail);
+    setLoginPassword('');
+    setLoginError('');
+  };
+
   const handleScanAttendance = async (e) => {
     e.preventDefault();
     if (!scanRollNumber) return;
@@ -836,7 +940,7 @@ export default function App() {
                 <input
                   type="email"
                   required
-                  placeholder="admin@rankerspath.in"
+                  placeholder="e.g. rankerspath.edu@gmail.com"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-yellow"
@@ -844,7 +948,16 @@ export default function App() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-slate-700 uppercase">Password</label>
+                  <button
+                    type="button"
+                    onClick={handleOpenForgotModal}
+                    className="text-xs font-semibold text-brand-navy hover:text-amber-600 transition underline underline-offset-2"
+                  >
+                    Forgot Password? / पासवर्ड भूल गए?
+                  </button>
+                </div>
                 <input
                   type="password"
                   required
@@ -865,6 +978,233 @@ export default function App() {
             </form>
           </div>
         </div>
+
+        {/* Forgot Password Modal (5-Digit Email OTP Flow) */}
+        {forgotModalOpen && (
+          <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in duration-200">
+              {/* Modal Header */}
+              <div className="bg-brand-navy p-6 text-white text-center relative border-b border-brand-yellow/30">
+                <button
+                  type="button"
+                  onClick={() => setForgotModalOpen(false)}
+                  className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg transition"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-brand-yellow/30">
+                  <Key className="w-6 h-6 text-brand-yellow" />
+                </div>
+                <h3 className="text-lg font-extrabold text-white">
+                  {forgotStep === 3 ? 'Password Updated!' : 'Admin Password Reset'}
+                </h3>
+                <p className="text-xs text-brand-yellow font-semibold mt-0.5">
+                  {forgotStep === 1 && 'Step 1: Request 5-Digit Email OTP'}
+                  {forgotStep === 2 && 'Step 2: Enter 5-Digit OTP & Set Password'}
+                  {forgotStep === 3 && 'Verification Complete'}
+                </p>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-4">
+                {forgotError && (
+                  <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs font-bold text-rose-700 flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>{forgotError}</span>
+                  </div>
+                )}
+
+                {forgotSuccess && forgotStep !== 3 && (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
+                    <span>{forgotSuccess}</span>
+                  </div>
+                )}
+
+                {/* STEP 1: Enter Registered Admin Email */}
+                {forgotStep === 1 && (
+                  <form onSubmit={handleRequestForgotOtp} className="space-y-4">
+                    <div>
+                      <p className="text-xs text-slate-600 mb-3 leading-relaxed">
+                        Apna registered administrator email enter karein. Aapke email address par ek <strong className="text-slate-900 font-bold">5-digit random security OTP</strong> bheja jayega.
+                      </p>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        Registered Admin Email
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="email"
+                          required
+                          placeholder="e.g. rankerspath.edu@gmail.com"
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-yellow"
+                        />
+                        <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setForgotModalOpen(false)}
+                        className="w-1/3 py-3 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-xl font-bold text-xs transition"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={forgotLoading}
+                        className="w-2/3 py-3 bg-brand-navy hover:bg-brand-navyLight text-brand-yellow rounded-xl font-extrabold text-xs shadow-md transition flex items-center justify-center gap-1.5"
+                      >
+                        {forgotLoading ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-brand-yellow border-t-transparent rounded-full animate-spin" />
+                            Sending OTP...
+                          </>
+                        ) : (
+                          <>
+                            Send 5-Digit OTP <Send className="w-3.5 h-3.5" />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* STEP 2: Enter 5-Digit OTP & Set New Password */}
+                {forgotStep === 2 && (
+                  <form onSubmit={handleResetAdminPassword} className="space-y-4">
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-bold text-slate-700 uppercase">
+                          5-Digit OTP
+                        </label>
+                        <span className="text-[11px] text-slate-500">Sent to: {forgotEmail}</span>
+                      </div>
+                      <input
+                        type="text"
+                        required
+                        maxLength={5}
+                        placeholder="•••••"
+                        value={forgotOtp}
+                        onChange={(e) => setForgotOtp(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                        className="w-full px-4 py-3 text-center tracking-[0.5em] text-xl font-extrabold rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-yellow bg-slate-50 font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        New Password / नया पासवर्ड
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showNewPassword ? 'text' : 'password'}
+                          required
+                          placeholder="Enter new password (min. 6 characters)"
+                          value={forgotNewPassword}
+                          onChange={(e) => setForgotNewPassword(e.target.value)}
+                          className="w-full px-4 py-2.5 pr-10 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-yellow"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                          className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                        >
+                          {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        Confirm New Password / कन्फर्म पासवर्ड
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          required
+                          placeholder="Confirm new password"
+                          value={forgotConfirmPassword}
+                          onChange={(e) => setForgotConfirmPassword(e.target.value)}
+                          className="w-full px-4 py-2.5 pr-10 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-yellow"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                        >
+                          {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setForgotStep(1)}
+                        className="text-slate-500 hover:text-slate-700 flex items-center gap-1 font-medium"
+                      >
+                        <ArrowLeft className="w-3.5 h-3.5" /> Change Email
+                      </button>
+
+                      <button
+                        type="button"
+                        disabled={forgotCountdown > 0 || forgotLoading}
+                        onClick={handleRequestForgotOtp}
+                        className={`font-semibold ${forgotCountdown > 0 ? 'text-slate-400 cursor-not-allowed' : 'text-brand-navy hover:text-amber-600 underline'}`}
+                      >
+                        {forgotCountdown > 0 ? `Resend OTP in ${forgotCountdown}s` : 'Resend OTP'}
+                      </button>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={forgotLoading}
+                      className="w-full py-3 bg-brand-navy hover:bg-brand-navyLight text-brand-yellow rounded-xl font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2 mt-2"
+                    >
+                      {forgotLoading ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-brand-yellow border-t-transparent rounded-full animate-spin" />
+                          Updating Password...
+                        </>
+                      ) : (
+                        <>
+                          <Lock className="w-4 h-4" /> Reset Password &amp; Update
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+
+                {/* STEP 3: Password Reset Successful */}
+                {forgotStep === 3 && (
+                  <div className="text-center py-4 space-y-4">
+                    <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                      <CheckCircle2 className="w-9 h-9" />
+                    </div>
+                    <div>
+                      <h4 className="text-base font-extrabold text-slate-900">
+                        Password Updated Successfully!
+                      </h4>
+                      <p className="text-xs text-slate-600 mt-1.5 leading-relaxed max-w-xs mx-auto">
+                        Aapka administrator password safaltapoorvak update ho chuka hai. Ab aap apne naye password ke sath login kar sakte hain.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleCompleteResetAndLogin}
+                      className="w-full py-3.5 bg-brand-navy hover:bg-brand-navyLight text-brand-yellow rounded-xl font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2"
+                    >
+                      Proceed to Login / लॉगिन करें <ArrowLeft className="w-4 h-4 rotate-180" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

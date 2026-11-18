@@ -20,13 +20,48 @@ export const adminApi = {
       return await res.json();
     } catch (err) {
       console.warn('API error, using dev login simulation:', err.message);
-      if (email.toLowerCase() === 'admin@rankerspath.in' && (password === 'Admin@123' || password === 'admin')) {
-        const staff = { id: 'admin-1', fullName: 'Super Administrator', email, role: 'admin' };
+      const cleanEmail = String(email).trim().toLowerCase();
+      if (cleanEmail === 'rankerspath.edu@gmail.com' && password === 'Rankerspath@321') {
+        const staff = { id: 'admin-rankerspath-edu', fullName: 'Rankers Path Admin', email: 'rankerspath.edu@gmail.com', role: 'admin' };
         localStorage.setItem('rp_admin_token', 'dev-admin-jwt');
         localStorage.setItem('rp_admin_user', JSON.stringify(staff));
         return { success: true, data: { user: staff, token: 'dev-admin-jwt' } };
       }
-      return { success: false, message: 'Invalid credentials. Default is: admin@rankerspath.in / Admin@123' };
+      if (cleanEmail === 'omjeejob@gmail.com' && password === 'Rankerspath@Om321') {
+        const staff = { id: 'admin-omjee-pal', fullName: 'Om Jee Pal (Super Admin)', email: 'omjeejob@gmail.com', role: 'admin' };
+        localStorage.setItem('rp_admin_token', 'dev-admin-jwt');
+        localStorage.setItem('rp_admin_user', JSON.stringify(staff));
+        return { success: true, data: { user: staff, token: 'dev-admin-jwt' } };
+      }
+      return { success: false, message: 'Invalid email or password. Please verify or use Forgot Password.' };
+    }
+  },
+
+  // Admin Forgot Password - Request 5-Digit OTP
+  async requestAdminPasswordResetOtp(email) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/admin-forgot-password/request-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: err.message || 'Network error requesting OTP' };
+    }
+  },
+
+  // Admin Forgot Password - Reset Password with 5-Digit OTP
+  async resetAdminPassword({ email, otp, newPassword, confirmPassword }) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/admin-forgot-password/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp, newPassword, confirmPassword })
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: err.message || 'Network error resetting password' };
     }
   },
 
