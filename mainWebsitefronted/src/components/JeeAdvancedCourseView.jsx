@@ -106,10 +106,10 @@ export default function JeeAdvancedCourseView({
 
   const highlights = [
     { title: '4.5 Hours Daily Core Classroom Lectures', desc: 'In-depth Physics, Chemistry & Higher Mathematics with concept building' },
-    { title: 'Daily Practice Problems (DPP)', desc: '15 to 20 graded questions after every lecture with evening doubt clinic' },
+    { title: 'Daily Practice Problems (DPP)', desc: '15 to 20 graded questions after every lecture with evening doubt clearance' },
     { title: 'Advanced CBT Mock Test Series', desc: 'Bi-weekly tests on identical IIT-JEE testing interface with AI rank analytics' },
     { title: 'Kota & Indore Senior Faculty', desc: 'Direct classroom teaching and mentoring by senior directors with 20+ yrs experience' },
-    { title: 'Personal Doubt Clinic (8 AM - 8 PM)', desc: 'Dedicated 1-on-1 faculty cabins to clear every query without hesitation' },
+    { title: 'Personal Doubt Clearance (8 AM - 8 PM)', desc: 'Dedicated 1-on-1 faculty cabins to clear every query without hesitation' },
     { title: 'Archive & Recorded Sessions', desc: 'Access to recorded lectures on student portal for quick revisions anytime' }
   ];
 
@@ -129,7 +129,7 @@ export default function JeeAdvancedCourseView({
                 <strong className="text-brand-yellow font-extrabold uppercase tracking-wide">
                   JEE (Main + Advanced) 2026–27 Admissions Open:
                 </strong>{' '}
-                Batch size limited to 35 students! Flat 30% early scholarship benefit available now.
+                Batch size limited to 30–40 students! Flat 30% early scholarship benefit available now.
               </p>
             </div>
 
@@ -430,7 +430,7 @@ export default function JeeAdvancedCourseView({
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                        <span>Daily 1-on-1 Faculty Doubt Clinic Access (8 AM - 8 PM)</span>
+                        <span>Daily 1-on-1 Faculty Doubt Clearance Access (8 AM - 8 PM)</span>
                       </div>
                     </div>
                   </div>

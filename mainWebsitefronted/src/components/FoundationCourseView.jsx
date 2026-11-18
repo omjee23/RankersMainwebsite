@@ -45,6 +45,7 @@ export default function FoundationCourseView({
     {
       targetClass: 'Class 9th (1-Year Junior Foundation Program)',
       code: 'PNCF-9',
+      batchCommencement: '05 March 2027',
       oneTimeFee: 40000,
       installments: {
         total: 45000,
@@ -65,6 +66,7 @@ export default function FoundationCourseView({
     {
       targetClass: 'Class 10th (1-Year Board + Competitive Foundation Program)',
       code: 'PNCF-10',
+      batchCommencement: '11 March 2027',
       oneTimeFee: 47000,
       installments: {
         total: 52000,
@@ -209,7 +211,10 @@ export default function FoundationCourseView({
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
                 <span className="text-[11px] font-bold text-brand-yellow uppercase tracking-wider block">Batches Commencing</span>
-                <span className="font-semibold text-white mt-0.5 block">10th April 2026 &amp; 25th April 2026</span>
+                <span className="font-semibold text-white mt-0.5 block leading-tight text-[11px]">
+                  Class 9th: <strong className="text-brand-yellow">05 March 2027</strong><br />
+                  Class 10th: <strong className="text-brand-yellow">11 March 2027</strong>
+                </span>
               </div>
             </div>
 
@@ -344,7 +349,11 @@ export default function FoundationCourseView({
                     <h3 className="text-lg font-black text-slate-900 leading-snug">
                       {item.targetClass}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-purple-900 bg-purple-100/80 px-2.5 py-1 rounded-lg border border-purple-200">
+                      <Calendar className="w-3.5 h-3.5 text-purple-700" />
+                      <span>Batch Starts: <strong className="text-purple-950 font-black">{item.batchCommencement}</strong></span>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1.5">
                       {item.recommendedFor}
                     </p>
                   </div>
@@ -410,7 +419,7 @@ export default function FoundationCourseView({
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                        <span>Dedicated 1-on-1 Faculty Doubt Clinic Access</span>
+                        <span>Dedicated 1-on-1 Faculty Doubt Clearance Access</span>
                       </div>
                     </div>
                   </div>

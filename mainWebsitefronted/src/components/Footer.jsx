@@ -184,7 +184,7 @@ export default function Footer({
                   onClick={(e) => { e.preventDefault(); onOpenRSAT && onOpenRSAT(); }}
                   className="hover:text-white transition text-left block"
                 >
-                  IIT-JEE Advanced CBT
+                  IIT-JEE (Main + Advanced) CBT
                 </a>
               </li>
               <li>

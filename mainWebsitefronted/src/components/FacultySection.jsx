@@ -45,16 +45,6 @@ const DEFAULT_FOUNDERS = [
     bio: 'Former senior faculty at premier national institutes. Master of competitive problem solving, guiding students to qualify NTSE, IMO, JSO, IQMO, and Olympiads.'
   },
   {
-    id: 'fac-sandeep',
-    name: 'Sandeep Bamnia',
-    degree: 'B.Tech (Physics Specialist)',
-    role: 'Senior Physics Mentor',
-    subject: 'Physics',
-    exp: '12+ Years Experience',
-    photo: '/assets/web/founder-sandeep.jpg',
-    bio: 'Specialist in Mechanics and Modern Physics with a track record of top IIT-JEE Advanced qualifiers in Central India.'
-  },
-  {
     id: 'fac-ramakant',
     name: 'Ramakant Deshmukh',
     degree: 'M.Sc Botany',
@@ -63,6 +53,17 @@ const DEFAULT_FOUNDERS = [
     exp: '32+ Years Experience',
     photo: '/assets/web/founder-ramakant.jpg',
     bio: 'Renowned expert in Plant Physiology and Genetics, simplifying complex NCERT concepts for maximum NEET scoring.'
+  },
+  {
+    id: 'fac-coming-soon',
+    name: 'Senior Faculty Mentor',
+    degree: 'Premier Institute Pedigree',
+    role: 'Founding Mentor',
+    subject: 'Coming Soon',
+    exp: 'Announcement Coming Soon',
+    photo: '/assets/web/faculty-coming-soon.svg',
+    bio: 'Distinguished senior faculty mentor joining Rankers Path founding team. Official announcement coming soon.',
+    isComingSoon: true
   }
 ];
 
@@ -123,8 +124,12 @@ export default function FacultySection({ onOpenTeam }) {
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
                 </div>
-                <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-brand-navy text-brand-yellow text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow border border-brand-yellow/30">
-                  {f.subject ? f.subject.toUpperCase() : f.role ? f.role.split(' ')[0].toUpperCase() : 'MENTOR'}
+                <span className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow border ${
+                  f.isComingSoon || f.id === 'fac-coming-soon'
+                    ? 'bg-amber-400 text-brand-navy border-amber-300 font-black'
+                    : 'bg-brand-navy text-brand-yellow border-brand-yellow/30'
+                }`}>
+                  {f.isComingSoon || f.id === 'fac-coming-soon' ? 'COMING SOON' : f.subject ? f.subject.toUpperCase() : f.role ? f.role.split(' ')[0].toUpperCase() : 'MENTOR'}
                 </span>
               </div>
 
@@ -148,6 +153,14 @@ export default function FacultySection({ onOpenTeam }) {
                 <p className="mt-4 text-xs sm:text-[13px] text-slate-600 leading-relaxed text-left flex-1 border-t border-slate-200/60 pt-3">
                   {f.bio}
                 </p>
+
+                {(f.isComingSoon || f.id === 'fac-coming-soon') && (
+                  <div className="mt-3 text-center">
+                    <span className="inline-block px-3 py-1 bg-amber-100 text-amber-900 font-extrabold text-[11px] rounded-full uppercase tracking-wider border border-amber-300/60">
+                      ✨ Coming Soon / घोषणा जल्द
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -164,7 +177,7 @@ export default function FacultySection({ onOpenTeam }) {
             <ArrowRight className="w-4 h-4 text-brand-yellow group-hover:translate-x-1.5 transition" />
           </button>
           <p className="text-xs text-slate-500 mt-2 font-medium">
-            Explore complete 8+ faculty team, subject specializations, and direct 1:1 mentorship
+            Explore complete faculty team, subject specializations, and direct 1:1 mentorship
           </p>
         </div>
 
@@ -176,8 +189,8 @@ export default function FacultySection({ onOpenTeam }) {
             </span>
             <h3 className="text-2xl sm:text-3xl font-black mt-1">Central India&apos;s Most Experienced Faculty Team</h3>
             <p className="text-slate-300 text-sm mt-2">
-              Sandeep Bamnia (Physics), Ramakant Deshmukh (Botany), Bhaskar Sharma (Chemistry), Sanjay Chauhan (Zoology), 
-              Jaivir Singh (Physics), Ashlesha Phadnis (Chemistry), Sanjay Chaurasia (Maths), Abhishek Jaiswal (Maths).
+              Ramakant Deshmukh (Botany), Bhaskar Sharma (Chemistry), Sanjay Chauhan (Zoology), 
+              Jaivir Singh (Physics), Ashlesha Phadnis (Chemistry), Sanjay Chaurasia (Maths), Abhishek Jaiswal (Maths) &amp; Distinguished Senior Mentors.
             </p>
           </div>
           

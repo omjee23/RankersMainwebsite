@@ -105,10 +105,10 @@ export default function JeeMainCourseView({
   ];
 
   const highlights = [
-    { title: 'NTA Speed & Pattern Training', desc: 'Strategies to solve 75 questions with 95%+ accuracy within 180 minutes' },
+    { title: 'Speed & Exam Pattern Training', desc: 'Strategies to solve 75 questions with 95%+ accuracy within 180 minutes' },
     { title: 'High-Yield Formula Vault', desc: 'Concise handbook of all formulas, shortcuts and direct theorem applications' },
     { title: 'Chapter-Wise 10,000+ Question Bank', desc: 'Every single PYQ from 2019 to 2026 solved and mapped' },
-    { title: 'Full CBT Computer Lab Access', desc: 'Practice in real exam lab environment on actual NTA simulator screens' },
+    { title: 'Full CBT Computer Lab Access', desc: 'Practice in real exam lab environment on actual CBT simulator screens' },
     { title: 'Continuous Percentile Predictor', desc: 'Real-time relative rank benchmark against thousands of serious candidates' },
     { title: 'Board Exam Alignment', desc: 'Complete integration with CBSE and MP Board syllabus for 90%+ school scores' }
   ];
@@ -194,7 +194,7 @@ export default function JeeMainCourseView({
           <div className="max-w-4xl space-y-4">
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="px-3 py-1 rounded-full bg-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-sm">
-                NTA SPECIALIST
+                JEE MAIN SPECIALIST
               </span>
               <span className="px-3 py-1 rounded-full bg-white/15 text-slate-200 font-bold text-xs">
                 ENGINEERING DIVISION
@@ -217,7 +217,7 @@ export default function JeeMainCourseView({
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2 text-xs text-slate-300">
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
                 <span className="text-[11px] font-bold text-brand-yellow uppercase tracking-wider block">Target Exams</span>
-                <span className="font-semibold text-white mt-0.5 block">JEE Main (NTA) Jan &amp; Apr 2026/27</span>
+                <span className="font-semibold text-white mt-0.5 block">JEE Main Jan &amp; Apr 2026/27</span>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
                 <span className="text-[11px] font-bold text-brand-yellow uppercase tracking-wider block">Eligible Classes</span>
@@ -422,7 +422,7 @@ export default function JeeMainCourseView({
                     <div className="space-y-1.5 pt-2 text-xs text-slate-600">
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                        <span>NTA Targeted Modules &amp; Chapter-wise Question Vault</span>
+                        <span>JEE Main Targeted Modules &amp; Chapter-wise Question Vault</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
@@ -430,7 +430,7 @@ export default function JeeMainCourseView({
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                        <span>Daily 1-on-1 Faculty Doubt Clinic Access (8 AM - 8 PM)</span>
+                        <span>Daily 1-on-1 Faculty Doubt Clearance Access (8 AM - 8 PM)</span>
                       </div>
                     </div>
                   </div>
@@ -475,7 +475,7 @@ export default function JeeMainCourseView({
               JEE MAIN PEDAGOGY
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-2">
-              Optimized for 99+ Percentile in NTA JEE Main
+              Optimized for 99+ Percentile in JEE Main
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
               Rigorous test-taking psychology, speed improvement, and error elimination under senior Kota &amp; Indore masters.

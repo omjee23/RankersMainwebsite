@@ -27,12 +27,13 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry, onOpenAdm
     {
       id: 1,
       bgGradient: 'from-[#FFB800] via-[#FBBF24] to-[#F59E0B]',
-      badge: 'SAFALTA KA SANKALP • INDORE CAMPUS',
+      badge: null,
+      tagline: 'Safalta Ka Sankalp',
       titleHighlight: 'RANKERS PATH',
       titleSub: 'AT',
       cityName: 'Indore',
       subtitle: 'Excellence in JEE and NEET preparation is closer than ever.',
-      features: ['Vijay Nagar Main Campus, Indore', '25+ Yrs Exp. Core Founding Mentors', 'Strictly 30 Students per Batch'],
+      features: ['Vijay Nagar Main Campus, Indore', '25+ Yrs Exp. Core Founding Mentors', '30–40 Students per Batch'],
       ctaText: 'Register for RANKEX 2027',
       ctaAction: onOpenRankX,
       secondaryText: 'Official Admission Form',
@@ -62,7 +63,7 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry, onOpenAdm
       titleSub: 'ONLINE TEST',
       cityName: 'Immediate Score',
       subtitle: '30-minute Computer-Based Test right from your mobile or PC. Instant score analysis and scholarship coupons.',
-      features: ['NTA Pattern & +4/-1 Marking', 'Anti-Cheat Protected', 'Detailed Answer Explanations'],
+      features: ['JEE / NEET Pattern & +4/-1 Marking', 'Anti-Cheat Protected', 'Detailed Answer Explanations'],
       ctaText: 'Start RSAT Online Exam',
       ctaAction: onOpenRSAT,
       secondaryText: 'Check Offline Dates',
@@ -75,8 +76,8 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry, onOpenAdm
       titleHighlight: 'NEET & JEE',
       titleSub: 'DROPPER BATCH',
       cityName: '24 June 2026',
-      subtitle: 'Zero distraction, dedicated 1:1 doubt clinics, and personalized rank mentoring by senior Kota legends.',
-      features: ['Led by Chauhan Sir & Jaivir Sir', 'Daily 1 Hr Doubt Resolution', 'Limited 30 Seats Remaining'],
+      subtitle: 'Zero distraction, dedicated 1:1 doubt clearance, and personalized rank mentoring by senior Kota legends.',
+      features: ['Led by Founding Mentors', 'Daily 1 Hr Doubt Resolution', 'Limited 30–40 Seats per Batch'],
       ctaText: 'Enquire for Dropper Batch',
       ctaAction: onOpenEnquiry,
       secondaryText: 'Download Syllabus',
@@ -127,13 +128,15 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry, onOpenAdm
                 
                 {/* Left Text & Big Headline */}
                 <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
-                  {/* Eyebrow Badge */}
-                  <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
-                    slide.isDark ? 'bg-white/15 text-brand-yellow border border-white/20' : 'bg-brand-navy text-brand-yellow shadow-sm'
-                  }`}>
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>{slide.badge}</span>
-                  </div>
+                  {/* Eyebrow Badge (if defined for the slide) */}
+                  {slide.badge && (
+                    <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
+                      slide.isDark ? 'bg-white/15 text-brand-yellow border border-white/20' : 'bg-brand-navy text-brand-yellow shadow-sm'
+                    }`}>
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>{slide.badge}</span>
+                    </div>
+                  )}
 
                   {/* Main Banner Headline with Stylish "Indore" */}
                   <div className="space-y-1">
@@ -157,6 +160,18 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry, onOpenAdm
                         {slide.cityName}
                       </span>
                     </div>
+
+                    {/* Tagline placed directly below RANKERS PATH at Indore */}
+                    {slide.tagline && (
+                      <div className="pt-2 flex justify-center lg:justify-start">
+                        <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-black uppercase tracking-wider ${
+                          slide.isDark ? 'bg-white/15 text-brand-yellow border border-white/20' : 'bg-brand-navy text-brand-yellow shadow-md'
+                        }`}>
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>{slide.tagline}</span>
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Subtitle */}
@@ -220,25 +235,22 @@ export default function Hero({ onOpenRankX, onOpenRSAT, onOpenEnquiry, onOpenAdm
                     <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white/60 bg-white group">
                       <img
                         src="/assets/web/faculty-team-full.png"
-                        alt="Rankers Path Faculty & Students Indore"
-                        className="w-full h-auto object-cover max-h-[300px] sm:max-h-[340px] transform group-hover:scale-105 transition duration-500"
+                        alt="Rankers Path Mentors of AIR 1 to 100 Indore"
+                        className="w-full h-auto object-contain max-h-[320px] mx-auto transform group-hover:scale-105 transition duration-500 bg-white"
                       />
                       
-                      {/* Caption Badge */}
-                      <div className="p-3 bg-brand-navy text-white text-center">
+                      {/* Caption Badge - Clean and uncluttered so photo is not covered */}
+                      <div className="py-2.5 px-3 bg-brand-navy text-white text-center">
                         <p className="text-xs font-black uppercase text-brand-yellow tracking-wider">
-                          25+ Yrs Exp. Top Founding Faculty
-                        </p>
-                        <p className="text-[11px] text-slate-300">
-                          Chauhan Sir &bull; Jaivir Sir &bull; Ashlesha Ma&apos;am &bull; Chaurasia Sir
+                          25+ Yrs Exp. Top Founding Mentors
                         </p>
                       </div>
                     </div>
 
                     {/* Floating Corner Badge */}
-                    <div className="absolute -top-3 -right-3 bg-white text-brand-navy px-3.5 py-1.5 rounded-full shadow-xl font-black text-xs uppercase tracking-wider border-2 border-brand-yellow flex items-center gap-1.5">
+                    <div className="absolute -top-3 -right-3 bg-white text-brand-navy px-3.5 py-1.5 rounded-full shadow-xl font-black text-xs uppercase tracking-wider border-2 border-brand-yellow flex items-center gap-1.5 z-10">
                       <Award className="w-4 h-4 text-brand-yellow" />
-                      <span>AIR 1–100 Top Ranks</span>
+                      <span>Mentors of AIR 1 to 100</span>
                     </div>
                   </div>
                 </div>

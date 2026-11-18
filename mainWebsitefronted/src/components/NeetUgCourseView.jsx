@@ -109,7 +109,7 @@ export default function NeetUgCourseView({
     { title: 'Daily 4.5 Hours Core Lectures', desc: 'Physics, Chemistry & Biology with animated audiovisual projections and memory tricks' },
     { title: 'Weekly OMR Speed Drills', desc: 'Strict timed drills to overcome exam-hall pressure and eliminate silly mistakes' },
     { title: 'Gold Medalist Faculty Leadership', desc: 'Direct guidance from Sanjay Chauhan Sir (28+ yrs exp, 30,000+ medical alumni)' },
-    { title: 'Error Notebook & Doubt Clinic', desc: 'Micro-tracking of weak chapters with customized diagnostic worksheets' },
+    { title: 'Error Notebook & Doubt Clearance', desc: 'Micro-tracking of weak chapters with customized diagnostic worksheets' },
     { title: 'Digital AI Mock Tests', desc: 'Sectional analytics, negative-marking audit, and AIIMS rank prediction' }
   ];
 
@@ -430,7 +430,7 @@ export default function NeetUgCourseView({
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                        <span>Daily 1-on-1 Faculty Doubt Clinic Access (8 AM - 8 PM)</span>
+                        <span>Daily 1-on-1 Faculty Doubt Clearance Access (8 AM - 8 PM)</span>
                       </div>
                     </div>
                   </div>

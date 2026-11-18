@@ -64,27 +64,28 @@ const FALLBACK_FACULTY = [
     order: 4
   },
   {
-    id: 'fac-sandeep',
-    name: 'Sandeep Bamnia',
-    degree: 'M.Tech / B.Tech',
-    role: 'Senior Physics Mentor',
-    subject: 'Physics',
-    exp: '18+ Years Experience',
-    photo: '/assets/web/faculty-team-full.png',
-    bio: 'Specialist in Mechanics and Modern Physics with a track record of top IIT-JEE Advanced qualifiers in Central India.',
-    showOnHome: false,
-    order: 5
-  },
-  {
     id: 'fac-ramakant',
     name: 'Ramakant Deshmukh',
     degree: 'M.Sc Botany',
     role: 'Senior Botany Faculty',
     subject: 'Biology',
-    exp: '20+ Years Experience',
-    photo: '/assets/web/faculty-team-full.png',
+    exp: '32+ Years Experience',
+    photo: '/assets/web/founder-ramakant.jpg',
     bio: 'Renowned expert in Plant Physiology and Genetics, simplifying complex NCERT concepts for maximum NEET scoring.',
-    showOnHome: false,
+    showOnHome: true,
+    order: 5
+  },
+  {
+    id: 'fac-coming-soon',
+    name: 'Senior Faculty Mentor',
+    degree: 'Premier Institute Pedigree',
+    role: 'Founding Mentor',
+    subject: 'Faculty',
+    exp: 'Announcement Coming Soon',
+    photo: '/assets/web/faculty-coming-soon.svg',
+    bio: 'Distinguished senior faculty mentor joining Rankers Path core founding team. Official announcement coming soon.',
+    showOnHome: true,
+    isComingSoon: true,
     order: 6
   },
   {
@@ -184,8 +185,8 @@ export default function TeamPageView({ onBack, onOpenEnquiry }) {
               <p className="text-xs text-slate-300 font-semibold uppercase mt-0.5">Average Experience</p>
             </div>
             <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
-              <p className="text-2xl sm:text-3xl font-black text-white">30 Students</p>
-              <p className="text-xs text-slate-300 font-semibold uppercase mt-0.5">Strict Batch Limit</p>
+              <p className="text-2xl sm:text-3xl font-black text-white">30–40 Students</p>
+              <p className="text-xs text-slate-300 font-semibold uppercase mt-0.5">Batch Size Limit</p>
             </div>
             <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
               <p className="text-2xl sm:text-3xl font-black text-brand-yellow">1:10</p>
@@ -193,7 +194,7 @@ export default function TeamPageView({ onBack, onOpenEnquiry }) {
             </div>
             <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
               <p className="text-2xl sm:text-3xl font-black text-white">Daily 1 Hr</p>
-              <p className="text-xs text-slate-300 font-semibold uppercase mt-0.5">Doubt Clinic</p>
+              <p className="text-xs text-slate-300 font-semibold uppercase mt-0.5">Doubt Clearance</p>
             </div>
           </div>
         </div>
@@ -298,8 +299,8 @@ export default function TeamPageView({ onBack, onOpenEnquiry }) {
               The Complete Rankers Path Academic Powerhouse
             </h3>
             <p className="text-slate-300 text-sm mt-2">
-              Sandeep Bamnia (Physics), Ramakant Deshmukh (Botany), Bhaskar Sharma (Chemistry), Sanjay Chauhan (Zoology), 
-              Jaivir Singh (Physics), Ashlesha Phadnis (Chemistry), Sanjay Chaurasia (Maths), Abhishek Jaiswal (Maths).
+              Ramakant Deshmukh (Botany), Bhaskar Sharma (Chemistry), Sanjay Chauhan (Zoology), 
+              Jaivir Singh (Physics), Ashlesha Phadnis (Chemistry), Sanjay Chaurasia (Maths), Abhishek Jaiswal (Maths) &amp; Distinguished Founding Mentors.
             </p>
           </div>
           

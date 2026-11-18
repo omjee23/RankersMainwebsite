@@ -10,7 +10,7 @@ const SEO_MAP = {
   },
   'course-jee-adv': {
     title: 'IIT-JEE Advanced Coaching in Indore — Ex-Kota HOD Mentors | Rankers Path',
-    description: 'Premier 2-Year and 1-Year Dropper IIT-JEE Advanced classroom program in Vijay Nagar, Indore. Concept-driven Kota methodology, daily DPPs, doubt clinics, and rigorous CBT test series.',
+    description: 'Premier 2-Year and 1-Year Dropper IIT-JEE Advanced classroom program in Vijay Nagar, Indore. Concept-driven Kota methodology, daily DPPs, doubt clearance, and rigorous CBT test series.',
     keywords: 'IIT JEE Advanced coaching Indore, JEE Advanced Vijay Nagar, best JEE institute Indore, Kota JEE faculty Indore, IIT coaching Central India',
     canonical: 'https://rankerspath.co.in/courses/jee-advanced',
     ogImage: 'https://rankerspath.co.in/assets/web/founder-abhishek.jpg'

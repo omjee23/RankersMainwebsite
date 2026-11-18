@@ -153,7 +153,7 @@ export default function Navbar({
                       <span className="block text-slate-900 font-extrabold">JEE (Main) Focused</span>
                       <span className="text-[10px] text-slate-500 font-normal">Speed &amp; Accuracy for NITs/IIITs</span>
                     </div>
-                    <span className="text-[10px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-black">NTA</span>
+                    <span className="text-[10px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-black">MAIN</span>
                   </a>
 
                   <a
@@ -571,7 +571,7 @@ export default function Navbar({
                   }}
                   className="py-1.5 px-2 bg-slate-50 hover:bg-blue-50 rounded text-[11px] font-bold text-slate-800 text-left border border-slate-200/60"
                 >
-                  JEE (Main) NTA
+                  JEE (Main)
                 </button>
                 <button
                   onClick={() => {

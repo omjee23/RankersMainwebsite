@@ -576,7 +576,7 @@ export default function RSATPaymentModal({
                     Win Up to 100% Tuition Fee Scholarship
                   </h4>
                   <p className="text-xs text-slate-600">
-                    NTA / JEE Pattern CBT &bull; Instant Result &amp; Scholarship Card &bull; Starts Immediately or Schedule
+                    JEE / NEET Pattern CBT &bull; Instant Result &amp; Scholarship Card &bull; Starts Immediately or Schedule
                   </p>
                 </div>
 

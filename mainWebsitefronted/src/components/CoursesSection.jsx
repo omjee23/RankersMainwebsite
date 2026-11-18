@@ -301,7 +301,7 @@ const COURSE_CARDS_DEFAULT = [
       'Personal teaching by Senior Kota/Indore Faculty Directors',
       'Daily 4.5 hours core classroom lectures + Daily Practice Problems (DPP)',
       'Computer Based Test (CBT) mock exam series matching exact IIT pattern',
-      'Dedicated 1-on-1 Doubt Clinic open 8:00 AM to 8:00 PM daily'
+      'Dedicated 1-on-1 Doubt Clearance open 8:00 AM to 8:00 PM daily'
     ],
     order: 1,
     active: true
@@ -336,13 +336,13 @@ const COURSE_CARDS_DEFAULT = [
     tuitionFee: '₹75,000 – ₹80,000 / Year',
     badge: 'Target',
     category: 'ENGINEERING',
-    target: 'JEE Main (NTA) 2026 / 2027',
+    target: 'JEE Main 2026 / 2027',
     eligibility: 'Class 11th, 12th & 12th Pass (Targeting Top NITs/IIITs)',
     duration: '1 Year / 2 Years Fast-Track Prep',
     scholarshipWaiver: 'Flat 30% Early Bird (Save ₹22,500+) | Up to 100% via RSAT',
     startingFee: '₹52,500',
     keyFeatures: [
-      'Laser focus on NTA speed, accuracy & 99+ percentile boost',
+      'Laser focus on speed, accuracy & 99+ percentile boost',
       'Rigorous coverage of Physics, Chemistry & Higher Mathematics',
       'Curated 10,000+ question bank with detailed video explanations',
       'Live online computer lab simulation for error-free CBT testing'

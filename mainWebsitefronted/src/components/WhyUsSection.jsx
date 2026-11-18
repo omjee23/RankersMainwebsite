@@ -2,7 +2,7 @@ import React from 'react';
 import { Users, Clock, BookOpen, Check, X, Shield, Sparkles } from 'lucide-react';
 
 const stats = [
-  { num: '30', label: 'Students per batch', desc: 'Strict batch size for personal interaction' },
+  { num: '30–40', label: 'Students per batch', desc: 'Optimal batch size for personal interaction' },
   { num: '1:10', label: 'Teacher-to-student ratio', desc: 'Continuous close-knit guidance' },
   { num: '1 hr', label: 'Daily doubt clearing', desc: 'Solved by the same senior faculty' },
   { num: '8–2', label: 'Class timing (AM–PM)', desc: 'Optimized morning learning hours' },
@@ -23,7 +23,7 @@ const comparisons = [
   },
   {
     criteria: 'Batch Size',
-    rp: 'Strictly limited to 30 students for individual eye-contact and continuous monitoring.',
+    rp: 'Limited to 30–40 students for individual eye-contact and continuous monitoring.',
     ci: '100+ to 250+ students packed in massive auditoriums where individual doubts get ignored.'
   },
   {

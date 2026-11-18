@@ -66,9 +66,9 @@ export default function AboutRankersPathView({
   const PILLARS = [
     {
       icon: Users,
-      title: 'Strict 30-Student Micro Batches',
-      desc: 'No crowded auditoriums of 200+ students. We cap batches strictly at 30 so our senior teachers maintain direct eye contact and know every student by name.',
-      badge: 'Micro-Batch Model'
+      title: '30–40 Student Focused Batches',
+      desc: 'No crowded auditoriums of 200+ students. We cap batches at 30–40 students so our senior teachers maintain direct eye contact and know every student by name.',
+      badge: 'Focused Batch Model'
     },
     {
       icon: GraduationCap,
@@ -85,7 +85,7 @@ export default function AboutRankersPathView({
     {
       icon: BookOpen,
       title: 'Exhaustive Kota Pedagogy & Research Material',
-      desc: 'Systematic curriculum matching latest NTA trends with 3 rounds of revision, daily practice papers (DPPs), and weekly Computer-Based Tests (CBT).',
+      desc: 'Systematic curriculum matching latest competitive exam trends with 3 rounds of revision, daily practice papers (DPPs), and weekly Computer-Based Tests (CBT).',
       badge: 'NCERT & Advanced Aligned'
     },
     {
@@ -104,7 +104,7 @@ export default function AboutRankersPathView({
 
   const INSTITUTION_STATS = [
     { value: '28+ Yrs', label: 'Average Faculty Experience', sub: 'Kota & National Hubs' },
-    { value: '30 Max', label: 'Batch Size Limit', sub: 'Guaranteed Personalized Focus' },
+    { value: '30–40', label: 'Batch Size Limit', sub: 'Guaranteed Personalized Focus' },
     { value: '1:10', label: 'Teacher-to-Student Ratio', sub: 'Continuous 1-on-1 Monitoring' },
     { value: '100%', label: 'Tuition Scholarship Slabs', sub: 'Via RSAT & RANKEX 2027' }
   ];
@@ -153,7 +153,7 @@ export default function AboutRankersPathView({
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-              RankersPath was established with a clear, singular pledge: to bring genuine Kota-pedigree coaching to Indore without the impersonal chaos of massive commercial coaching factories. Here, mentorship is a sacred bond, batches never exceed 30 students, and every single class is taken by founding directors with over 25 years of proven results.
+              RankersPath was established with a clear, singular pledge: to bring genuine Kota-pedigree coaching to Indore without the impersonal chaos of massive commercial coaching factories. Here, mentorship is a sacred bond, batches are capped at 30–40 students, and every single class is taken by founding directors with over 25 years of proven results.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">

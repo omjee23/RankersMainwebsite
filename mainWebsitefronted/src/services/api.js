@@ -138,7 +138,7 @@ export const api = {
         data: {
           bannerNotice: 'Admissions Open for NEET & IIT-JEE 2026-27 | RANKEX Scholarship Test Registrations Open!',
           nextBatchDate: '24 June 2026',
-          dropperBatchAlert: 'NEET Dropper Batch starting 24 June 2026. Limited seats per batch (30 students only).',
+          dropperBatchAlert: 'NEET Dropper Batch starting 24 June 2026. Limited seats per batch (30–40 students).',
           helplinePhone: '9131435511',
           whatsappNumber: '919131435511'
         }
@@ -841,7 +841,7 @@ export const api = {
             targetStream: 'JEE',
             batch: 'Class 11th • JEE Advanced Batch',
             rating: 5,
-            quote: 'Sandeep Sir’s Physics approach focuses strictly on problem visualization rather than memorizing formulas. The weekly Sunday tests and detailed analysis help me identify weak areas immediately.',
+            quote: 'Jaivir Sir’s Physics approach focuses on problem visualization rather than memorizing formulas. The weekly Sunday tests and detailed analysis help me identify weak areas immediately.',
             featured: true,
             active: true
           },
