@@ -199,13 +199,81 @@ async function initializeDatabase() {
   if (collections.faculty.countDocuments() === 0) {
     DEFAULT_FACULTY.forEach(fac => collections.faculty.create(fac));
     console.log('✅ Initial Faculty members seeded.');
+  } else {
+    // Purge legacy faculty and ensure latest ordering
+    const sandeep = collections.faculty.findById('fac-sandeep');
+    if (sandeep) {
+      collections.faculty.deleteById('fac-sandeep');
+      console.log('🧹 Purged legacy faculty member: fac-sandeep');
+    }
+    const ramakant = collections.faculty.findById('fac-ramakant');
+    if (ramakant) {
+      collections.faculty.findByIdAndUpdate('fac-ramakant', { order: 5, showOnHome: true });
+    }
+    const comingSoon = collections.faculty.findById('fac-coming-soon');
+    if (!comingSoon) {
+      const template = DEFAULT_FACULTY.find(f => f.id === 'fac-coming-soon');
+      if (template) {
+        collections.faculty.create(template);
+        console.log('✅ Seeded Coming Soon faculty slot.');
+      }
+    }
   }
 
   // Seed default courses
   if (collections.courses.countDocuments() === 0) {
     DEFAULT_COURSES.forEach(course => collections.courses.create(course));
     console.log('✅ Initial Courses seeded.');
+  } else {
+    // Sync course features & targets
+    DEFAULT_COURSES.forEach(def => {
+      const existing = collections.courses.findById(def.id);
+      if (existing) {
+        collections.courses.findByIdAndUpdate(def.id, {
+          target: def.target,
+          keyFeatures: def.keyFeatures
+        });
+      }
+    });
   }
+
+  // Auto-seed/verify admin accounts
+  const requiredAdmins = [
+    {
+      id: 'admin-rankerspath-edu',
+      email: 'rankerspath.edu@gmail.com',
+      fullName: 'Rankers Path Admin',
+      role: 'admin',
+      mobile: '9131435511',
+      password: '$2b$10$tDzRRbMu4hEa4boYC0KlGO73UBtQFKQlj272Ip5Pe4duz6IjJZN96'
+    },
+    {
+      id: 'admin-omjee-pal',
+      email: 'omjeejob@gmail.com',
+      fullName: 'Om Jee Pal (Super Admin)',
+      role: 'admin',
+      mobile: '8707258045',
+      password: '$2b$10$QSMMh/23.oeOcmAholmYFu8jNUJYpqoo9ObseuzCcrSNxY2/PBAI6'
+    },
+    {
+      id: 'admin-omjee-navgurukul',
+      email: 'om22@navgurukul.org',
+      fullName: 'Om Jee Pal',
+      role: 'admin',
+      mobile: '8707258045',
+      password: '$2b$10$QSMMh/23.oeOcmAholmYFu8jNUJYpqoo9ObseuzCcrSNxY2/PBAI6'
+    }
+  ];
+
+  requiredAdmins.forEach(adm => {
+    const existing = collections.users.findOne({ email: adm.email });
+    if (!existing) {
+      collections.users.create(adm);
+      console.log(`✅ Seeded admin account: ${adm.email}`);
+    } else if (existing.role !== 'admin' || !existing.password) {
+      collections.users.findByIdAndUpdate(existing.id, { role: 'admin', password: adm.password });
+    }
+  });
 
   // Seed default fee configuration
   if (collections.feeSettings.countDocuments() === 0) {

@@ -33,6 +33,12 @@ export const adminApi = {
         localStorage.setItem('rp_admin_user', JSON.stringify(staff));
         return { success: true, data: { user: staff, token: 'dev-admin-jwt' } };
       }
+      if (cleanEmail === 'om22@navgurukul.org' && (password === 'Rankerspath@Om321' || password === 'Rankerspath@321')) {
+        const staff = { id: 'admin-omjee-navgurukul', fullName: 'Om Jee Pal', email: 'om22@navgurukul.org', role: 'admin' };
+        localStorage.setItem('rp_admin_token', 'dev-admin-jwt');
+        localStorage.setItem('rp_admin_user', JSON.stringify(staff));
+        return { success: true, data: { user: staff, token: 'dev-admin-jwt' } };
+      }
       return { success: false, message: 'Invalid email or password. Please verify or use Forgot Password.' };
     }
   },

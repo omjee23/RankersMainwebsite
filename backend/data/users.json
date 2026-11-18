@@ -18,5 +18,15 @@
     "role": "admin",
     "mobile": "8707258045",
     "password": "$2b$10$QSMMh/23.oeOcmAholmYFu8jNUJYpqoo9ObseuzCcrSNxY2/PBAI6"
+  },
+  {
+    "id": "admin-omjee-navgurukul",
+    "createdAt": "2026-11-18T21:49:00.000Z",
+    "updatedAt": "2026-11-18T21:49:00.000Z",
+    "email": "om22@navgurukul.org",
+    "fullName": "Om Jee Pal",
+    "role": "admin",
+    "mobile": "8707258045",
+    "password": "$2b$10$QSMMh/23.oeOcmAholmYFu8jNUJYpqoo9ObseuzCcrSNxY2/PBAI6"
   }
 ]
